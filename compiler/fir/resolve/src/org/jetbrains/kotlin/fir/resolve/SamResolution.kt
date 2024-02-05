@@ -215,6 +215,8 @@ class FirSamResolver(
                 isCrossinline = false
                 isNoinline = false
                 isVararg = false
+                isDataarg = false
+                isSealedarg = false
                 resolvePhase = FirResolvePhase.BODY_RESOLVE
             }
 

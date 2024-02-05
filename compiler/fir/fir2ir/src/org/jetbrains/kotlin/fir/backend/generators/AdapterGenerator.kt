@@ -30,6 +30,7 @@ import org.jetbrains.kotlin.fir.symbols.ConeTypeParameterLookupTag
 import org.jetbrains.kotlin.fir.symbols.impl.FirFunctionSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirTypeParameterSymbol
 import org.jetbrains.kotlin.fir.types.*
+import org.jetbrains.kotlin.ir.UNDEFINED_OFFSET
 import org.jetbrains.kotlin.ir.builders.declarations.UNDEFINED_PARAMETER_INDEX
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.*
@@ -369,6 +370,28 @@ internal class AdapterGenerator(
                         adaptedValueArgument
                     }
                     irCall.putValueArgument(index, valueArgument)
+                }
+                is ResolvedCallArgument.DataargArgument -> {
+                    irCall.putValueArgument(
+                        index,
+                        IrErrorExpressionImpl(
+                            UNDEFINED_OFFSET,
+                            UNDEFINED_OFFSET,
+                            valueParameter.returnTypeRef.toIrType(c),
+                            "datarg constructor"
+                        )
+                    )
+                }
+                is ResolvedCallArgument.SealedargArgument -> {
+                    irCall.putValueArgument(
+                        index,
+                        IrErrorExpressionImpl(
+                            UNDEFINED_OFFSET,
+                            UNDEFINED_OFFSET,
+                            valueParameter.returnTypeRef.toIrType(c),
+                            "sealedarg constructor"
+                        )
+                    )
                 }
                 ResolvedCallArgument.DefaultArgument -> {
                     irCall.putValueArgument(index, null)

@@ -6,10 +6,12 @@
 package org.jetbrains.kotlin.fir.resolve.calls
 
 import org.jetbrains.kotlin.fir.declarations.FirValueParameter
-import org.jetbrains.kotlin.fir.expressions.FirExpression
+import org.jetbrains.kotlin.fir.resolve.calls.ResolvedCallArgument.DataargArgument
 import org.jetbrains.kotlin.fir.resolve.calls.ResolvedCallArgument.DefaultArgument
+import org.jetbrains.kotlin.fir.resolve.calls.ResolvedCallArgument.SealedargArgument
 import org.jetbrains.kotlin.fir.resolve.calls.ResolvedCallArgument.SimpleArgument
 import org.jetbrains.kotlin.fir.resolve.calls.ResolvedCallArgument.VarargArgument
+import org.jetbrains.kotlin.fir.types.FirTypeRef
 
 sealed class ResolvedCallArgument<out T> {
     abstract val arguments: List<T>
@@ -27,6 +29,16 @@ sealed class ResolvedCallArgument<out T> {
     }
 
     class VarargArgument<T>(override val arguments: List<T>) : ResolvedCallArgument<T>()
+
+    class DataargArgument<T>(val namedArguments: CallableReferenceMappedArguments<T>) : ResolvedCallArgument<T>() {
+        override val arguments: List<T>
+            get() = namedArguments.values.flatMap { it.arguments }
+    }
+
+    class SealedargArgument<T>(val callArgument: T, val typeRef: FirTypeRef) : ResolvedCallArgument<T>() {
+        override val arguments: List<T>
+            get() = listOf(callArgument)
+    }
 }
 
 typealias CallableReferenceMappedArguments<T> = Map<FirValueParameter, ResolvedCallArgument<T>>
@@ -35,6 +47,8 @@ fun <T, R> ResolvedCallArgument<T>.map(block: (T) -> R): ResolvedCallArgument<R>
     return when (this) {
         is SimpleArgument -> SimpleArgument(block(callArgument))
         is VarargArgument -> VarargArgument(arguments.map(block))
+        is DataargArgument -> DataargArgument(namedArguments.mapValues { (_, value) -> value.map(block) })
+        is SealedargArgument -> SealedargArgument(block(callArgument), typeRef)
         is DefaultArgument -> DefaultArgument
     }
 }

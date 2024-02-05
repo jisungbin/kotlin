@@ -2076,6 +2076,18 @@ internal val KT_DIAGNOSTIC_CONVERTER = KaDiagnosticConverterBuilder.buildConvert
             token,
         )
     }
+    add(FirErrors.VALUE_DATAARGS_CONFLICT) { firDiagnostic ->
+        ValueDataargsConflictImpl(
+            firDiagnostic as KtPsiDiagnostic,
+            token,
+        )
+    }
+    add(FirErrors.SEALEDARGS_NO_CONSTRUCTOR) { firDiagnostic ->
+        SealedargsNoConstructorImpl(
+            firDiagnostic as KtPsiDiagnostic,
+            token,
+        )
+    }
     add(FirErrors.ASSIGNMENT_TYPE_MISMATCH) { firDiagnostic ->
         AssignmentTypeMismatchImpl(
             firSymbolBuilder.typeBuilder.buildKtType(firDiagnostic.a),

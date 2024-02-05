@@ -6,15 +6,12 @@
 package org.jetbrains.kotlin.fir.resolve.calls.stages
 
 import org.jetbrains.kotlin.fir.FirSession
-import org.jetbrains.kotlin.fir.declarations.FirDeclarationOrigin
-import org.jetbrains.kotlin.fir.declarations.FirFunction
-import org.jetbrains.kotlin.fir.declarations.FirSimpleFunction
-import org.jetbrains.kotlin.fir.declarations.FirValueParameter
-import org.jetbrains.kotlin.fir.declarations.isJavaOrEnhancement
+import org.jetbrains.kotlin.fir.declarations.*
+import org.jetbrains.kotlin.fir.declarations.builder.buildValueParameterCopy
 import org.jetbrains.kotlin.fir.declarations.utils.isOperator
 import org.jetbrains.kotlin.fir.expressions.*
 import org.jetbrains.kotlin.fir.isSubstitutionOrIntersectionOverride
-import org.jetbrains.kotlin.fir.resolve.BodyResolveComponents
+import org.jetbrains.kotlin.fir.resolve.*
 import org.jetbrains.kotlin.fir.resolve.areNamedArgumentsForbiddenIgnoringOverridden
 import org.jetbrains.kotlin.fir.resolve.calls.*
 import org.jetbrains.kotlin.fir.resolve.defaultParameterResolver
@@ -25,6 +22,12 @@ import org.jetbrains.kotlin.fir.scopes.ProcessorAction
 import org.jetbrains.kotlin.fir.scopes.processOverriddenFunctions
 import org.jetbrains.kotlin.fir.symbols.impl.FirNamedFunctionSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirValueParameterSymbol
+import org.jetbrains.kotlin.fir.types.ConeClassLikeType
+import org.jetbrains.kotlin.fir.types.coneTypeSafe
+import org.jetbrains.kotlin.fir.types.equalTypes
+import org.jetbrains.kotlin.fir.types.FirTypeRef
+import org.jetbrains.kotlin.fir.types.resolvedType
+import org.jetbrains.kotlin.fir.types.typeContext
 import org.jetbrains.kotlin.fir.utils.exceptions.withFirEntry
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.resolve.ForbiddenNamedArgumentsTarget
@@ -50,6 +53,15 @@ data class ArgumentMapping(
                 is ResolvedCallArgument.VarargArgument -> resolvedArgument.arguments.forEach {
                     argumentToParameterMapping[it] = valueParameter
                 }
+                is ResolvedCallArgument.DataargArgument -> resolvedArgument.namedArguments.forEach { (dataargParam, dataArgValue) ->
+                    dataArgValue.arguments.forEach {
+                        argumentToParameterMapping[it] = dataargParam
+                    }
+                }
+                is ResolvedCallArgument.SealedargArgument ->
+                    argumentToParameterMapping[resolvedArgument.callArgument] = buildValueParameterCopy(valueParameter) {
+                        returnTypeRef = resolvedArgument.typeRef
+                    }
                 ResolvedCallArgument.DefaultArgument -> {
                 }
             }
@@ -120,6 +132,8 @@ private class FirCallArgumentsProcessor(
     private var currentPositionedParameterIndex = 0
     private var varargArguments: MutableList<ConeResolutionAtom>? = null
     private var nameToParameter: Map<Name, FirValueParameter>? = null
+    private val dataargParameter: FirValueParameter? = parameters.singleOrNull { it.isDataarg }
+    private val dataargArguments: MutableMap<FirValueParameter, ResolvedCallArgument<ConeResolutionAtom>> = mutableMapOf()
     private var namedDynamicArgumentsNamesImpl: MutableSet<Name>? = null
     private val namedDynamicArgumentsNames: MutableSet<Name>
         get() = namedDynamicArgumentsNamesImpl ?: mutableSetOf<Name>().also { namedDynamicArgumentsNamesImpl = it }
@@ -227,14 +241,34 @@ private class FirCallArgumentsProcessor(
 
         val stateAllowsMixedNamedAndPositionArguments = state != State.NAMED_ONLY_ARGUMENTS
         state = State.NAMED_ONLY_ARGUMENTS
-        val parameter = findParameterByName(argument) ?: return
 
-        result[parameter]?.let {
-            addDiagnostic(ArgumentPassedTwice(argument))
-            return
+        val parameter = findParameterByName(argument)?.takeUnless { it.isDataarg }
+        val dataargsParameter = getDataargParameterByName(argument.name)
+
+        when {
+            parameter != null && dataargsParameter != null -> {
+                addDiagnostic(ValueDataargsConflict(argument))
+                return
+            }
+            parameter != null -> {
+                result[parameter]?.let {
+                    addDiagnostic(ArgumentPassedTwice(argument))
+                    return
+                }
+                result[parameter] = ResolvedCallArgument.SimpleArgument(atom)
+            }
+            dataargsParameter != null -> {
+                dataargArguments[dataargsParameter]?.let {
+                    addDiagnostic(ArgumentPassedTwice(argument))
+                    return
+                }
+                dataargArguments[dataargsParameter] = ResolvedCallArgument.SimpleArgument(atom)
+            }
+            else -> {
+                addDiagnostic(NameNotFound(argument, function))
+                return
+            }
         }
-
-        result[parameter] = ResolvedCallArgument.SimpleArgument(atom)
 
         if (stateAllowsMixedNamedAndPositionArguments && parameters.getOrNull(currentPositionedParameterIndex) == parameter) {
             state = State.POSITION_ARGUMENTS
@@ -309,6 +343,33 @@ private class FirCallArgumentsProcessor(
                 }
             }
         }
+
+        if (dataargParameter != null) {
+            for (parameter in getDataargConstructor()?.valueParameters.orEmpty()) {
+                if (!dataargArguments.contains(parameter)) {
+                    dataargArguments[parameter] = ResolvedCallArgument.DefaultArgument
+                }
+            }
+            result[dataargParameter] = ResolvedCallArgument.DataargArgument(dataargArguments)
+        }
+
+        for (parameter in result.keys) {
+            if (!parameter.isSealedarg) continue
+
+            val argument = result[parameter]
+            if (argument !is ResolvedCallArgument.SimpleArgument) continue
+
+            val argumentType = argument.callArgument.expression.resolvedType
+            val parameterType = parameter.getPotentialSealedConstructors().firstOrNull {
+                val coneType = it.coneTypeSafe<ConeClassLikeType>()
+                coneType != null && useSiteSession.typeContext.equalTypes(argumentType, coneType)
+            }
+            if (parameterType != null) {
+                result[parameter] = ResolvedCallArgument.SealedargArgument(argument.callArgument, parameterType)
+            } else {
+                addDiagnostic(SealedargsNoConstructor(argument.callArgument.expression))
+            }
+        }
     }
 
 
@@ -353,6 +414,26 @@ private class FirCallArgumentsProcessor(
             }
         }
         return nameToParameter!![name]
+    }
+
+    private fun getDataargParameterByName(name: Name): FirValueParameter? =
+        getDataargConstructor()?.valueParameters?.find { it.name == name }
+
+    private fun getDataargConstructor(): FirConstructor? {
+        val param = dataargParameter ?: return null
+        val type = param.returnTypeRef.coneTypeSafe<ConeClassLikeType>() ?: return null
+        val klass = (type.toSymbol(useSiteSession)?.fir as? FirClass) ?: return null
+        val constructor = klass.primaryConstructorIfAny(useSiteSession) ?: return null
+        return constructor.fir
+    }
+
+    private fun FirValueParameter.getPotentialSealedConstructors(): List<FirTypeRef> {
+        val type = returnTypeRef.coneTypeSafe<ConeClassLikeType>() ?: return emptyList()
+        val klass = (type.toSymbol(useSiteSession)?.fir as? FirRegularClass) ?: return emptyList()
+        return klass.getSealedClassInheritors(useSiteSession).mapNotNull {
+            (it.toSymbol(useSiteSession)?.fir as? FirRegularClass)
+                ?.primaryConstructorIfAny(useSiteSession)?.fir?.valueParameters?.singleOrNull()?.returnTypeRef
+        }
     }
 
     private fun findParameterByName(argument: FirNamedArgumentExpression): FirValueParameter? {
