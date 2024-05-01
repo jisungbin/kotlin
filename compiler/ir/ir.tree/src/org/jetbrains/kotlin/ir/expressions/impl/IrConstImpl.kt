@@ -21,7 +21,7 @@ class IrConstImpl<T> internal constructor(
     override val startOffset: Int,
     override val endOffset: Int,
     override var type: IrType,
-    override var kind: IrConstKind<T>,
+    override var kind: IrConstKind<*>,
     override var value: T,
 ) : IrConst<T>() {
     override var attributeOwnerId: IrAttributeContainer = this
@@ -82,5 +82,5 @@ class IrConstImpl<T> internal constructor(
 }
 
 fun <T> IrConst<T>.copyWithOffsets(startOffset: Int, endOffset: Int) =
-    IrConstImpl(startOffset, endOffset, type, kind, value)
+    IrConstImpl(null, startOffset, endOffset, type, kind, value)
 
