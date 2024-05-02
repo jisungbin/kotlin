@@ -771,6 +771,7 @@ fun IrExpression.shallowCopyOrNull(): IrExpression? =
     }
 
 internal fun IrConst.shallowCopy() = IrConstImpl(
+    null,
     startOffset,
     endOffset,
     type,
