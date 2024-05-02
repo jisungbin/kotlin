@@ -7,8 +7,8 @@ package org.jetbrains.kotlin.ir.expressions
 
 sealed class IrConstKind<T>(val asString: kotlin.String) {
     @Suppress("UNCHECKED_CAST")
-    fun valueOf(aConst: IrConst<*>) =
-        (aConst as IrConst<T>).value
+    fun valueOf(aConst: IrConst): T =
+        aConst.value as T
 
     object Null : IrConstKind<Nothing?>("Null")
     object Boolean : IrConstKind<kotlin.Boolean>("Boolean")
