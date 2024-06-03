@@ -1,3 +1,7 @@
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import a.b.ABC;
+
 /**
  * public final class Test : kotlin/Any {
  *
@@ -121,6 +125,10 @@ public final class Test {
 
 ////////////////////
 
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import a.b.ABC;
 
 /**
  * public final class Test2 : kotlin/Any {
