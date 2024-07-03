@@ -20,6 +20,7 @@ import org.jetbrains.kotlin.gradle.plugin.diagnostics.KotlinToolingDiagnostics
 import org.jetbrains.kotlin.gradle.plugin.diagnostics.reportDiagnostic
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBinary
+import org.jetbrains.kotlin.gradle.plugin.mpp.StaticLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.FrameworkCopy.Companion.dsymFile
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.SwiftExportDSLConstants
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.SwiftExportExtension
@@ -31,6 +32,7 @@ import org.jetbrains.kotlin.gradle.tasks.registerTask
 import org.jetbrains.kotlin.gradle.utils.getFile
 import org.jetbrains.kotlin.gradle.utils.lowerCamelCaseName
 import org.jetbrains.kotlin.gradle.utils.mapToFile
+import org.jetbrains.kotlin.gradle.utils.setProperty
 import org.jetbrains.kotlin.swiftexport.ExperimentalSwiftExportDsl
 import java.io.File
 import java.io.IOException
@@ -188,18 +190,23 @@ private fun builtProductsDirAccessibility(builtProductsDir: File?): DirAccessibi
 
 @ExperimentalSwiftExportDsl
 internal fun Project.registerEmbedSwiftExportTask(
-    binary: NativeBinary,
+    binary: StaticLibrary,
     environment: XcodeEnvironment,
     swiftExportExtension: SwiftExportExtension,
 ) {
     val envTargets = environment.targets
     val envBuildType = environment.buildType
-    val isRequestedFramework = envTargets.contains(binary.konanTarget) && binary.buildType == envBuildType
+    val isMatchingBinary = envTargets.contains(binary.konanTarget) && binary.buildType == envBuildType
     val frameworkTaskName = binary.embedSwiftExportTaskName()
+    val exportedModules = objects.setProperty<SwiftExportExtension.ModuleExport>().convention(
+        swiftExportExtension.exportedModules
+    )
 
-    if (isRequestedFramework) {
+    if (isMatchingBinary) {
         val swiftExportTask = registerSwiftExportTask(
             swiftExportExtension.nameProvider,
+            swiftExportExtension.flattenPackageProvider,
+            exportedModules,
             SwiftExportDSLConstants.TASK_GROUP,
             binary
         ).apply {

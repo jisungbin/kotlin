@@ -34,8 +34,8 @@ internal abstract class SwiftExportAction : WorkAction<SwiftExportParameters> {
         runSwiftExport(
             input = setOf(
                 InputModule(
-                    name = parameters.swiftApiModuleName.get(),
-                    path = parameters.kotlinLibraryFile.getFile().toPath(),
+                    name = parameters.swiftModule.flatMap { it.moduleName }.get(),
+                    path = parameters.swiftModule.map { it.artifacts.files.first() }.get().toPath(),
                     config = SwiftExportConfig(
                         settings = mapOf(
                             SwiftExportConfig.STABLE_DECLARATIONS_ORDER to parameters.stableDeclarationsOrder.getOrElse(true).toString(),

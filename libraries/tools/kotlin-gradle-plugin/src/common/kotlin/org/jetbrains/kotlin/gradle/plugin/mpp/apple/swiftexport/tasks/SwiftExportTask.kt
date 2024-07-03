@@ -7,13 +7,13 @@ package org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.tasks
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
 import org.gradle.work.DisableCachingByDefault
 import org.gradle.workers.WorkerExecutor
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.internal.SwiftExportAction
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.internal.SwiftExportParameters
-import java.io.File
-import java.io.Serializable
+import org.jetbrains.kotlin.gradle.utils.LazyResolvedConfiguration
 import javax.inject.Inject
 
 @DisableCachingByDefault(because = "Swift Export is experimental, so no caching for now")
@@ -21,6 +21,9 @@ internal abstract class SwiftExportTask : DefaultTask() {
 
     @get:Inject
     abstract val workerExecutor: WorkerExecutor
+
+    @get:Internal
+    abstract val configuration: Property<LazyResolvedConfiguration>
 
     @get:InputFiles
     @get:PathSensitive(PathSensitivity.RELATIVE)
@@ -36,12 +39,12 @@ internal abstract class SwiftExportTask : DefaultTask() {
         }
 
         swiftExportQueue.submit(SwiftExportAction::class.java) { workParameters ->
-            workParameters.stableDeclarationsOrder.set(parameters.stableDeclarationsOrder)
-            workParameters.swiftApiModuleName.set(parameters.swiftApiModuleName)
             workParameters.bridgeModuleName.set(parameters.bridgeModuleName)
+            workParameters.exportedModules.set(parameters.exportedModules)
             workParameters.konanDistribution.set(parameters.konanDistribution)
-            workParameters.kotlinLibraryFile.set(parameters.kotlinLibraryFile)
             workParameters.outputPath.set(parameters.outputPath)
+            workParameters.stableDeclarationsOrder.set(parameters.stableDeclarationsOrder)
+            workParameters.swiftModule.set(parameters.swiftModule)
             workParameters.swiftModulesFile.set(parameters.swiftModulesFile)
         }
     }
