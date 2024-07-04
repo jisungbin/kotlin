@@ -7,6 +7,7 @@ package org.jetbrains.kotlin.ir.backend.js.lower
 
 import org.jetbrains.kotlin.backend.common.*
 import org.jetbrains.kotlin.backend.common.lower.createIrBuilder
+import org.jetbrains.kotlin.descriptors.DescriptorVisibilities
 import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.IrStatement
 import org.jetbrains.kotlin.ir.UNDEFINED_OFFSET
@@ -17,13 +18,14 @@ import org.jetbrains.kotlin.ir.builders.declarations.addValueParameter
 import org.jetbrains.kotlin.ir.builders.declarations.buildFun
 import org.jetbrains.kotlin.ir.builders.irCall
 import org.jetbrains.kotlin.ir.builders.irGet
+import org.jetbrains.kotlin.ir.builders.irReturn
 import org.jetbrains.kotlin.ir.declarations.*
-import org.jetbrains.kotlin.ir.expressions.IrBody
-import org.jetbrains.kotlin.ir.expressions.IrCall
-import org.jetbrains.kotlin.ir.expressions.IrContainerExpression
-import org.jetbrains.kotlin.ir.expressions.IrExpression
+import org.jetbrains.kotlin.ir.expressions.*
 import org.jetbrains.kotlin.ir.symbols.IrFunctionSymbol
 import org.jetbrains.kotlin.ir.util.file
+import org.jetbrains.kotlin.ir.util.parentAsClass
+import org.jetbrains.kotlin.ir.util.render
+import org.jetbrains.kotlin.ir.util.statements
 import org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid
 import org.jetbrains.kotlin.ir.visitors.acceptChildrenVoid
 import org.jetbrains.kotlin.ir.visitors.transformChildrenVoid
@@ -41,6 +43,43 @@ class JsCodeOutliningLowering(val backendContext: JsIrBackendContext) : BodyLowe
 
         val replacer = JsCodeOutlineTransformer(backendContext, container)
         irBody.transformChildrenVoid(replacer)
+
+        val outlineFunctions = replacer.newOutlineFunctions
+        if (outlineFunctions.isEmpty()) return
+        pasteOutlinedFunctionsIntoContainer(outlineFunctions, container, irBody)
+    }
+
+    private fun pasteOutlinedFunctionsIntoContainer(outlineFunctions: List<IrFunction>, container: IrDeclaration, irBody: IrBody) {
+        // The only possible containers are: IrAnonymousInitializer, IrFunction, IrEnumEntry, IrField.
+        // These are the ones that are `IrDeclaration` and have an `IrBody`.
+        // The last two (IrEnumEntry, IrField) can't appear at this stage because inside them there is no way to capture locals.
+        // Must handle only IrAnonymousInitializer and IrFunction.
+        if (container is IrAnonymousInitializer) {
+            for (outlineFunction in outlineFunctions) {
+                outlineFunction.parent = container.file
+                container.file.declarations += outlineFunctions
+            }
+            return
+        }
+
+        if (container !is IrFunction) {
+            error("Given container is unexpected:\n${container.render()}")
+        }
+
+        for (outlineFunction in outlineFunctions) {
+            outlineFunction.parent = container as? IrDeclarationParent ?: container.file
+        }
+
+        val oldStatements = when (irBody) {
+            is IrBlockBody -> irBody.statements
+            is IrExpressionBody -> {
+                val irReturn = backendContext.createIrBuilder(container.symbol).irReturn(irBody.expression)
+                listOf(irReturn)
+            }
+            else -> error("Unexpected body type ${irBody::class} for ${container.render()}")
+        }
+        val newStatements = outlineFunctions + oldStatements
+        container.body = backendContext.irFactory.createBlockBody(irBody.startOffset, irBody.endOffset, newStatements)
     }
 
     companion object {
@@ -72,6 +111,8 @@ private class JsCodeOutlineTransformer(
     val backendContext: JsIrBackendContext,
     val container: IrDeclaration,
 ) : IrElementTransformerVoidWithContext() {
+    val newOutlineFunctions = mutableListOf<IrFunction>()
+
     val localScopes: MutableList<HashMap<String, IrValueDeclaration>> =
         mutableListOf(hashMapOf())
 
@@ -148,6 +189,7 @@ private class JsCodeOutlineTransformer(
 
         // Building outlined IR function skeleton
         val outlinedFunction = createOutlinedFunction(kotlinLocalsUsedInJs)
+        newOutlineFunctions += outlinedFunction
 
         // Building JS Ast function
         val newFun = createJsFunction(jsStatements, kotlinLocalsUsedInJs)
@@ -188,13 +230,13 @@ private class JsCodeOutlineTransformer(
             name = Name.identifier(container.safeAs<IrDeclarationWithName>()?.name?.asString()?.let { "$it\$outlinedJsCode\$" }
                                        ?: "outlinedJsCode\$")
             returnType = backendContext.dynamicType
+            visibility = DescriptorVisibilities.LOCAL
             isExternal = true
             origin = JsCodeOutliningLowering.OUTLINED_JS_CODE_ORIGIN
         }
         // We don't need this function's body. Using empty block body stub, because some code might expect all functions to have bodies.
         outlinedFunction.body = backendContext.irFactory.createBlockBody(UNDEFINED_OFFSET, UNDEFINED_OFFSET)
-        outlinedFunction.parent = container.file
-        container.file.declarations.add(outlinedFunction)
+
         kotlinLocalsUsedInJs.values.forEach { local ->
             outlinedFunction.addValueParameter {
                 name = local.name

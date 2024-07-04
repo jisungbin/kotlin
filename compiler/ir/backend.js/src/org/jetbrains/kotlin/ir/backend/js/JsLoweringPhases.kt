@@ -864,7 +864,6 @@ fun getJsLowerings(
 ): List<SimpleNamedCompilerPhase<JsIrBackendContext, IrModuleFragment, IrModuleFragment>> = listOfNotNull(
     // BEGIN: Common Native/JS prefix.
     validateIrBeforeLowering,
-    jsCodeOutliningPhase,
     lateinitNullableFieldsPhase,
     lateinitDeclarationLoweringPhase,
     lateinitUsageLoweringPhase,
@@ -872,6 +871,7 @@ fun getJsLowerings(
     localClassesInInlineLambdasPhase,
     localClassesInInlineFunctionsPhase,
     localClassesExtractionFromInlineFunctionsPhase,
+    jsCodeOutliningPhase,
     inlineCallableReferenceToLambdaPhase,
     arrayConstructorPhase,
     legacySyntheticAccessorLoweringPhase.takeUnless { configuration.getBoolean(KlibConfigurationKeys.EXPERIMENTAL_DOUBLE_INLINING) },
