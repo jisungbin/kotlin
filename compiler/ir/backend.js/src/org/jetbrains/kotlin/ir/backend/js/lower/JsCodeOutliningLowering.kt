@@ -14,18 +14,13 @@ import org.jetbrains.kotlin.ir.UNDEFINED_OFFSET
 import org.jetbrains.kotlin.ir.backend.js.JsIrBackendContext
 import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.translateJsCodeIntoStatementList
 import org.jetbrains.kotlin.ir.backend.js.utils.emptyScope
+import org.jetbrains.kotlin.ir.builders.*
 import org.jetbrains.kotlin.ir.builders.declarations.addValueParameter
 import org.jetbrains.kotlin.ir.builders.declarations.buildFun
-import org.jetbrains.kotlin.ir.builders.irCall
-import org.jetbrains.kotlin.ir.builders.irGet
-import org.jetbrains.kotlin.ir.builders.irReturn
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.*
 import org.jetbrains.kotlin.ir.symbols.IrFunctionSymbol
-import org.jetbrains.kotlin.ir.util.file
-import org.jetbrains.kotlin.ir.util.parentAsClass
-import org.jetbrains.kotlin.ir.util.render
-import org.jetbrains.kotlin.ir.util.statements
+import org.jetbrains.kotlin.ir.util.*
 import org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid
 import org.jetbrains.kotlin.ir.visitors.acceptChildrenVoid
 import org.jetbrains.kotlin.ir.visitors.transformChildrenVoid
@@ -190,11 +185,12 @@ private class JsCodeOutlineTransformer(
         // Building outlined IR function skeleton
         val outlinedFunction = createOutlinedFunction(kotlinLocalsUsedInJs)
         newOutlineFunctions += outlinedFunction
+        val annotation = addJsFunAnnotation(outlinedFunction)
 
         // Building JS Ast function
         val newFun = createJsFunction(jsStatements, kotlinLocalsUsedInJs)
-
-        backendContext.addOutlinedJsCode(outlinedFunction.symbol, newFun)
+        val jsFunCode = newFun.toString()
+        annotation.putValueArgument(0, jsFunCode.toIrConst(backendContext.irBuiltIns.stringType))
 
         return with(backendContext.createIrBuilder(container.symbol)) {
             irCall(outlinedFunction).apply {
@@ -203,6 +199,16 @@ private class JsCodeOutlineTransformer(
                 }
             }
         }
+    }
+
+    private fun addJsFunAnnotation(outlinedFunction: IrSimpleFunction): IrConstructorCall {
+        val builder = backendContext.createIrBuilder(outlinedFunction.symbol)
+        val annotation = builder.irCallConstructor(
+            backendContext.intrinsics.jsFunAnnotationSymbol.constructors.first(),
+            typeArguments = emptyList()
+        )
+        outlinedFunction.annotations += annotation
+        return annotation
     }
 
     private fun createJsFunction(jsStatements: List<JsStatement>, kotlinLocalsUsedInJs: Map<JsName, IrValueDeclaration>): JsFunction {

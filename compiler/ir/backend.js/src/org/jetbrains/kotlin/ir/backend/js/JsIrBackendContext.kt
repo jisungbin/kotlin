@@ -398,10 +398,6 @@ class JsIrBackendContext(
 
     private val outlinedJsCodeFunctions = WeakHashMap<IrFunctionSymbol, JsFunction>()
 
-    fun addOutlinedJsCode(symbol: IrSimpleFunctionSymbol, outlinedJsCode: JsFunction) {
-        outlinedJsCodeFunctions[symbol] = outlinedJsCode
-    }
-
     fun getJsCodeForFunction(symbol: IrFunctionSymbol): JsFunction? {
         val originalSymbol = symbol.owner.originalFunction.symbol
         val jsFunction = outlinedJsCodeFunctions[originalSymbol]
