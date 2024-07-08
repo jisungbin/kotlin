@@ -166,6 +166,15 @@ class ObjCExportDependenciesHeaderGeneratorTest(
         )
     }
 
+    @Test
+    fun `test - completionHandlerException`() {
+        doTest(
+            dependenciesDir.resolve("completionHandlerException"), configuration = HeaderGenerator.Configuration(
+                dependencies = listOfNotNull(testLibraryKotlinxCoroutines)
+            )
+        )
+    }
+
     private fun doTest(root: File, configuration: HeaderGenerator.Configuration = HeaderGenerator.Configuration()) {
         if (!root.isDirectory) fail("Expected ${root.absolutePath} to be directory")
         val generatedHeaders = generator.generateHeaders(root, configuration).toString()
