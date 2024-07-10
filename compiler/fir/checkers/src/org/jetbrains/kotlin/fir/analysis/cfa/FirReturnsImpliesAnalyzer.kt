@@ -142,13 +142,19 @@ object FirReturnsImpliesAnalyzer : FirControlFlowChecker(MppCheckerKind.Common) 
 
         val conditionStatements = logicSystem.approveContractStatement(
             effectDeclaration.condition, argumentVariables, substitutor = null
-        ) { logicSystem.approveOperationStatement(flow, it) } ?: return true
+        ) {
+            logicSystem.approveOperationStatement(flow, it)
+        } ?: return true
 
         return !conditionStatements.values.all { requirement ->
             val originalType = requirement.variable.originalType ?: return@all true
             val requiredType = requirement.smartCastedType(typeContext, originalType)
-            val actualType = flow.getTypeStatement(requirement.variable).smartCastedType(typeContext, originalType)
+            val actualStatement = flow.getTypeStatement(requirement.variable)
+            val actualType = actualStatement.smartCastedType(typeContext, originalType)
+            val requiredResult = requirement.resultStatement
+            val actualResult = actualStatement?.resultStatement ?: ResultStatement.UNKNOWN
             actualType.isSubtypeOf(typeContext, requiredType)
+                    && (requiredResult == ResultStatement.UNKNOWN || requiredResult == actualResult)
         }
     }
 
