@@ -12,13 +12,14 @@
 #include <limits>
 
 #include "Alignment.hpp"
+#include "AllocationSize.hpp"
 #include "AtomicStack.hpp"
 #include "ExtraObjectData.hpp"
-#include "ExtraObjectPage.hpp"
 #include "GC.hpp"
 #include "GCStatistics.hpp"
 #include "Memory.h"
 #include "TypeLayout.hpp"
+#include "CustomFinalizerProcessor.hpp"
 
 namespace kotlin::alloc {
 
@@ -87,11 +88,25 @@ private:
     ~HeapArray() = delete;
 };
 
-// Returns `true` if the `object` must be kept alive still.
-bool SweepObject(uint8_t* object, FinalizerQueue& finalizerQueue, gc::GCHandle::GCSweepScope& sweepScope) noexcept;
+struct ObjectSweepTraits {
+    using GCSweepScope = gc::GCHandle::GCSweepScope;
 
-// Returns `true` if the `extraObject` must be kept alive still
-bool SweepExtraObject(mm::ExtraObjectData* extraObject, gc::GCHandle::GCSweepExtraObjectsScope& sweepScope) noexcept;
+    static GCSweepScope currentGCSweepScope(gc::GCHandle& handle) noexcept { return handle.sweep(); }
+
+    static bool trySweepElement(uint8_t* data, FinalizerQueue& finalizerQueue, GCSweepScope& sweepScope) noexcept;
+
+    static AllocationSize elementSize(uint8_t* data);
+};
+
+struct ExtraDataSweepTraits {
+    using GCSweepScope = gc::GCHandle::GCSweepExtraObjectsScope;
+
+    static GCSweepScope currentGCSweepScope(gc::GCHandle& handle) noexcept { return handle.sweepExtraObjects(); }
+
+    static bool trySweepElement(uint8_t* data, FinalizerQueue& finalizerQueue, GCSweepScope& sweepScope) noexcept;
+
+    static AllocationSize elementSize(uint8_t*);
+};
 
 void* SafeAlloc(uint64_t size) noexcept;
 
