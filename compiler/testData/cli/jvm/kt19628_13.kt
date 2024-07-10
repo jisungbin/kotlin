@@ -1,6 +1,5 @@
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
 
-// TODO convert to diagnostics test
 @Suppress("ANNOTATION_TARGETS_NON_EXISTENT_ACCESSOR")
 class Data(
     @get:XmlJavaTypeAdapter(CollapsedStringAdapter::class)
