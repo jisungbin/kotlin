@@ -21,4 +21,9 @@ object KlibConfigurationKeys {
     @JvmField
     val EXPERIMENTAL_DOUBLE_INLINING: CompilerConfigurationKey<Boolean> =
         CompilerConfigurationKey.create("Turns on experimental double-inlining mode")
+
+    @JvmField
+    val DISALLOW_DUPLICATED_UNIQUE_NAMES: CompilerConfigurationKey<Boolean> =
+        CompilerConfigurationKey.create("Instruct the compiler to ignore all subsequent KLIBs having the same `unique_name` that has already been seen.\n" +
+                    "Note: There are no guarantees about the order of KLIBs inspection. Please, use with caution.")
 }
