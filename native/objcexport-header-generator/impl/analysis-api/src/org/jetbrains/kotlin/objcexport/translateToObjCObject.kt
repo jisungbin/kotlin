@@ -57,18 +57,6 @@ private fun ObjCExportContext.getDefaultMembers(symbol: KaClassSymbol): List<Obj
     val result = mutableListOf<ObjCExportStub>()
 
     result.add(
-        ObjCMethod(
-            null,
-            null,
-            false,
-            ObjCInstanceType,
-            listOf(getObjectInstanceSelector(symbol)),
-            emptyList(),
-            listOf(swiftNameAttribute("init()"))
-        )
-    )
-
-    result.add(
         ObjCProperty(
             name = ObjCPropertyNames.objectPropertyName,
             comment = null,
@@ -99,7 +87,7 @@ private fun ObjCExportContext.toPropertyType(symbol: KaClassSymbol) = ObjCClassT
 /**
  * [org.jetbrains.kotlin.backend.konan.objcexport.ObjCExportNamerImpl.getObjectInstanceSelector]
  */
-private fun ObjCExportContext.getObjectInstanceSelector(objectSymbol: KaClassSymbol): String {
+internal fun ObjCExportContext.getObjectInstanceSelector(objectSymbol: KaClassSymbol): String {
     return getObjCClassOrProtocolName(objectSymbol, bareName = true)
         .objCName
         .replaceFirstChar(Char::lowercaseChar)

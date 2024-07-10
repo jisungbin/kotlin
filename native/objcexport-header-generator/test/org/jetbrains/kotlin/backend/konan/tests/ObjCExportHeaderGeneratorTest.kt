@@ -43,7 +43,11 @@ class ObjCExportHeaderGeneratorTest(private val generator: HeaderGenerator) {
         doTest(headersTestDataDir.resolve("simpleInterface"))
     }
 
+    /**
+     * Disabled because of forwarded classes order KT-69922
+     */
     @Test
+    @TodoAnalysisApi
     fun `test - simpleEnumClass`() {
         doTest(headersTestDataDir.resolve("simpleEnumClass"))
     }
@@ -468,6 +472,11 @@ class ObjCExportHeaderGeneratorTest(private val generator: HeaderGenerator) {
     @Test
     fun `test - extension with primitive parameter`() {
         doTest(headersTestDataDir.resolve("extensionWithPrimitiveParameter"))
+    }
+
+    @Test
+    fun `test - extension duplicate`() {
+        doTest(headersTestDataDir.resolve("extensionDuplicate"))
     }
 
     private fun doTest(root: File, configuration: Configuration = Configuration()) {

@@ -10,12 +10,10 @@ import org.jetbrains.kotlin.analysis.api.symbols.KaClassKind
 import org.jetbrains.kotlin.analysis.api.symbols.KaClassSymbol
 import org.jetbrains.kotlin.analysis.api.symbols.KaFunctionSymbol
 import org.jetbrains.kotlin.backend.konan.descriptors.arrayTypes
-import org.jetbrains.kotlin.backend.konan.objcexport.ObjCInstanceType
-import org.jetbrains.kotlin.backend.konan.objcexport.ObjCMethod
-import org.jetbrains.kotlin.backend.konan.objcexport.ObjCParameter
-import org.jetbrains.kotlin.backend.konan.objcexport.ObjCRawType
+import org.jetbrains.kotlin.backend.konan.objcexport.*
 import org.jetbrains.kotlin.objcexport.analysisApiUtils.getSuperClassSymbolNotAny
 import org.jetbrains.kotlin.objcexport.analysisApiUtils.hasExportForCompilerAnnotation
+import org.jetbrains.kotlin.objcexport.analysisApiUtils.isCompanion
 import org.jetbrains.kotlin.objcexport.analysisApiUtils.isVisibleInObjC
 
 fun ObjCExportContext.translateToObjCConstructors(symbol: KaClassSymbol): List<ObjCMethod> {
@@ -57,6 +55,20 @@ fun ObjCExportContext.translateToObjCConstructors(symbol: KaClassSymbol): List<O
                 selectors = listOf("allocWithZone:"),
                 parameters = listOf(ObjCParameter("zone", null, ObjCRawType("struct _NSZone *"), null)),
                 attributes = listOf("unavailable")
+            )
+        )
+    }
+
+    if (symbol.isCompanion || symbol.classKind == KaClassKind.OBJECT) {
+        result.add(
+            ObjCMethod(
+                null,
+                null,
+                false,
+                ObjCInstanceType,
+                listOf(getObjectInstanceSelector(symbol)),
+                emptyList(),
+                listOf(swiftNameAttribute("init()"))
             )
         )
     }

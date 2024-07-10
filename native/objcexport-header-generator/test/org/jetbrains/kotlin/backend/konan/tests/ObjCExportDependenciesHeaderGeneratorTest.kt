@@ -150,6 +150,11 @@ class ObjCExportDependenciesHeaderGeneratorTest(
         )
     }
 
+    @Test
+    fun `test - dependency companion`() {
+        doTest(dependenciesDir.resolve("dependencyCompanion"))
+    }
+
     /**
      * https://youtrack.jetbrains.com/issue/KT-65327/Support-reading-klib-contents-in-Analysis-API
      * Requires being able to use AA to iterate over symbols to 'export' the dependency

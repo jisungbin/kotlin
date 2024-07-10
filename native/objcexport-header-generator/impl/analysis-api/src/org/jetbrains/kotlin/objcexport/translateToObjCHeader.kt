@@ -112,17 +112,16 @@ private class KtObjCExportHeaderGenerator(
         val resolvedFile = with(file) { analysisSession.resolve() }
 
         translateToObjCExtensionFacades(resolvedFile).forEach { facade ->
-            objCStubs += facade
+            addObjCStubIfNotTranslated(facade)
             enqueueDependencyClasses(facade)
             objCClassForwardDeclarations += facade.name
         }
 
         translateToObjCTopLevelFacade(resolvedFile)?.let { topLevelFacade ->
-            objCStubs += topLevelFacade
+            addObjCStubIfNotTranslated(topLevelFacade)
             enqueueDependencyClasses(topLevelFacade)
         }
     }
-
 
     private fun ObjCExportContext.translateClassOrObjectSymbol(symbol: KaClassSymbol): ObjCClass? {
         /* No classId, no stubs ¯\_(ツ)_/¯ */
@@ -145,11 +144,12 @@ private class KtObjCExportHeaderGenerator(
         2) Super interface / superclass symbol export stubs (result of translation) have to be present in the stubs list before the
         original stub
          */
-        analysisSession.getDeclaredSuperInterfaceSymbols(symbol).filter { analysisSession.isVisibleInObjC(it) }.forEach { superInterfaceSymbol ->
-            translateClassOrObjectSymbol(superInterfaceSymbol)?.let {
-                objCProtocolForwardDeclarations += it.name
+        analysisSession.getDeclaredSuperInterfaceSymbols(symbol).filter { analysisSession.isVisibleInObjC(it) }
+            .forEach { superInterfaceSymbol ->
+                translateClassOrObjectSymbol(superInterfaceSymbol)?.let {
+                    objCProtocolForwardDeclarations += it.name
+                }
             }
-        }
 
         analysisSession.getSuperClassSymbolNotAny(symbol)?.takeIf { analysisSession.isVisibleInObjC(it) }?.let { superClassSymbol ->
             translateClassOrObjectSymbol(superClassSymbol)?.let {
@@ -159,7 +159,7 @@ private class KtObjCExportHeaderGenerator(
 
 
         /* Note: It is important to add *this* stub to the result list only after translating/processing the superclass symbols */
-        objCStubs += objCClass
+        addObjCStubIfNotTranslated(objCClass)
         objCStubsByClassName[objCClass.name] = objCClass
         enqueueDependencyClasses(objCClass)
         return objCClass
@@ -239,5 +239,27 @@ private class KtObjCExportHeaderGenerator(
             protocolForwardDeclarations = protocolForwardDeclarations,
             additionalImports = emptyList()
         )
+    }
+
+    /**
+     * We verify if class already translated by checking equality of name and category
+     *
+     * ObjC category used to translate extensions,
+     * so having two classes with the same name, but different categories is a valid case
+     *
+     * ```
+     * @interface Foo
+     * @interface Foo (Extension)
+     * ```
+     *
+     * K1 uses dedicated hash map as well, but filtering out is spread across translation traversal.
+     * See usage of [org.jetbrains.kotlin.backend.konan.objcexport.ObjCExportHeaderGenerator.generatedClasses]
+     */
+    private fun addObjCStubIfNotTranslated(objCClass: ObjCClass) {
+        val translatedClass = objCStubsByClassName[objCClass.name]
+        val sameName = objCClass.name == translatedClass?.name
+        val sameCategory = haveSameObjCCategory(translatedClass, objCClass)
+        if (sameName && sameCategory) return
+        else objCStubs += objCClass
     }
 }
