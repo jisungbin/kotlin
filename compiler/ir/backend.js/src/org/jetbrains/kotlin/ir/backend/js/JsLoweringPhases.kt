@@ -189,6 +189,12 @@ private val jsCodeOutliningPhase = makeIrModulePhase(
     description = "Outline js() calls where JS code references Kotlin locals"
 )
 
+private val jsDeleteDuplicatedCodeOutliningLowering = makeIrModulePhase(
+    ::JsDeleteDuplicatedCodeOutliningLowering,
+    name = "JsDeleteDuplicatedCodeOutliningLowering",
+    description = "TODO"
+)
+
 private val arrayConstructorPhase = makeIrModulePhase(
     ::ArrayConstructorLowering,
     name = "ArrayConstructor",
@@ -886,7 +892,7 @@ fun getJsLowerings(
     inlineAllFunctionsPhase,
     validateIrAfterInliningAllFunctions,
     // END: Common Native/JS prefix.
-
+    jsDeleteDuplicatedCodeOutliningLowering,
     constEvaluationPhase,
     copyInlineFunctionBodyLoweringPhase,
     removeInlineDeclarationsWithReifiedTypeParametersLoweringPhase,
