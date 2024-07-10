@@ -45,8 +45,12 @@ internal object IncorrectCompileOnlyDependenciesChecker : KotlinGradleProjectChe
             ?.allDependencies
             .orEmpty()
 
-        fun Dependency.isInApiElements(): Boolean =
-            apiElementsDependencies.any { it.contentEquals(this) }
+        fun Dependency.isInApiElements(): Boolean {
+            val thisCoords = this.stringCoordinates()
+            return apiElementsDependencies.any { other ->
+                thisCoords == other.stringCoordinates()
+            }
+        }
 
         val compilationsIncompatibleWithCompileOnly = target.compilations
             .filter { it.isPublished() }
@@ -85,7 +89,7 @@ internal object IncorrectCompileOnlyDependenciesChecker : KotlinGradleProjectChe
 
             // Technically, compileOnly dependencies should also be forbidden for
             // common compilations, but in practice such dependencies will
-            // filtered down to the actual target-specific compilations.
+            // filter down to the actual target-specific compilations.
             // Therefore, to avoid duplicated warning messages for dependencies
             // in commonMain and a ${target}Main, don't check common targets.
             KotlinPlatformType.common,
