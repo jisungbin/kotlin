@@ -266,9 +266,16 @@ class ConeOverloadConflictResolver(
             )?.let { return it }
         }
 
-        val filtered = candidates.filterTo(mutableSetOf()) { it.usesSamConversionOrSamConstructor }
-        if (filtered.isNotEmpty()) {
+        if (candidates.any { it.usesSamConversionOrSamConstructor }) {
             findMaximallySpecificCall(candidates, discriminateGenerics = false, useOriginalSamTypes = true)?.let { return setOf(it) }
+        }
+
+        // Expect callable deprioritization is only relevant for top-level callables
+        if (candidates.any { candidate ->
+                (candidate.symbol as? FirCallableSymbol<*>)?.let { it.callableId.classId == null && it.isExpect } == true
+            }
+        ) {
+            findMaximallySpecificCall(candidates, discriminateGenerics = false, deprioritizeExpect = true)?.let { return setOf(it) }
         }
 
         return candidates
@@ -297,7 +304,8 @@ class ConeOverloadConflictResolver(
     private fun findMaximallySpecificCall(
         candidates: Set<Candidate>,
         discriminateGenerics: Boolean,
-        useOriginalSamTypes: Boolean = false
+        useOriginalSamTypes: Boolean = false,
+        deprioritizeExpect: Boolean = false,
     ): Candidate? {
         if (candidates.size <= 1) return candidates.singleOrNull()
 
@@ -311,7 +319,7 @@ class ConeOverloadConflictResolver(
             }
         }
 
-        return bestCandidatesByParameterTypes.exactMaxWith()?.origin
+        return bestCandidatesByParameterTypes.exactMaxWith(deprioritizeExpect = deprioritizeExpect)?.origin
     }
 
     /**
@@ -326,15 +334,15 @@ class ConeOverloadConflictResolver(
         return compareCallsByUsedArguments(call1, call2, discriminateGenerics, useOriginalSamTypes)
     }
 
-    private fun List<CandidateSignature>.exactMaxWith(): CandidateSignature? {
+    private fun List<CandidateSignature>.exactMaxWith(deprioritizeExpect: Boolean): CandidateSignature? {
         var result: CandidateSignature? = null
         for (candidate in this) {
-            if (result == null || checkExpectAndNotLessSpecificShape(candidate, result)) {
+            if (result == null || isOfNotLessSpecificShape(candidate, result, deprioritizeExpect = deprioritizeExpect)) {
                 result = candidate
             }
         }
         if (result == null) return null
-        if (any { it != result && checkExpectAndNotLessSpecificShape(it, result) }) {
+        if (any { it != result && isOfNotLessSpecificShape(it, result, deprioritizeExpect = deprioritizeExpect) }) {
             return null
         }
         return result
@@ -343,20 +351,22 @@ class ConeOverloadConflictResolver(
     /**
      * call1.expect
      */
-    private fun checkExpectAndNotLessSpecificShape(
+    private fun isOfNotLessSpecificShape(
         call1: FlatSignature<Candidate>,
-        call2: FlatSignature<Candidate>
+        call2: FlatSignature<Candidate>,
+        deprioritizeExpect: Boolean,
     ): Boolean {
-        // !false && false
-        if (!call1.isExpect && call2.isExpect) return true
-        if (call1.isExpect && !call2.isExpect) return false
         val hasVarargs1 = call1.hasVarargs
         val hasVarargs2 = call2.hasVarargs
         if (hasVarargs1 && !hasVarargs2) return false
         if (!hasVarargs1 && hasVarargs2) return true
 
-        if (call1.numDefaults > call2.numDefaults) {
-            return false
+        if (call1.numDefaults > call2.numDefaults) return false
+        if (call1.numDefaults < call2.numDefaults) return true
+
+        if (deprioritizeExpect) {
+            if (!call1.isExpect && call2.isExpect) return true
+            if (call1.isExpect && !call2.isExpect) return false
         }
 
         return true
