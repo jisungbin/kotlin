@@ -9315,12 +9315,6 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
       }
 
       @Test
-      @TestMetadata("notAFunctionLabel_before.kt")
-      public void testNotAFunctionLabel_before() {
-        runTest("compiler/testData/diagnostics/tests/controlStructures/notAFunctionLabel_before.kt");
-      }
-
-      @Test
       @TestMetadata("redundantLabel.kt")
       public void testRedundantLabel() {
         runTest("compiler/testData/diagnostics/tests/controlStructures/redundantLabel.kt");
