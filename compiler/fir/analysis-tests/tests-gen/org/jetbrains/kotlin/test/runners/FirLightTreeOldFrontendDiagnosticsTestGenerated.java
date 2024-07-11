@@ -7375,12 +7375,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
       }
 
       @Test
-      @TestMetadata("typeParametersInAnnonymousObject.kt")
-      public void testTypeParametersInAnnonymousObject() {
-        runTest("compiler/testData/diagnostics/tests/classObjects/typeParametersInAnnonymousObject.kt");
-      }
-
-      @Test
       @TestMetadata("typeParametersInAnnonymousObject_after.kt")
       public void testTypeParametersInAnnonymousObject_after() {
         runTest("compiler/testData/diagnostics/tests/classObjects/typeParametersInAnnonymousObject_after.kt");
