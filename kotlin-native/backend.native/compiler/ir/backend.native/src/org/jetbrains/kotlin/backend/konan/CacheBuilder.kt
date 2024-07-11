@@ -262,14 +262,25 @@ class CacheBuilder(
         val lockFile = File(lockFileName)
         // For now, per-file caches are only used for the incremental compilation which can't be run in parallel.
         val shouldUseLockFile = !makePerFileCache
+        if (shouldUseLockFile) {
+            if (!tryCreateLockFile(lockFile, libraryCache, library))
+                return // Other compilation have built the cache.
+        }
+
+        tryBuildingLibraryCache(library, dependencies, dependencyCaches, libraryCacheDirectory, makePerFileCache, filesToCache, libraryCache)
+
+        if (shouldUseLockFile)
+            lockFile.delete()
+    }
+
+    private fun tryCreateLockFile(
+            lockFile: File,
+            libraryCache: File,
+            library: KotlinLibrary,
+    ): Boolean {
         try {
-            if (shouldUseLockFile)
-                Files.createFile(Paths.get(lockFileName))
-
-            tryBuildingLibraryCache(library, dependencies, dependencyCaches, libraryCacheDirectory, makePerFileCache, filesToCache, libraryCache)
-
-            if (shouldUseLockFile)
-                lockFile.delete()
+            Files.createFile(Paths.get(lockFile.absolutePath))
+            return true
         } catch (t: FileAlreadyExistsException) {
             var ok = false
             try {
@@ -292,6 +303,7 @@ class CacheBuilder(
                         "Failed to wait for cache to be built\n" +
                                 "Falling back to not use cache for ${library.libraryName}")
             }
+            return false
         }
     }
 
