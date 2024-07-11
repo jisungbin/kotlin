@@ -14209,12 +14209,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
       }
 
       @Test
-      @TestMetadata("derivedClassPropertyShadowsBaseClassField13.kt")
-      public void testDerivedClassPropertyShadowsBaseClassField13() {
-        runTest("compiler/testData/diagnostics/tests/fieldRename/derivedClassPropertyShadowsBaseClassField13.kt");
-      }
-
-      @Test
       @TestMetadata("javaFieldKotlinPropertyDifferentType.kt")
       public void testJavaFieldKotlinPropertyDifferentType() {
         runTest("compiler/testData/diagnostics/tests/fieldRename/javaFieldKotlinPropertyDifferentType.kt");
@@ -23907,12 +23901,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
         @TestMetadata("fieldPropertyOverloads.kt")
         public void testFieldPropertyOverloads() {
           runTest("compiler/testData/diagnostics/tests/j+k/properties/fieldPropertyOverloads.kt");
-        }
-
-        @Test
-        @TestMetadata("fieldPropertyOverloadsDisabled.kt")
-        public void testFieldPropertyOverloadsDisabled() {
-          runTest("compiler/testData/diagnostics/tests/j+k/properties/fieldPropertyOverloadsDisabled.kt");
         }
 
         @Test
