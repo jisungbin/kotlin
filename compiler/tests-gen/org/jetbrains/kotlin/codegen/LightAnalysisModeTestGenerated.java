@@ -48301,16 +48301,6 @@ public class LightAnalysisModeTestGenerated extends AbstractLightAnalysisModeTes
         runTest("compiler/testData/codegen/box/when/enumOptimization/bigEnum.kt");
       }
 
-      @TestMetadata("differentEnumClasses.kt")
-      public void testDifferentEnumClasses() {
-        runTest("compiler/testData/codegen/box/when/enumOptimization/differentEnumClasses.kt");
-      }
-
-      @TestMetadata("differentEnumClasses2.kt")
-      public void testDifferentEnumClasses2() {
-        runTest("compiler/testData/codegen/box/when/enumOptimization/differentEnumClasses2.kt");
-      }
-
       @TestMetadata("duplicatingItems.kt")
       public void testDuplicatingItems() {
         runTest("compiler/testData/codegen/box/when/enumOptimization/duplicatingItems.kt");

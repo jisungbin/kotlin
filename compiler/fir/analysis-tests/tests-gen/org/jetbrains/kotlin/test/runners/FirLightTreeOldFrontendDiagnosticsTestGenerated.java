@@ -12691,12 +12691,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
       }
 
       @Test
-      @TestMetadata("incompatibleEnums.kt")
-      public void testIncompatibleEnums() {
-        runTest("compiler/testData/diagnostics/tests/enum/incompatibleEnums.kt");
-      }
-
-      @Test
       @TestMetadata("incompatibleEnums_1_4.kt")
       public void testIncompatibleEnums_1_4() {
         runTest("compiler/testData/diagnostics/tests/enum/incompatibleEnums_1_4.kt");
