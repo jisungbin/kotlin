@@ -10799,12 +10799,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
       }
 
       @Test
-      @TestMetadata("localVariablesWithTypeParameters_1_3.kt")
-      public void testLocalVariablesWithTypeParameters_1_3() {
-        runTest("compiler/testData/diagnostics/tests/declarationChecks/localVariablesWithTypeParameters_1_3.kt");
-      }
-
-      @Test
       @TestMetadata("localVariablesWithTypeParameters_1_4.kt")
       public void testLocalVariablesWithTypeParameters_1_4() {
         runTest("compiler/testData/diagnostics/tests/declarationChecks/localVariablesWithTypeParameters_1_4.kt");
