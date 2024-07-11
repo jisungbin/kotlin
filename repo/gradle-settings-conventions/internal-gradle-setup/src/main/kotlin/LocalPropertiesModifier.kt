@@ -38,7 +38,13 @@ internal class LocalPropertiesModifier(private val localProperties: File) {
         }.joinToString("\n")
     }
 
-    fun applySetup(setupFile: SetupFile) {
+    private fun combinePropertyMaps(map1: Map<String, String>, map2: Map<String, String>): Map<String, String> {
+        val commonKeys = map1.keys.intersect(map2.keys)
+        require(commonKeys.isEmpty()) { "These keys were defined previously: ${commonKeys.joinToString()}" }
+        return map1 + map2
+    }
+
+    fun applySetup(setupFile: SetupFile, syntheticPropertiesGenerators: List<SyntheticPropertiesGenerator> = emptyList()) {
         localProperties.parentFile.apply {
             if (!exists()) {
                 mkdirs()
@@ -53,7 +59,12 @@ internal class LocalPropertiesModifier(private val localProperties: File) {
                 load(it)
             }
         }
-        val propertiesToSetup = setupFile.properties.mapValues {
+        val setupFileProperties = setupFile.properties
+        val syntheticProperties =
+            syntheticPropertiesGenerators.fold(mapOf<String, String>()) { acc, generator ->
+                combinePropertyMaps(acc, generator.generate(setupFile))
+            }
+        val propertiesToSetup = (setupFileProperties + syntheticProperties).mapValues {
             val overridingValue = manuallyConfiguredProperties[it.key]
             if (overridingValue != null) {
                 PropertyValue.Overridden(it.value, overridingValue.toString())
