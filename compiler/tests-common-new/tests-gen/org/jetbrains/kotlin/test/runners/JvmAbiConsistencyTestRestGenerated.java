@@ -4842,12 +4842,6 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
       }
 
       @Test
-      @TestMetadata("smapWithOldSyntax.kt")
-      public void testSmapWithOldSyntax() {
-        runTest("compiler/testData/codegen/boxInline/smap/smapWithOldSyntax.kt");
-      }
-
-      @Test
       @TestMetadata("tryFinally1.kt")
       public void testTryFinally1() {
         runTest("compiler/testData/codegen/boxInline/smap/tryFinally1.kt");
