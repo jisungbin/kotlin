@@ -28,7 +28,7 @@ class DeclarationStubGeneratorImpl(
             lazyTable,
             irBuiltins.languageVersionSettings,
             moduleDescriptor,
-            { LazyScopedTypeParametersResolver(lazyTable) },
+            LazyScopedTypeParametersResolver(lazyTable),
             true,
             extensions
         )

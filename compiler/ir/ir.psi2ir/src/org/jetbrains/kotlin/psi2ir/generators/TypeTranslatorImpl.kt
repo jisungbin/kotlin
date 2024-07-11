@@ -18,12 +18,12 @@ class TypeTranslatorImpl(
     symbolTable: ReferenceSymbolTable,
     languageVersionSettings: LanguageVersionSettings,
     moduleDescriptor: ModuleDescriptor,
-    typeParametersResolverBuilder: () -> TypeParametersResolver = { ScopedTypeParametersResolver() },
+    typeParametersResolver: TypeParametersResolver = ScopedTypeParametersResolver(),
     enterTableScope: Boolean = false,
     extensions: StubGeneratorExtensions = StubGeneratorExtensions.EMPTY,
     private val ktFile: KtFile? = null,
     allowErrorTypeInAnnotations: Boolean = false,
-) : TypeTranslator(symbolTable, languageVersionSettings, typeParametersResolverBuilder, enterTableScope, extensions) {
+) : TypeTranslator(symbolTable, languageVersionSettings, typeParametersResolver, enterTableScope, extensions) {
     override val constantValueGenerator: ConstantValueGenerator =
         ConstantValueGeneratorImpl(moduleDescriptor, symbolTable, this, allowErrorTypeInAnnotations)
 

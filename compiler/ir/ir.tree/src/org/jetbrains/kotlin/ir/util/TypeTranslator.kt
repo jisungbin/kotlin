@@ -13,8 +13,6 @@ import org.jetbrains.kotlin.ir.ObsoleteDescriptorBasedAPI
 import org.jetbrains.kotlin.ir.declarations.IrTypeParametersContainer
 import org.jetbrains.kotlin.ir.descriptors.IrBasedTypeParameterDescriptor
 import org.jetbrains.kotlin.ir.expressions.IrConstructorCall
-import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
-import org.jetbrains.kotlin.ir.expressions.impl.fromSymbolOwner
 import org.jetbrains.kotlin.ir.symbols.IrTypeParameterSymbol
 import org.jetbrains.kotlin.ir.types.*
 import org.jetbrains.kotlin.ir.types.impl.*
@@ -23,14 +21,13 @@ import org.jetbrains.kotlin.types.typeUtil.replaceArgumentsWithStarProjections
 import org.jetbrains.kotlin.types.typesApproximation.approximateCapturedTypes
 import org.jetbrains.kotlin.utils.addIfNotNull
 import org.jetbrains.kotlin.utils.memoryOptimizedMap
-import org.jetbrains.kotlin.utils.threadLocal
 import java.util.*
 
 @OptIn(ObsoleteDescriptorBasedAPI::class)
 abstract class TypeTranslator(
     protected val symbolTable: ReferenceSymbolTable,
     val languageVersionSettings: LanguageVersionSettings,
-    typeParametersResolverBuilder: () -> TypeParametersResolver = { ScopedTypeParametersResolver() },
+    private val typeParametersResolver: TypeParametersResolver = ScopedTypeParametersResolver(),
     private val enterTableScope: Boolean = false,
     protected val extensions: StubGeneratorExtensions = StubGeneratorExtensions.EMPTY
 ) {
@@ -39,8 +36,6 @@ abstract class TypeTranslator(
     protected abstract fun approximateType(type: KotlinType): KotlinType
 
     protected abstract fun commonSupertype(types: Collection<KotlinType>): KotlinType
-
-    private val typeParametersResolver by threadLocal { typeParametersResolverBuilder() }
 
     private val erasureStack = Stack<PropertyDescriptor>()
 
