@@ -1126,12 +1126,6 @@ public class FirPsiDiagnosticTestGenerated extends AbstractFirPsiDiagnosticTest 
       }
 
       @Test
-      @TestMetadata("dataArguments.kt")
-      public void testDataArguments() {
-        runTest("compiler/fir/analysis-tests/testData/resolve/callResolution/dataArguments.kt");
-      }
-
-      @Test
       @TestMetadata("debugExpressionType.kt")
       public void testDebugExpressionType() {
         runTest("compiler/fir/analysis-tests/testData/resolve/callResolution/debugExpressionType.kt");
@@ -1219,12 +1213,6 @@ public class FirPsiDiagnosticTestGenerated extends AbstractFirPsiDiagnosticTest 
       @TestMetadata("safeCallOnTypeAlias.kt")
       public void testSafeCallOnTypeAlias() {
         runTest("compiler/fir/analysis-tests/testData/resolve/callResolution/safeCallOnTypeAlias.kt");
-      }
-
-      @Test
-      @TestMetadata("sealedArguments.kt")
-      public void testSealedArguments() {
-        runTest("compiler/fir/analysis-tests/testData/resolve/callResolution/sealedArguments.kt");
       }
 
       @Test
@@ -6471,6 +6459,28 @@ public class FirPsiDiagnosticTestGenerated extends AbstractFirPsiDiagnosticTest 
             }
           }
         }
+      }
+    }
+
+    @Nested
+    @TestMetadata("compiler/fir/analysis-tests/testData/resolveWithStdlib/dataArguments")
+    @TestDataPath("$PROJECT_ROOT")
+    public class DataArguments {
+      @Test
+      public void testAllFilesPresentInDataArguments() {
+        KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/fir/analysis-tests/testData/resolveWithStdlib/dataArguments"), Pattern.compile("^([^.]+)\\.(kt|kts)$"), null, true);
+      }
+
+      @Test
+      @TestMetadata("dataArguments.kt")
+      public void testDataArguments() {
+        runTest("compiler/fir/analysis-tests/testData/resolveWithStdlib/dataArguments/dataArguments.kt");
+      }
+
+      @Test
+      @TestMetadata("sealedArguments.kt")
+      public void testSealedArguments() {
+        runTest("compiler/fir/analysis-tests/testData/resolveWithStdlib/dataArguments/sealedArguments.kt");
       }
     }
 

@@ -384,6 +384,8 @@ object FirErrors {
     val NO_EXPLICIT_RETURN_TYPE_IN_API_MODE: KtDiagnosticFactory0 = KtDiagnosticFactory0("NO_EXPLICIT_RETURN_TYPE_IN_API_MODE", ERROR, SourceElementPositioningStrategies.DECLARATION_NAME, KtDeclaration::class)
     val NO_EXPLICIT_RETURN_TYPE_IN_API_MODE_WARNING: KtDiagnosticFactory0 = KtDiagnosticFactory0("NO_EXPLICIT_RETURN_TYPE_IN_API_MODE_WARNING", WARNING, SourceElementPositioningStrategies.DECLARATION_NAME, KtDeclaration::class)
     val ANONYMOUS_SUSPEND_FUNCTION: KtDiagnosticFactory0 = KtDiagnosticFactory0("ANONYMOUS_SUSPEND_FUNCTION", ERROR, SourceElementPositioningStrategies.SUSPEND_MODIFIER, KtDeclaration::class)
+    val INCORRECT_DATAARG_CLASS: KtDiagnosticFactory0 = KtDiagnosticFactory0("INCORRECT_DATAARG_CLASS", ERROR, SourceElementPositioningStrategies.DECLARATION_NAME, KtClass::class)
+    val INCORRECT_SEALEDARG_CLASS: KtDiagnosticFactory0 = KtDiagnosticFactory0("INCORRECT_SEALEDARG_CLASS", ERROR, SourceElementPositioningStrategies.DECLARATION_NAME, KtClass::class)
 
     // Value classes
     val VALUE_CLASS_NOT_TOP_LEVEL: KtDiagnosticFactory0 = KtDiagnosticFactory0("VALUE_CLASS_NOT_TOP_LEVEL", ERROR, SourceElementPositioningStrategies.INLINE_OR_VALUE_MODIFIER, KtDeclaration::class)
@@ -614,6 +616,10 @@ object FirErrors {
     val NON_TAIL_RECURSIVE_CALL: KtDiagnosticFactory0 = KtDiagnosticFactory0("NON_TAIL_RECURSIVE_CALL", WARNING, SourceElementPositioningStrategies.REFERENCED_NAME_BY_QUALIFIED, PsiElement::class)
     val TAIL_RECURSION_IN_TRY_IS_NOT_SUPPORTED: KtDiagnosticFactory0 = KtDiagnosticFactory0("TAIL_RECURSION_IN_TRY_IS_NOT_SUPPORTED", WARNING, SourceElementPositioningStrategies.REFERENCED_NAME_BY_QUALIFIED, PsiElement::class)
     val DATA_OBJECT_CUSTOM_EQUALS_OR_HASH_CODE: KtDiagnosticFactory0 = KtDiagnosticFactory0("DATA_OBJECT_CUSTOM_EQUALS_OR_HASH_CODE", ERROR, SourceElementPositioningStrategies.OVERRIDE_MODIFIER, KtNamedFunction::class)
+    val MULTIPLE_DATAARG_PARAMETERS: KtDiagnosticFactory0 = KtDiagnosticFactory0("MULTIPLE_DATAARG_PARAMETERS", ERROR, SourceElementPositioningStrategies.PARAMETER_DATAARG_MODIFIER, KtParameter::class)
+    val VARARG_DATA_ARGUMENT: KtDiagnosticFactory0 = KtDiagnosticFactory0("VARARG_DATA_ARGUMENT", ERROR, SourceElementPositioningStrategies.PARAMETER_VARARG_MODIFIER, KtParameter::class)
+    val DATAARG_PARAMETER_WRONG_CLASS: KtDiagnosticFactory0 = KtDiagnosticFactory0("DATAARG_PARAMETER_WRONG_CLASS", ERROR, SourceElementPositioningStrategies.PARAMETER_DATAARG_MODIFIER, KtParameter::class)
+    val SEALEDARG_PARAMETER_WRONG_CLASS: KtDiagnosticFactory0 = KtDiagnosticFactory0("SEALEDARG_PARAMETER_WRONG_CLASS", ERROR, SourceElementPositioningStrategies.PARAMETER_SEALEDARG_MODIFIER, KtParameter::class)
 
     // Parameter default values
     val DEFAULT_VALUE_NOT_ALLOWED_IN_OVERRIDE: KtDiagnosticFactory0 = KtDiagnosticFactory0("DEFAULT_VALUE_NOT_ALLOWED_IN_OVERRIDE", ERROR, SourceElementPositioningStrategies.DEFAULT, KtElement::class)

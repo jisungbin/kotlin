@@ -1569,6 +1569,16 @@ internal class AnonymousSuspendFunctionImpl(
     token: KaLifetimeToken,
 ) : KaAbstractFirDiagnostic<KtDeclaration>(firDiagnostic, token), KaFirDiagnostic.AnonymousSuspendFunction
 
+internal class IncorrectDataargClassImpl(
+    firDiagnostic: KtPsiDiagnostic,
+    token: KaLifetimeToken,
+) : KaAbstractFirDiagnostic<KtClass>(firDiagnostic, token), KaFirDiagnostic.IncorrectDataargClass
+
+internal class IncorrectSealedargClassImpl(
+    firDiagnostic: KtPsiDiagnostic,
+    token: KaLifetimeToken,
+) : KaAbstractFirDiagnostic<KtClass>(firDiagnostic, token), KaFirDiagnostic.IncorrectSealedargClass
+
 internal class ValueClassNotTopLevelImpl(
     firDiagnostic: KtPsiDiagnostic,
     token: KaLifetimeToken,
@@ -2878,6 +2888,26 @@ internal class DataObjectCustomEqualsOrHashCodeImpl(
     firDiagnostic: KtPsiDiagnostic,
     token: KaLifetimeToken,
 ) : KaAbstractFirDiagnostic<KtNamedFunction>(firDiagnostic, token), KaFirDiagnostic.DataObjectCustomEqualsOrHashCode
+
+internal class MultipleDataargParametersImpl(
+    firDiagnostic: KtPsiDiagnostic,
+    token: KaLifetimeToken,
+) : KaAbstractFirDiagnostic<KtParameter>(firDiagnostic, token), KaFirDiagnostic.MultipleDataargParameters
+
+internal class VarargDataArgumentImpl(
+    firDiagnostic: KtPsiDiagnostic,
+    token: KaLifetimeToken,
+) : KaAbstractFirDiagnostic<KtParameter>(firDiagnostic, token), KaFirDiagnostic.VarargDataArgument
+
+internal class DataargParameterWrongClassImpl(
+    firDiagnostic: KtPsiDiagnostic,
+    token: KaLifetimeToken,
+) : KaAbstractFirDiagnostic<KtParameter>(firDiagnostic, token), KaFirDiagnostic.DataargParameterWrongClass
+
+internal class SealedargParameterWrongClassImpl(
+    firDiagnostic: KtPsiDiagnostic,
+    token: KaLifetimeToken,
+) : KaAbstractFirDiagnostic<KtParameter>(firDiagnostic, token), KaFirDiagnostic.SealedargParameterWrongClass
 
 internal class DefaultValueNotAllowedInOverrideImpl(
     firDiagnostic: KtPsiDiagnostic,

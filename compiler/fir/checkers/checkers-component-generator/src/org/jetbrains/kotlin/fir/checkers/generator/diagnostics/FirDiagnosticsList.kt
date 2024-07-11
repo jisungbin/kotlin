@@ -562,6 +562,9 @@ object DIAGNOSTICS_LIST : DiagnosticList("FirErrors") {
         val NO_EXPLICIT_RETURN_TYPE_IN_API_MODE_WARNING by warning<KtDeclaration>(PositioningStrategy.DECLARATION_NAME)
 
         val ANONYMOUS_SUSPEND_FUNCTION by error<KtDeclaration>(PositioningStrategy.SUSPEND_MODIFIER)
+
+        val INCORRECT_DATAARG_CLASS by error<KtClass>(PositioningStrategy.DECLARATION_NAME)
+        val INCORRECT_SEALEDARG_CLASS by error<KtClass>(PositioningStrategy.DECLARATION_NAME)
     }
 
     val VALUE_CLASSES by object : DiagnosticGroup("Value classes") {
@@ -1217,6 +1220,11 @@ object DIAGNOSTICS_LIST : DiagnosticList("FirErrors") {
         val NON_TAIL_RECURSIVE_CALL by warning<PsiElement>(PositioningStrategy.REFERENCED_NAME_BY_QUALIFIED)
         val TAIL_RECURSION_IN_TRY_IS_NOT_SUPPORTED by warning<PsiElement>(PositioningStrategy.REFERENCED_NAME_BY_QUALIFIED)
         val DATA_OBJECT_CUSTOM_EQUALS_OR_HASH_CODE by error<KtNamedFunction>(PositioningStrategy.OVERRIDE_MODIFIER)
+
+        val MULTIPLE_DATAARG_PARAMETERS by error<KtParameter>(PositioningStrategy.PARAMETER_DATAARG_MODIFIER)
+        val VARARG_DATA_ARGUMENT by error<KtParameter>(PositioningStrategy.PARAMETER_VARARG_MODIFIER)
+        val DATAARG_PARAMETER_WRONG_CLASS by error<KtParameter>(PositioningStrategy.PARAMETER_DATAARG_MODIFIER)
+        val SEALEDARG_PARAMETER_WRONG_CLASS by error<KtParameter>(PositioningStrategy.PARAMETER_SEALEDARG_MODIFIER)
     }
 
     val PARAMETER_DEFAULT_VALUES by object : DiagnosticGroup("Parameter default values") {

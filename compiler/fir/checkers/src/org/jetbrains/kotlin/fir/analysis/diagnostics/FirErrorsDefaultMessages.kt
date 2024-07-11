@@ -175,6 +175,7 @@ import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.CYCLIC_CONSTRUCTO
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.CYCLIC_GENERIC_UPPER_BOUND
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.CYCLIC_INHERITANCE_HIERARCHY
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.DANGEROUS_CHARACTERS
+import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.DATAARG_PARAMETER_WRONG_CLASS
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.DATA_CLASS_CONSISTENT_COPY_AND_EXPOSED_COPY_ARE_INCOMPATIBLE_ANNOTATIONS
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.DATA_CLASS_CONSISTENT_COPY_WRONG_ANNOTATION_TARGET
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.DATA_CLASS_COPY_VISIBILITY_WILL_BE_CHANGED
@@ -341,8 +342,10 @@ import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INCOMPATIBLE_TYPE
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INCONSISTENT_TYPE_PARAMETER_BOUNDS
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INCONSISTENT_TYPE_PARAMETER_VALUES
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INCORRECT_CHARACTER_LITERAL
+import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INCORRECT_DATAARG_CLASS
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INCORRECT_LEFT_COMPONENT_OF_INTERSECTION
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INCORRECT_RIGHT_COMPONENT_OF_INTERSECTION
+import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INCORRECT_SEALEDARG_CLASS
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INC_DEC_SHOULD_NOT_RETURN_UNIT
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INEFFICIENT_EQUALS_OVERRIDING_IN_VALUE_CLASS
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.INFERENCE_ERROR
@@ -416,6 +419,7 @@ import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.MIXING_SUSPEND_AN
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.MODIFIER_FORM_FOR_NON_BUILT_IN_SUSPEND
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.MODIFIER_FORM_FOR_NON_BUILT_IN_SUSPEND_FUN
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.MULTIPLE_ARGUMENTS_APPLICABLE_FOR_CONTEXT_RECEIVER
+import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.MULTIPLE_DATAARG_PARAMETERS
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.MULTIPLE_DEFAULTS_INHERITED_FROM_SUPERTYPES
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.MULTIPLE_DEFAULTS_INHERITED_FROM_SUPERTYPES_DEPRECATION
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.MULTIPLE_DEFAULTS_INHERITED_FROM_SUPERTYPES_WHEN_NO_EXPLICIT_OVERRIDE
@@ -605,6 +609,7 @@ import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.RETURN_TYPE_MISMA
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.RETURN_TYPE_MISMATCH_ON_OVERRIDE
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.SAFE_CALLABLE_REFERENCE_CALL
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.SAFE_CALL_WILL_CHANGE_NULLABILITY
+import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.SEALEDARG_PARAMETER_WRONG_CLASS
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.SEALED_ARGUMENT_NO_CONSTRUCTOR
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.SEALED_CLASS_CONSTRUCTOR_CALL
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.SEALED_INHERITOR_IN_DIFFERENT_MODULE
@@ -728,6 +733,7 @@ import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.VAL_OR_VAR_ON_SEC
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.VAL_REASSIGNMENT
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.VAL_REASSIGNMENT_VIA_BACKING_FIELD
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.VAL_WITH_SETTER
+import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.VARARG_DATA_ARGUMENT
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.VARARG_OUTSIDE_PARENTHESES
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.VARIABLE_EXPECTED
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors.VARIABLE_INITIALIZER_IS_REDUNDANT
@@ -1273,6 +1279,9 @@ object FirErrorsDefaultMessages : BaseDiagnosticRendererFactory() {
         map.put(NO_EXPLICIT_VISIBILITY_IN_API_MODE_WARNING, "Visibility must be specified in explicit API mode.")
         map.put(NO_EXPLICIT_RETURN_TYPE_IN_API_MODE_WARNING, "Return type must be specified in explicit API mode.")
         map.put(ANONYMOUS_SUSPEND_FUNCTION, "Anonymous suspend functions are prohibited.")
+
+        map.put(INCORRECT_DATAARG_CLASS, "Incorrect @DataArgument class.")
+        map.put(INCORRECT_SEALEDARG_CLASS, "Incorrect @SealedArgument class.")
 
         map.put(INCOMPATIBLE_MODIFIERS, "Modifier ''{0}'' is incompatible with ''{1}''.", TO_STRING, TO_STRING)
         map.put(REDUNDANT_OPEN_IN_INTERFACE, "Modifier 'open' is redundant for abstract interface members.")
@@ -2030,6 +2039,10 @@ object FirErrorsDefaultMessages : BaseDiagnosticRendererFactory() {
         map.put(FUN_INTERFACE_WITH_SUSPEND_FUNCTION, "Functional interface abstract method cannot have a suspend modifier.")
 
         map.put(MULTIPLE_VARARG_PARAMETERS, "Multiple vararg parameters are prohibited.")
+        map.put(MULTIPLE_DATAARG_PARAMETERS, "Multiple data parameters are prohibited.")
+        map.put(VARARG_DATA_ARGUMENT, "Data and vararg parameters are not allowed in the same function.")
+        map.put(DATAARG_PARAMETER_WRONG_CLASS, "Type for data argument not marked as @DataArgument.")
+        map.put(SEALEDARG_PARAMETER_WRONG_CLASS, "Type for sealed argument not marked as @SealedArgument.")
         map.put(FORBIDDEN_VARARG_PARAMETER_TYPE, "Prohibited vararg parameter type ''{0}''.", RENDER_TYPE)
         map.put(VALUE_PARAMETER_WITHOUT_EXPLICIT_TYPE, "An explicit type is required on a value parameter.")
         map.put(CANNOT_INFER_PARAMETER_TYPE, "Cannot infer type for this parameter. Please specify it explicitly.")

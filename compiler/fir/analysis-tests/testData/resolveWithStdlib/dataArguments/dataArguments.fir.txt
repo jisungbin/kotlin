@@ -1,5 +1,5 @@
 FILE: dataArguments.kt
-    public final class Arguments : R|kotlin/Any| {
+    @R|kotlin/DataArgument|() public final class Arguments : R|kotlin/Any| {
         public constructor(enabled: R|kotlin/Boolean| = Boolean(true), size: R|kotlin/Int| = Int(10)): R|Arguments| {
             super<R|kotlin/Any|>()
         }
@@ -21,4 +21,18 @@ FILE: dataArguments.kt
         R|/button<Inapplicable(INAPPLICABLE): /button>#|(String(Hello), Boolean(true), Boolean(false))
         R|/button<Inapplicable(INAPPLICABLE_ARGUMENTS_MAPPING_ERROR): /button>#|(String(Hello), Int(3))
         R|/button<Inapplicable(INAPPLICABLE): /button>#|(String(Hello), Int(3))
+    }
+    @R|kotlin/DataArgument|() public final class WrongDataArgument : R|kotlin/Any| {
+        public constructor(enabled: R|kotlin/Boolean|, size: R|kotlin/Int| = Int(10)): R|WrongDataArgument| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final val enabled: R|kotlin/Boolean| = R|<local>/enabled|
+            public get(): R|kotlin/Boolean|
+
+        public final val size: R|kotlin/Int| = R|<local>/size|
+            public get(): R|kotlin/Int|
+
+    }
+    public final fun strange(text: R|kotlin/String|, arguments: R|kotlin/Int|): R|kotlin/Unit| {
     }

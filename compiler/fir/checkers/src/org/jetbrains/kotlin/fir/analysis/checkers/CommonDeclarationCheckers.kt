@@ -120,6 +120,7 @@ object CommonDeclarationCheckers : DeclarationCheckers() {
             FirSealedInterfaceAllowedChecker,
             FirMixedFunctionalTypesInSupertypesChecker.Regular,
             FirMixedFunctionalTypesInSupertypesChecker.ForExpectClass,
+            FirDataSealedArgumentClassChecker,
         )
 
     override val regularClassCheckers: Set<FirRegularClassChecker>
