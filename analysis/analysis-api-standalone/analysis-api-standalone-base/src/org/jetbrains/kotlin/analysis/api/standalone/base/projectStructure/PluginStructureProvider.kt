@@ -47,8 +47,7 @@ object PluginStructureProvider {
     }
 
     private class ResourceDataLoader(val classLoader: ClassLoader) : DataLoader {
-        override val pool: ZipFilePool? get() = null
-        override fun load(path: String): InputStream? = classLoader.getResource(path)?.openStream()
+        override fun load(path: String, pluginDescriptorSourceOnly: Boolean): InputStream? = classLoader.getResource(path)?.openStream()
         override fun toString(): String = "resources data loader"
     }
 
