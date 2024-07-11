@@ -49125,12 +49125,6 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
       }
 
       @Test
-      @TestMetadata("multiVariableDeclarationWithDisabledFeature.kt")
-      public void testMultiVariableDeclarationWithDisabledFeature() {
-        runTest("compiler/testData/diagnostics/testsWithStdLib/trailingComma/multiVariableDeclarationWithDisabledFeature.kt");
-      }
-
-      @Test
       @TestMetadata("multiVariableDeclarationWithEnabledFeature.kt")
       public void testMultiVariableDeclarationWithEnabledFeature() {
         runTest("compiler/testData/diagnostics/testsWithStdLib/trailingComma/multiVariableDeclarationWithEnabledFeature.kt");
@@ -49143,21 +49137,9 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
       }
 
       @Test
-      @TestMetadata("typeArgumentsWithDisabledFeature.kt")
-      public void testTypeArgumentsWithDisabledFeature() {
-        runTest("compiler/testData/diagnostics/testsWithStdLib/trailingComma/typeArgumentsWithDisabledFeature.kt");
-      }
-
-      @Test
       @TestMetadata("typeArgumentsWithEnabledFeature.kt")
       public void testTypeArgumentsWithEnabledFeature() {
         runTest("compiler/testData/diagnostics/testsWithStdLib/trailingComma/typeArgumentsWithEnabledFeature.kt");
-      }
-
-      @Test
-      @TestMetadata("typeParametersWithDisabledFeature.kt")
-      public void testTypeParametersWithDisabledFeature() {
-        runTest("compiler/testData/diagnostics/testsWithStdLib/trailingComma/typeParametersWithDisabledFeature.kt");
       }
 
       @Test
@@ -49167,33 +49149,15 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
       }
 
       @Test
-      @TestMetadata("valueArgumentsWithDisabledFeature.kt")
-      public void testValueArgumentsWithDisabledFeature() {
-        runTest("compiler/testData/diagnostics/testsWithStdLib/trailingComma/valueArgumentsWithDisabledFeature.kt");
-      }
-
-      @Test
       @TestMetadata("valueArgumentsWithEnabledFeature.kt")
       public void testValueArgumentsWithEnabledFeature() {
         runTest("compiler/testData/diagnostics/testsWithStdLib/trailingComma/valueArgumentsWithEnabledFeature.kt");
       }
 
       @Test
-      @TestMetadata("valueParametersWithDisabledFeature.kt")
-      public void testValueParametersWithDisabledFeature() {
-        runTest("compiler/testData/diagnostics/testsWithStdLib/trailingComma/valueParametersWithDisabledFeature.kt");
-      }
-
-      @Test
       @TestMetadata("valueParametersWithEnabledFeature.kt")
       public void testValueParametersWithEnabledFeature() {
         runTest("compiler/testData/diagnostics/testsWithStdLib/trailingComma/valueParametersWithEnabledFeature.kt");
-      }
-
-      @Test
-      @TestMetadata("whenEntryWithDisabledFeature.kt")
-      public void testWhenEntryWithDisabledFeature() {
-        runTest("compiler/testData/diagnostics/testsWithStdLib/trailingComma/whenEntryWithDisabledFeature.kt");
       }
 
       @Test
