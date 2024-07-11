@@ -34839,21 +34839,9 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
       }
 
       @Test
-      @TestMetadata("checkSamConversionsAreDisabledByDefault.kt")
-      public void testCheckSamConversionsAreDisabledByDefault() {
-        runTest("compiler/testData/diagnostics/tests/samConversions/checkSamConversionsAreDisabledByDefault.kt");
-      }
-
-      @Test
       @TestMetadata("conversionOnLambdaAsLastExpression.kt")
       public void testConversionOnLambdaAsLastExpression() {
         runTest("compiler/testData/diagnostics/tests/samConversions/conversionOnLambdaAsLastExpression.kt");
-      }
-
-      @Test
-      @TestMetadata("DisabledForKTSimple.kt")
-      public void testDisabledForKTSimple() {
-        runTest("compiler/testData/diagnostics/tests/samConversions/DisabledForKTSimple.kt");
       }
 
       @Test
