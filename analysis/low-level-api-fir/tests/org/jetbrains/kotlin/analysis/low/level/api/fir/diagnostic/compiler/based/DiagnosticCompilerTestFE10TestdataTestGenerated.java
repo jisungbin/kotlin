@@ -3754,12 +3754,6 @@ public class DiagnosticCompilerTestFE10TestdataTestGenerated extends AbstractDia
         }
 
         @Test
-        @TestMetadata("kt26638.kt")
-        public void testKt26638() {
-          runTest("compiler/testData/diagnostics/tests/annotations/withUseSiteTarget/kt26638.kt");
-        }
-
-        @Test
         @TestMetadata("kt26638_after.kt")
         public void testKt26638_after() {
           runTest("compiler/testData/diagnostics/tests/annotations/withUseSiteTarget/kt26638_after.kt");
