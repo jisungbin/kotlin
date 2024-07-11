@@ -31363,12 +31363,6 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
       }
 
       @Test
-      @TestMetadata("underscoreInCatchBlock.kt")
-      public void testUnderscoreInCatchBlock() {
-        runTest("compiler/testData/diagnostics/tests/resolve/underscoreInCatchBlock.kt");
-      }
-
-      @Test
       @TestMetadata("underscoreInCatchBlockWithEnabledFeature.kt")
       public void testUnderscoreInCatchBlockWithEnabledFeature() {
         runTest("compiler/testData/diagnostics/tests/resolve/underscoreInCatchBlockWithEnabledFeature.kt");
