@@ -41580,12 +41580,6 @@ public class FirLightTreeBlackBoxCodegenTestGenerated extends AbstractFirLightTr
     }
 
     @Test
-    @TestMetadata("varargOfObjects_before.kt")
-    public void testVarargOfObjects_before() {
-      runTest("compiler/testData/codegen/box/polymorphicSignature/varargOfObjects_before.kt");
-    }
-
-    @Test
     @TestMetadata("voidReturnType.kt")
     public void testVoidReturnType() {
       runTest("compiler/testData/codegen/box/polymorphicSignature/voidReturnType.kt");

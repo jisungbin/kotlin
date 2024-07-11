@@ -34868,11 +34868,6 @@ public class LightAnalysisModeTestGenerated extends AbstractLightAnalysisModeTes
       runTest("compiler/testData/codegen/box/polymorphicSignature/varargOfObjects_after.kt");
     }
 
-    @TestMetadata("varargOfObjects_before.kt")
-    public void testVarargOfObjects_before() {
-      runTest("compiler/testData/codegen/box/polymorphicSignature/varargOfObjects_before.kt");
-    }
-
     @TestMetadata("voidReturnType.kt")
     public void testVoidReturnType() {
       runTest("compiler/testData/codegen/box/polymorphicSignature/voidReturnType.kt");
