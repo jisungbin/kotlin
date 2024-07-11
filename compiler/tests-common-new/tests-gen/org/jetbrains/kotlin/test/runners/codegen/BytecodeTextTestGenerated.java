@@ -1431,12 +1431,6 @@ public class BytecodeTextTestGenerated extends AbstractBytecodeTextTest {
     public void testNonConstValHasNoDefaultValue_after() {
       runTest("compiler/testData/codegen/bytecodeText/constProperty/nonConstValHasNoDefaultValue_after.kt");
     }
-
-    @Test
-    @TestMetadata("nonConstValHasNoDefaultValue_before.kt")
-    public void testNonConstValHasNoDefaultValue_before() {
-      runTest("compiler/testData/codegen/bytecodeText/constProperty/nonConstValHasNoDefaultValue_before.kt");
-    }
   }
 
   @Nested

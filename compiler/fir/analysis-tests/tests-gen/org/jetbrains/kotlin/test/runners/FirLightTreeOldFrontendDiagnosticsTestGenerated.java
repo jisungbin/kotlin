@@ -8501,12 +8501,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
       }
 
       @Test
-      @TestMetadata("mainWithoutWarningOnUnusedParam.kt")
-      public void testMainWithoutWarningOnUnusedParam() {
-        runTest("compiler/testData/diagnostics/tests/controlFlowAnalysis/mainWithoutWarningOnUnusedParam.kt");
-      }
-
-      @Test
       @TestMetadata("nestedTryFinally.kt")
       public void testNestedTryFinally() {
         runTest("compiler/testData/diagnostics/tests/controlFlowAnalysis/nestedTryFinally.kt");
