@@ -251,7 +251,7 @@ class CacheBuilder(
                 else
                     CachedLibraries.getCachedLibraryName(library)
         )
-
+        libraryCacheDirectory.mkdirs()
 
         /*
          * Use lock file to not allow caches building in parallel. Actually, this is OK (there are some synchronization
@@ -263,7 +263,6 @@ class CacheBuilder(
         // For now, per-file caches are only used for the incremental compilation which can't be run in parallel.
         val shouldUseLockFile = !makePerFileCache
         try {
-            libraryCacheDirectory.mkdirs()
             if (shouldUseLockFile)
                 Files.createFile(Paths.get(lockFileName))
 
