@@ -1,4 +1,5 @@
-// LANGUAGE: -ProhibitGenericArrayClassLiteral
+// Remove diagnostic suppression when KT-69836 is fixed
+// DIAGNOSTICS: -CLASS_LITERAL_LHS_NOT_A_CLASS
 // MODULE: m1-common
 // FILE: common.kt
 

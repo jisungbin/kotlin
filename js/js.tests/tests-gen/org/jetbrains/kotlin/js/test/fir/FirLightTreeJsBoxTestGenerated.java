@@ -10429,12 +10429,6 @@ public class FirLightTreeJsBoxTestGenerated extends AbstractFirLightTreeJsBoxTes
     public void testPrimitives() {
       runTest("js/js.translator/testData/box/reflection/primitives.kt");
     }
-
-    @Test
-    @TestMetadata("primitives-11.kt")
-    public void testPrimitives_11() {
-      runTest("js/js.translator/testData/box/reflection/primitives-11.kt");
-    }
   }
 
   @Nested
