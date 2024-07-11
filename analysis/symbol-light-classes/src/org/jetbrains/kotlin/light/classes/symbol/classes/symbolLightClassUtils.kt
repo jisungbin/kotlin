@@ -428,25 +428,34 @@ internal fun SymbolLightClassBase.createField(
     isStatic: Boolean,
     result: MutableList<KtLightField>
 ) {
+    val field = createField(declaration, nameGenerator, isStatic) ?: return
+    result += field
+}
+
+context(KaSession)
+@Suppress("CONTEXT_RECEIVERS_DEPRECATED")
+internal fun SymbolLightClassBase.createField(
+    declaration: KaPropertySymbol,
+    nameGenerator: SymbolLightField.FieldNameGenerator,
+    isStatic: Boolean,
+): SymbolLightFieldForProperty? {
     ProgressManager.checkCanceled()
 
-    if (declaration.name.isSpecial) return
-    if (!hasBackingField(declaration)) return
+    if (declaration.name.isSpecial) return null
+    if (!hasBackingField(declaration)) return null
 
     val isDelegated = (declaration as? KaKotlinPropertySymbol)?.isDelegatedProperty == true
     val fieldName = nameGenerator.generateUniqueFieldName(
         declaration.name.asString() + (if (isDelegated) JvmAbi.DELEGATED_PROPERTY_NAME_SUFFIX else "")
     )
 
-    result.add(
-        SymbolLightFieldForProperty(
-            ktAnalysisSession = this@KaSession,
-            propertySymbol = declaration,
-            fieldName = fieldName,
-            containingClass = this,
-            lightMemberOrigin = null,
-            isStatic = isStatic,
-        )
+    return SymbolLightFieldForProperty(
+        ktAnalysisSession = this@KaSession,
+        propertySymbol = declaration,
+        fieldName = fieldName,
+        containingClass = this,
+        lightMemberOrigin = null,
+        isStatic = isStatic,
     )
 }
 
