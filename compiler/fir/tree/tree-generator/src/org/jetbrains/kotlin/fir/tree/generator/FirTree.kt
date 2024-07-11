@@ -641,7 +641,7 @@ object FirTree : AbstractFirTreeBuilder() {
         +referencedSymbol("containingFunctionSymbol", functionSymbolType.withArgs(TypeRef.Star)) {
             withBindThis = false
         }
-        generateBooleanFields("crossinline", "noinline", "vararg", "classArgument", "sealedArgument")
+        generateBooleanFields("crossinline", "noinline", "vararg", "dataArgument", "sealedArgument")
     }
 
     val receiverParameter: Element by element(Declaration) {

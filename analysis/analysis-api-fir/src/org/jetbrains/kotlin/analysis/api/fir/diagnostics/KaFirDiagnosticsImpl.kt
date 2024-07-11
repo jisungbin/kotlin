@@ -1783,10 +1783,10 @@ internal class NameForAmbiguousParameterImpl(
     token: KaLifetimeToken,
 ) : KaAbstractFirDiagnostic<KtValueArgument>(firDiagnostic, token), KaFirDiagnostic.NameForAmbiguousParameter
 
-internal class ValueClassArgumentConflictImpl(
+internal class ValueDataArgumentConflictImpl(
     firDiagnostic: KtPsiDiagnostic,
     token: KaLifetimeToken,
-) : KaAbstractFirDiagnostic<KtValueArgument>(firDiagnostic, token), KaFirDiagnostic.ValueClassArgumentConflict
+) : KaAbstractFirDiagnostic<KtValueArgument>(firDiagnostic, token), KaFirDiagnostic.ValueDataArgumentConflict
 
 internal class SealedArgumentNoConstructorImpl(
     firDiagnostic: KtPsiDiagnostic,

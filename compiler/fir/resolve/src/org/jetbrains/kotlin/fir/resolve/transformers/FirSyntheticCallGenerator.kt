@@ -561,7 +561,7 @@ class FirSyntheticCallGenerator(
             isCrossinline = false
             isNoinline = false
             this.isVararg = isVararg
-            this.isClassArgument = false
+            this.isDataArgument = false
             this.isSealedArgument = false
             symbol = FirValueParameterSymbol(name)
             resolvePhase = FirResolvePhase.BODY_RESOLVE

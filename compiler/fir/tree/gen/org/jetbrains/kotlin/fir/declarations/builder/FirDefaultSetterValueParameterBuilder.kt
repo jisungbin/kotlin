@@ -53,7 +53,7 @@ class FirDefaultSetterValueParameterBuilder : FirAnnotationContainerBuilder {
     var isCrossinline: Boolean = false
     var isNoinline: Boolean = false
     var isVararg: Boolean = false
-    var isClassArgument: Boolean = false
+    var isDataArgument: Boolean = false
     var isSealedArgument: Boolean = false
 
     override fun build(): FirValueParameter {
@@ -83,7 +83,7 @@ class FirDefaultSetterValueParameterBuilder : FirAnnotationContainerBuilder {
             isCrossinline,
             isNoinline,
             isVararg,
-            isClassArgument,
+            isDataArgument,
             isSealedArgument,
         )
     }

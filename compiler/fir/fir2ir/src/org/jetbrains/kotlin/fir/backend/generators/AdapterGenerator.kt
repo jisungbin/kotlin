@@ -371,7 +371,7 @@ internal class AdapterGenerator(
                     }
                     irCall.putValueArgument(index, valueArgument)
                 }
-                is ResolvedCallArgument.ClassArgument -> {
+                is ResolvedCallArgument.DataArgument -> {
                     irCall.putValueArgument(
                         index,
                         IrErrorExpressionImpl(

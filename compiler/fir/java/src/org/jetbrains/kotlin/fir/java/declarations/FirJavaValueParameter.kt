@@ -109,7 +109,7 @@ class FirJavaValueParameter @FirImplementationDetail constructor(
     override val contextReceivers: List<FirContextReceiver>
         get() = emptyList()
 
-    override val isClassArgument: Boolean
+    override val isDataArgument: Boolean
         get() = false
 
     override val isSealedArgument: Boolean

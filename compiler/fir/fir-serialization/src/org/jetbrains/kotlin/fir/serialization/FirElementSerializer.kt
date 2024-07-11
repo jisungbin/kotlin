@@ -802,7 +802,7 @@ class FirElementSerializer private constructor(
             declaresDefaultValue,
             parameter.isCrossinline,
             parameter.isNoinline,
-            parameter.isClassArgument,
+            parameter.isDataArgument,
             parameter.isSealedArgument,
         )
         if (flags != builder.flags) {

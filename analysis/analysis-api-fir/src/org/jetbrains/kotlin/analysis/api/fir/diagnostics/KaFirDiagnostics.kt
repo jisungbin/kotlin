@@ -1486,8 +1486,8 @@ sealed interface KaFirDiagnostic<PSI : PsiElement> : KaDiagnosticWithPsi<PSI> {
         override val diagnosticClass get() = NameForAmbiguousParameter::class
     }
 
-    interface ValueClassArgumentConflict : KaFirDiagnostic<KtValueArgument> {
-        override val diagnosticClass get() = ValueClassArgumentConflict::class
+    interface ValueDataArgumentConflict : KaFirDiagnostic<KtValueArgument> {
+        override val diagnosticClass get() = ValueDataArgumentConflict::class
     }
 
     interface SealedArgumentNoConstructor : KaFirDiagnostic<PsiElement> {

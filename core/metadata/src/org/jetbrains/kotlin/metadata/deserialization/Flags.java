@@ -71,8 +71,8 @@ public class Flags {
     public static final BooleanFlagField DECLARES_DEFAULT_VALUE = FlagField.booleanAfter(HAS_ANNOTATIONS);
     public static final BooleanFlagField IS_CROSSINLINE = FlagField.booleanAfter(DECLARES_DEFAULT_VALUE);
     public static final BooleanFlagField IS_NOINLINE = FlagField.booleanAfter(IS_CROSSINLINE);
-    public static final BooleanFlagField IS_CLASSARG = FlagField.booleanAfter(IS_NOINLINE);
-    public static final BooleanFlagField IS_SEALEDARG = FlagField.booleanAfter(IS_CLASSARG);
+    public static final BooleanFlagField IS_DATAARG = FlagField.booleanAfter(IS_NOINLINE);
+    public static final BooleanFlagField IS_SEALEDARG = FlagField.booleanAfter(IS_DATAARG);
 
     // Accessors
 
@@ -227,7 +227,7 @@ public class Flags {
                | DECLARES_DEFAULT_VALUE.toFlags(declaresDefaultValue)
                | IS_CROSSINLINE.toFlags(isCrossinline)
                | IS_NOINLINE.toFlags(isNoinline)
-               | IS_CLASSARG.toFlags(isClassArgument)
+               | IS_DATAARG.toFlags(isClassArgument)
                | IS_SEALEDARG.toFlags(isSealedArgument)
                 ;
     }

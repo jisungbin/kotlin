@@ -58,7 +58,7 @@ class ArgumentPassedTwice(
     override val argument: FirNamedArgumentExpression,
 ) : InapplicableArgumentDiagnostic()
 
-class ValueClassArgumentConflict(
+class ValueDataArgumentConflict(
     override val argument: FirNamedArgumentExpression,
 ) : InapplicableArgumentDiagnostic()
 

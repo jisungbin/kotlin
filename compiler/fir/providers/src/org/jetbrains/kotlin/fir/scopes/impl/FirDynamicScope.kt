@@ -169,7 +169,7 @@ class FirDynamicMembersStorage(val session: FirSession) : FirSessionComponent {
             isCrossinline = false
             isNoinline = false
             isVararg = true
-            isClassArgument = false
+            isDataArgument = false
             isSealedArgument = false
         }
 

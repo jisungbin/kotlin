@@ -1126,6 +1126,12 @@ public class FirPsiDiagnosticTestGenerated extends AbstractFirPsiDiagnosticTest 
       }
 
       @Test
+      @TestMetadata("dataArguments.kt")
+      public void testDataArguments() {
+        runTest("compiler/fir/analysis-tests/testData/resolve/callResolution/dataArguments.kt");
+      }
+
+      @Test
       @TestMetadata("debugExpressionType.kt")
       public void testDebugExpressionType() {
         runTest("compiler/fir/analysis-tests/testData/resolve/callResolution/debugExpressionType.kt");
@@ -1213,6 +1219,12 @@ public class FirPsiDiagnosticTestGenerated extends AbstractFirPsiDiagnosticTest 
       @TestMetadata("safeCallOnTypeAlias.kt")
       public void testSafeCallOnTypeAlias() {
         runTest("compiler/fir/analysis-tests/testData/resolve/callResolution/safeCallOnTypeAlias.kt");
+      }
+
+      @Test
+      @TestMetadata("sealedArguments.kt")
+      public void testSealedArguments() {
+        runTest("compiler/fir/analysis-tests/testData/resolve/callResolution/sealedArguments.kt");
       }
 
       @Test
