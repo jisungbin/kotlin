@@ -96,7 +96,7 @@ class MppIncorrectCompileOnlyDependenciesValidationIT : KGPBaseTest() {
     @GradleTest
     @TestMetadata(value = "mpp-compile-only-dep")
     @GradleTestVersions(minVersion = VersionCatalogsMinimumGradleVersion)
-    fun `when project has commonMain compileOnly dependency, and is correctly exposed as an api dependency using version catalog dependency, expect no warning`(
+    fun `when commonMain compileOnly dependency is correctly exposed as an api dependency using version catalog dependency, expect no warning`(
         gradleVersion: GradleVersion,
     ) {
         project(
@@ -124,6 +124,44 @@ class MppIncorrectCompileOnlyDependenciesValidationIT : KGPBaseTest() {
 
             build("help", "--dry-run") {
                 output.assertNoDiagnostic(
+                    KotlinToolingDiagnostics.IncorrectCompileOnlyDependencyWarning
+                )
+            }
+        }
+    }
+
+    @GradleTest
+    @TestMetadata(value = "mpp-compile-only-dep")
+    @GradleTestVersions(minVersion = VersionCatalogsMinimumGradleVersion)
+    fun `when compileOnly dependency is external, and api dependency is project with the same coords, expect warning`(
+        gradleVersion: GradleVersion,
+    ) {
+        project(
+            projectName = "mpp-compile-only-dep",
+            gradleVersion = gradleVersion,
+        ) {
+            enableVersionCatalog()
+
+            subProject("demo-app").apply {
+                buildGradleKts.append(
+                    """
+                    |kotlin {
+                    |  sourceSets {
+                    |    commonMain.dependencies {
+                    |      api("kgp.it:demo-lib:1.2.3")
+                    |    }
+                    |    jsMain.dependencies {
+                    |      // Add an external dependency with same coords as `projects.demoLib`
+                    |      compileOnly(projects.demoLib)
+                    |    }
+                    |  }
+                    |}
+                    """.trimMargin()
+                )
+            }
+
+            build("help", "--dry-run") {
+                output.assertHasDiagnostic(
                     KotlinToolingDiagnostics.IncorrectCompileOnlyDependencyWarning
                 )
             }
