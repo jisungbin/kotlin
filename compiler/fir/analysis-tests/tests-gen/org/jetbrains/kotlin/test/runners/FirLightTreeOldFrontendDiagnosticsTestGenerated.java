@@ -26122,12 +26122,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
         }
 
         @Test
-        @TestMetadata("disabledFeature.kt")
-        public void testDisabledFeature() {
-          runTest("compiler/testData/diagnostics/tests/namedArguments/mixedNamedPosition/disabledFeature.kt");
-        }
-
-        @Test
         @TestMetadata("javaOverrideOfKotlinNamed.kt")
         public void testJavaOverrideOfKotlinNamed() {
           runTest("compiler/testData/diagnostics/tests/namedArguments/mixedNamedPosition/javaOverrideOfKotlinNamed.kt");
