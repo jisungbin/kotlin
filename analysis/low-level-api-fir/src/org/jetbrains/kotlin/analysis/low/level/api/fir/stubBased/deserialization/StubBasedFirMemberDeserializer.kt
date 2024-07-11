@@ -602,8 +602,8 @@ internal class StubBasedFirMemberDeserializer(
                 } else null
                 isCrossinline = ktParameter.hasModifier(KtTokens.CROSSINLINE_KEYWORD)
                 isNoinline = ktParameter.hasModifier(KtTokens.NOINLINE_KEYWORD)
-                isDataarg = ktParameter.hasModifier(KtTokens.DATAARG_KEYWORD)
-                isSealedarg = ktParameter.hasModifier(KtTokens.SEALEDARG_KEYWORD)
+                isClassArgument = ktParameter.hasModifier(KtTokens.CLASS_KEYWORD)
+                isSealedArgument = ktParameter.hasModifier(KtTokens.SEALED_KEYWORD)
                 annotations += c.annotationDeserializer.loadAnnotations(
                     ktParameter
                 )

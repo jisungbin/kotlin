@@ -53,12 +53,12 @@ data class ArgumentMapping(
                 is ResolvedCallArgument.VarargArgument -> resolvedArgument.arguments.forEach {
                     argumentToParameterMapping[it] = valueParameter
                 }
-                is ResolvedCallArgument.DataargArgument -> resolvedArgument.namedArguments.forEach { (dataargParam, dataArgValue) ->
-                    dataArgValue.arguments.forEach {
-                        argumentToParameterMapping[it] = dataargParam
+                is ResolvedCallArgument.ClassArgument -> resolvedArgument.namedArguments.forEach { (classArgParam, classArgValue) ->
+                    classArgValue.arguments.forEach {
+                        argumentToParameterMapping[it] = classArgParam
                     }
                 }
-                is ResolvedCallArgument.SealedargArgument ->
+                is ResolvedCallArgument.SealedArgument ->
                     argumentToParameterMapping[resolvedArgument.callArgument] = buildValueParameterCopy(valueParameter) {
                         returnTypeRef = resolvedArgument.typeRef
                     }
@@ -132,8 +132,8 @@ private class FirCallArgumentsProcessor(
     private var currentPositionedParameterIndex = 0
     private var varargArguments: MutableList<ConeResolutionAtom>? = null
     private var nameToParameter: Map<Name, FirValueParameter>? = null
-    private val dataargParameter: FirValueParameter? = parameters.singleOrNull { it.isDataarg }
-    private val dataargArguments: MutableMap<FirValueParameter, ResolvedCallArgument<ConeResolutionAtom>> = mutableMapOf()
+    private val classArgumentParameter: FirValueParameter? = parameters.singleOrNull { it.isClassArgument }
+    private val classArgumentArguments: MutableMap<FirValueParameter, ResolvedCallArgument<ConeResolutionAtom>> = mutableMapOf()
     private var namedDynamicArgumentsNamesImpl: MutableSet<Name>? = null
     private val namedDynamicArgumentsNames: MutableSet<Name>
         get() = namedDynamicArgumentsNamesImpl ?: mutableSetOf<Name>().also { namedDynamicArgumentsNamesImpl = it }
@@ -242,12 +242,12 @@ private class FirCallArgumentsProcessor(
         val stateAllowsMixedNamedAndPositionArguments = state != State.NAMED_ONLY_ARGUMENTS
         state = State.NAMED_ONLY_ARGUMENTS
 
-        val parameter = findParameterByName(argument)?.takeUnless { it.isDataarg }
-        val dataargsParameter = getDataargParameterByName(argument.name)
+        val parameter = findParameterByName(argument)?.takeUnless { it.isClassArgument }
+        val classArgumentParameter = getClassArgumentParameterByName(argument.name)
 
         when {
-            parameter != null && dataargsParameter != null -> {
-                addDiagnostic(ValueDataargsConflict(argument))
+            parameter != null && classArgumentParameter != null -> {
+                addDiagnostic(ValueClassArgumentConflict(argument))
                 return
             }
             parameter != null -> {
@@ -257,12 +257,12 @@ private class FirCallArgumentsProcessor(
                 }
                 result[parameter] = ResolvedCallArgument.SimpleArgument(atom)
             }
-            dataargsParameter != null -> {
-                dataargArguments[dataargsParameter]?.let {
+            classArgumentParameter != null -> {
+                classArgumentArguments[classArgumentParameter]?.let {
                     addDiagnostic(ArgumentPassedTwice(argument))
                     return
                 }
-                dataargArguments[dataargsParameter] = ResolvedCallArgument.SimpleArgument(atom)
+                classArgumentArguments[classArgumentParameter] = ResolvedCallArgument.SimpleArgument(atom)
             }
             else -> {
                 addDiagnostic(NameNotFound(argument, function))
@@ -344,17 +344,17 @@ private class FirCallArgumentsProcessor(
             }
         }
 
-        if (dataargParameter != null) {
-            for (parameter in getDataargConstructor()?.valueParameters.orEmpty()) {
-                if (!dataargArguments.contains(parameter)) {
-                    dataargArguments[parameter] = ResolvedCallArgument.DefaultArgument
+        if (classArgumentParameter != null) {
+            for (parameter in getClassArgumentConstructor()?.valueParameters.orEmpty()) {
+                if (!classArgumentArguments.contains(parameter)) {
+                    classArgumentArguments[parameter] = ResolvedCallArgument.DefaultArgument
                 }
             }
-            result[dataargParameter] = ResolvedCallArgument.DataargArgument(dataargArguments)
+            result[classArgumentParameter] = ResolvedCallArgument.ClassArgument(classArgumentArguments)
         }
 
         for (parameter in result.keys) {
-            if (!parameter.isSealedarg) continue
+            if (!parameter.isSealedArgument) continue
 
             val argument = result[parameter]
             if (argument !is ResolvedCallArgument.SimpleArgument) continue
@@ -365,9 +365,9 @@ private class FirCallArgumentsProcessor(
                 coneType != null && useSiteSession.typeContext.equalTypes(argumentType, coneType)
             }
             if (parameterType != null) {
-                result[parameter] = ResolvedCallArgument.SealedargArgument(argument.callArgument, parameterType)
+                result[parameter] = ResolvedCallArgument.SealedArgument(argument.callArgument, parameterType)
             } else {
-                addDiagnostic(SealedargsNoConstructor(argument.callArgument.expression))
+                addDiagnostic(SealedArgumentNoConstructor(argument.callArgument.expression))
             }
         }
     }
@@ -416,11 +416,11 @@ private class FirCallArgumentsProcessor(
         return nameToParameter!![name]
     }
 
-    private fun getDataargParameterByName(name: Name): FirValueParameter? =
-        getDataargConstructor()?.valueParameters?.find { it.name == name }
+    private fun getClassArgumentParameterByName(name: Name): FirValueParameter? =
+        getClassArgumentConstructor()?.valueParameters?.find { it.name == name }
 
-    private fun getDataargConstructor(): FirConstructor? {
-        val param = dataargParameter ?: return null
+    private fun getClassArgumentConstructor(): FirConstructor? {
+        val param = classArgumentParameter ?: return null
         val type = param.returnTypeRef.coneTypeSafe<ConeClassLikeType>() ?: return null
         val klass = (type.toSymbol(useSiteSession)?.fir as? FirClass) ?: return null
         val constructor = klass.primaryConstructorIfAny(useSiteSession) ?: return null

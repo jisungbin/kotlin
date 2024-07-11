@@ -1249,8 +1249,8 @@ fun <TBase, TSource : TBase, TParameter : TBase> FirRegularClassBuilder.createDa
                 isCrossinline = false
                 isNoinline = false
                 this.isVararg = isVararg(ktParameter)
-                this.isDataarg = false
-                this.isSealedarg = false
+                this.isClassArgument = false
+                this.isSealedArgument = false
                 addValueParameterAnnotations(ktParameter)
                 for (annotation in annotations) {
                     annotation.replaceUseSiteTarget(null)

@@ -1779,8 +1779,8 @@ class LightTreeRawFirDeclarationBuilder(
             isCrossinline = calculatedModifiers.hasCrossinline() || firValueParameter.isCrossinline
             isNoinline = calculatedModifiers.hasNoinline() || firValueParameter.isNoinline
             isVararg = calculatedModifiers.hasVararg() || firValueParameter.isVararg
-            isDataarg = calculatedModifiers.hasDataarg() || firValueParameter.isDataarg
-            isSealedarg = calculatedModifiers.hasSealedarg() || firValueParameter.isSealedarg
+            isClassArgument = calculatedModifiers.hasClassArgument() || firValueParameter.isClassArgument
+            isSealedArgument = calculatedModifiers.hasSealedArgument() || firValueParameter.isSealedArgument
             annotations += firValueParameter.annotations
             annotations += additionalAnnotations
         }

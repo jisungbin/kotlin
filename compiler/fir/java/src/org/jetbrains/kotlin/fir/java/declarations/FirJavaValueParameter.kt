@@ -109,10 +109,10 @@ class FirJavaValueParameter @FirImplementationDetail constructor(
     override val contextReceivers: List<FirContextReceiver>
         get() = emptyList()
 
-    override val isDataarg: Boolean
+    override val isClassArgument: Boolean
         get() = false
 
-    override val isSealedarg: Boolean
+    override val isSealedArgument: Boolean
         get() = false
 
     override fun <R, D> acceptChildren(visitor: FirVisitor<R, D>, data: D) {

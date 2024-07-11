@@ -104,9 +104,9 @@ open class Modifier(var modifiers: Long = ModifierFlag.NONE.value) {
 
     fun hasVararg(): Boolean = hasFlag(ModifierFlag.PARAMETER_VARARG)
 
-    fun hasDataarg(): Boolean = hasFlag(ModifierFlag.PARAMETER_DATAARG)
+    fun hasClassArgument(): Boolean = hasFlag(ModifierFlag.PARAMETER_CLASSARG)
 
-    fun hasSealedarg(): Boolean = hasFlag(ModifierFlag.PARAMETER_SEALEDARG)
+    fun hasSealedArgument(): Boolean = hasFlag(ModifierFlag.PARAMETER_SEALEDARG)
 
     fun hasNoinline(): Boolean = hasFlag(ModifierFlag.PARAMETER_NOINLINE)
 

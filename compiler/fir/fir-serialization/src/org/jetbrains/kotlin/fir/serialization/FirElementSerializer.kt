@@ -802,8 +802,8 @@ class FirElementSerializer private constructor(
             declaresDefaultValue,
             parameter.isCrossinline,
             parameter.isNoinline,
-            parameter.isDataarg,
-            parameter.isSealedarg,
+            parameter.isClassArgument,
+            parameter.isSealedArgument,
         )
         if (flags != builder.flags) {
             builder.flags = flags

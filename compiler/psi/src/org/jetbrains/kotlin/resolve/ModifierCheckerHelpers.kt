@@ -177,7 +177,8 @@ val possibleTargetMap = mapOf(
         KotlinTarget.MEMBER_PROPERTY,
         KotlinTarget.MEMBER_FUNCTION
     ),
-    SEALED_KEYWORD to EnumSet.of(KotlinTarget.CLASS_ONLY, KotlinTarget.INTERFACE),
+    CLASS_KEYWORD to EnumSet.of(KotlinTarget.VALUE_PARAMETER),
+    SEALED_KEYWORD to EnumSet.of(KotlinTarget.CLASS_ONLY, KotlinTarget.INTERFACE, KotlinTarget.VALUE_PARAMETER),
     INNER_KEYWORD to EnumSet.of(KotlinTarget.CLASS_ONLY),
     OVERRIDE_KEYWORD to EnumSet.of(KotlinTarget.MEMBER_PROPERTY, KotlinTarget.MEMBER_FUNCTION),
     PRIVATE_KEYWORD to defaultVisibilityTargets + KotlinTarget.BACKING_FIELD,
@@ -200,8 +201,6 @@ val possibleTargetMap = mapOf(
     OUT_KEYWORD to EnumSet.of(KotlinTarget.TYPE_PARAMETER, KotlinTarget.TYPE_PROJECTION),
     REIFIED_KEYWORD to EnumSet.of(KotlinTarget.TYPE_PARAMETER),
     VARARG_KEYWORD to EnumSet.of(KotlinTarget.VALUE_PARAMETER, KotlinTarget.PROPERTY_PARAMETER),
-    DATAARG_KEYWORD to EnumSet.of(KotlinTarget.VALUE_PARAMETER),
-    SEALEDARG_KEYWORD to EnumSet.of(KotlinTarget.VALUE_PARAMETER),
     COMPANION_KEYWORD to EnumSet.of(KotlinTarget.OBJECT),
     LATEINIT_KEYWORD to EnumSet.of(
         KotlinTarget.MEMBER_PROPERTY,

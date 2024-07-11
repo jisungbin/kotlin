@@ -693,8 +693,8 @@ open class PsiRawFirBuilder(
                 } else null
                 isCrossinline = hasModifier(CROSSINLINE_KEYWORD)
                 isNoinline = hasModifier(NOINLINE_KEYWORD)
-                isDataarg = hasModifier(DATAARG_KEYWORD)
-                isSealedarg = hasModifier(SEALEDARG_KEYWORD)
+                isClassArgument = hasModifier(CLASS_KEYWORD)
+                isSealedArgument = hasModifier(SEALED_KEYWORD)
                 containingFunctionSymbol = functionSymbol
                 annotations += additionalAnnotations
             }
@@ -1901,8 +1901,8 @@ open class PsiRawFirBuilder(
                             isCrossinline = false
                             isNoinline = false
                             isVararg = false
-                            isDataarg = false
-                            isSealedarg = false
+                            isClassArgument = false
+                            isSealedArgument = false
                         }
                         addDestructuringVariables(
                             destructuringVariables,

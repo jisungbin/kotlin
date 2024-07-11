@@ -661,8 +661,8 @@ object DIAGNOSTICS_LIST : DiagnosticList("FirErrors") {
         }
         val NAME_FOR_AMBIGUOUS_PARAMETER by error<KtValueArgument>(PositioningStrategy.NAME_OF_NAMED_ARGUMENT)
 
-        val VALUE_DATAARGS_CONFLICT by error<KtValueArgument>(PositioningStrategy.NAME_OF_NAMED_ARGUMENT)
-        val SEALEDARGS_NO_CONSTRUCTOR by error<PsiElement>()
+        val VALUE_CLASS_ARGUMENT_CONFLICT by error<KtValueArgument>(PositioningStrategy.NAME_OF_NAMED_ARGUMENT)
+        val SEALED_ARGUMENT_NO_CONSTRUCTOR by error<PsiElement>()
 
         val ASSIGNMENT_TYPE_MISMATCH by error<KtExpression> {
             parameter<ConeKotlinType>("expectedType")

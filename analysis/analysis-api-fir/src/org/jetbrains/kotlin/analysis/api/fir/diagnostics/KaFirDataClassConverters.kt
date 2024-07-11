@@ -2076,14 +2076,14 @@ internal val KT_DIAGNOSTIC_CONVERTER = KaDiagnosticConverterBuilder.buildConvert
             token,
         )
     }
-    add(FirErrors.VALUE_DATAARGS_CONFLICT) { firDiagnostic ->
-        ValueDataargsConflictImpl(
+    add(FirErrors.VALUE_CLASS_ARGUMENT_CONFLICT) { firDiagnostic ->
+        ValueClassArgumentConflictImpl(
             firDiagnostic as KtPsiDiagnostic,
             token,
         )
     }
-    add(FirErrors.SEALEDARGS_NO_CONSTRUCTOR) { firDiagnostic ->
-        SealedargsNoConstructorImpl(
+    add(FirErrors.SEALED_ARGUMENT_NO_CONSTRUCTOR) { firDiagnostic ->
+        SealedArgumentNoConstructorImpl(
             firDiagnostic as KtPsiDiagnostic,
             token,
         )

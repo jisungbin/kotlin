@@ -371,25 +371,25 @@ internal class AdapterGenerator(
                     }
                     irCall.putValueArgument(index, valueArgument)
                 }
-                is ResolvedCallArgument.DataargArgument -> {
+                is ResolvedCallArgument.ClassArgument -> {
                     irCall.putValueArgument(
                         index,
                         IrErrorExpressionImpl(
                             UNDEFINED_OFFSET,
                             UNDEFINED_OFFSET,
                             valueParameter.returnTypeRef.toIrType(c),
-                            "datarg constructor"
+                            "class argument constructor"
                         )
                     )
                 }
-                is ResolvedCallArgument.SealedargArgument -> {
+                is ResolvedCallArgument.SealedArgument -> {
                     irCall.putValueArgument(
                         index,
                         IrErrorExpressionImpl(
                             UNDEFINED_OFFSET,
                             UNDEFINED_OFFSET,
                             valueParameter.returnTypeRef.toIrType(c),
-                            "sealedarg constructor"
+                            "sealed argument constructor"
                         )
                     )
                 }

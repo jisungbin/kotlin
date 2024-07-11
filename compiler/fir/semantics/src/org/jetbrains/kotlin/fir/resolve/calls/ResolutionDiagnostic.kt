@@ -58,11 +58,11 @@ class ArgumentPassedTwice(
     override val argument: FirNamedArgumentExpression,
 ) : InapplicableArgumentDiagnostic()
 
-class ValueDataargsConflict(
+class ValueClassArgumentConflict(
     override val argument: FirNamedArgumentExpression,
 ) : InapplicableArgumentDiagnostic()
 
-class SealedargsNoConstructor(
+class SealedArgumentNoConstructor(
     override val argument: FirExpression,
 ) : InapplicableArgumentDiagnostic()
 

@@ -365,8 +365,8 @@ private fun mapInapplicableCandidateError(
                 qualifiedAccessSource ?: source,
                 rootCause.valueParameter.symbol
             )
-            is ValueDataargsConflict -> FirErrors.VALUE_DATAARGS_CONFLICT.createOn(rootCause.argument.source)
-            is SealedargsNoConstructor -> FirErrors.SEALEDARGS_NO_CONSTRUCTOR.createOn(rootCause.argument.source ?: source)
+            is ValueClassArgumentConflict -> FirErrors.VALUE_CLASS_ARGUMENT_CONFLICT.createOn(rootCause.argument.source)
+            is SealedArgumentNoConstructor -> FirErrors.SEALED_ARGUMENT_NO_CONSTRUCTOR.createOn(rootCause.argument.source ?: source)
 
             is NameNotFound -> FirErrors.NAMED_PARAMETER_NOT_FOUND.createOn(
                 rootCause.argument.source ?: source,

@@ -1783,15 +1783,15 @@ internal class NameForAmbiguousParameterImpl(
     token: KaLifetimeToken,
 ) : KaAbstractFirDiagnostic<KtValueArgument>(firDiagnostic, token), KaFirDiagnostic.NameForAmbiguousParameter
 
-internal class ValueDataargsConflictImpl(
+internal class ValueClassArgumentConflictImpl(
     firDiagnostic: KtPsiDiagnostic,
     token: KaLifetimeToken,
-) : KaAbstractFirDiagnostic<KtValueArgument>(firDiagnostic, token), KaFirDiagnostic.ValueDataargsConflict
+) : KaAbstractFirDiagnostic<KtValueArgument>(firDiagnostic, token), KaFirDiagnostic.ValueClassArgumentConflict
 
-internal class SealedargsNoConstructorImpl(
+internal class SealedArgumentNoConstructorImpl(
     firDiagnostic: KtPsiDiagnostic,
     token: KaLifetimeToken,
-) : KaAbstractFirDiagnostic<PsiElement>(firDiagnostic, token), KaFirDiagnostic.SealedargsNoConstructor
+) : KaAbstractFirDiagnostic<PsiElement>(firDiagnostic, token), KaFirDiagnostic.SealedArgumentNoConstructor
 
 internal class AssignmentTypeMismatchImpl(
     override val expectedType: KaType,
