@@ -11166,12 +11166,6 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
       }
 
       @Test
-      @TestMetadata("byteSmartCast_before.kt")
-      public void testByteSmartCast_before() {
-        runTest("compiler/testData/codegen/bytecodeText/intrinsicsCompare/byteSmartCast_before.kt");
-      }
-
-      @Test
       @TestMetadata("charSmartCast.kt")
       public void testCharSmartCast() {
         runTest("compiler/testData/codegen/bytecodeText/intrinsicsCompare/charSmartCast.kt");
@@ -11184,21 +11178,9 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
       }
 
       @Test
-      @TestMetadata("differentTypes_before.kt")
-      public void testDifferentTypes_before() {
-        runTest("compiler/testData/codegen/bytecodeText/intrinsicsCompare/differentTypes_before.kt");
-      }
-
-      @Test
       @TestMetadata("intSmartCast_after.kt")
       public void testIntSmartCast_after() {
         runTest("compiler/testData/codegen/bytecodeText/intrinsicsCompare/intSmartCast_after.kt");
-      }
-
-      @Test
-      @TestMetadata("intSmartCast_before.kt")
-      public void testIntSmartCast_before() {
-        runTest("compiler/testData/codegen/bytecodeText/intrinsicsCompare/intSmartCast_before.kt");
       }
 
       @Test
@@ -11211,12 +11193,6 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
       @TestMetadata("shortSmartCast_after.kt")
       public void testShortSmartCast_after() {
         runTest("compiler/testData/codegen/bytecodeText/intrinsicsCompare/shortSmartCast_after.kt");
-      }
-
-      @Test
-      @TestMetadata("shortSmartCast_before.kt")
-      public void testShortSmartCast_before() {
-        runTest("compiler/testData/codegen/bytecodeText/intrinsicsCompare/shortSmartCast_before.kt");
       }
     }
 
