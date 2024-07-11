@@ -823,11 +823,6 @@ public class IrWriteFlagsTestGenerated extends AbstractIrWriteFlagsTest {
     public void testOpenFunction() {
       runTest("compiler/testData/writeFlags/jvmOverloads/openFunction.kt");
     }
-
-    @TestMetadata("openFunction_1_3.kt")
-    public void testOpenFunction_1_3() {
-      runTest("compiler/testData/writeFlags/jvmOverloads/openFunction_1_3.kt");
-    }
   }
 
   @TestMetadata("compiler/testData/writeFlags/lambda")
