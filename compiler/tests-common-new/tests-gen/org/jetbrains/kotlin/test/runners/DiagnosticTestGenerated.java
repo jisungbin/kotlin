@@ -47599,12 +47599,6 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
       }
 
       @Test
-      @TestMetadata("overloadByLambdaReturnType_disabled.kt")
-      public void testOverloadByLambdaReturnType_disabled() {
-        runTest("compiler/testData/diagnostics/testsWithStdLib/factoryPattern/overloadByLambdaReturnType_disabled.kt");
-      }
-
-      @Test
       @TestMetadata("overloadByLambdaReturnType_enabled.kt")
       public void testOverloadByLambdaReturnType_enabled() {
         runTest("compiler/testData/diagnostics/testsWithStdLib/factoryPattern/overloadByLambdaReturnType_enabled.kt");
