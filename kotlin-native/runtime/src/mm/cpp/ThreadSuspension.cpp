@@ -108,7 +108,7 @@ bool kotlin::mm::TryRequestThreadsSuspension(internal::SuspensionReason reason) 
         if (internal::gSuspensionRequestReason.load(std::memory_order_relaxed) != nullptr) {
             return false;
         }
-        gSafePointActivator = mm::SafePointActivator();
+        gSafePointActivator = mm::SafePointActivator(reason);
         internal::gSuspensionRequestReason.store(reason);
     }
 

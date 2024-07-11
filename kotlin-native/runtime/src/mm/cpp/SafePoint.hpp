@@ -8,9 +8,10 @@
 #include <atomic>
 #include <utility>
 
-#include "Utils.hpp"
-#include "ThreadRegistry.hpp"
 #include "CallsChecker.hpp"
+#include "PauseRequestSignpost.hpp"
+#include "ThreadRegistry.hpp"
+#include "Utils.hpp"
 
 #include <shared_mutex>
 
@@ -20,21 +21,29 @@ class ThreadData;
 
 class SafePointActivator : private MoveOnly {
 public:
-    SafePointActivator() noexcept;
+    explicit SafePointActivator(const char* reason) noexcept;
     ~SafePointActivator();
 
-    SafePointActivator(SafePointActivator&& rhs) noexcept : active_(rhs.active_) { rhs.active_ = false; }
+    SafePointActivator(SafePointActivator&& rhs) noexcept :
+        active_(rhs.active_), pauseRequestSignpost_(std::move(rhs.pauseRequestSignpost_)) {
+        rhs.active_ = false;
+    }
 
     SafePointActivator& operator=(SafePointActivator&& rhs) noexcept {
         SafePointActivator other(std::move(rhs));
-        swap(other);
+        swap(*this, other);
         return *this;
     }
 
-    void swap(SafePointActivator& rhs) noexcept { std::swap(active_, rhs.active_); }
+    friend void swap(SafePointActivator& lhs, SafePointActivator& rhs) noexcept {
+        using std::swap;
+        swap(lhs.active_, rhs.active_);
+        swap(lhs.pauseRequestSignpost_, rhs.pauseRequestSignpost_);
+    }
 
 private:
     bool active_;
+    std::optional<PauseRequestSignpost> pauseRequestSignpost_;
 };
 
 void safePoint(std::memory_order fastPathOrder = std::memory_order_relaxed) noexcept;
@@ -68,7 +77,7 @@ public:
         return active_.load(std::memory_order_relaxed);
     }
 
-    ExtraSafePointActionActivator() noexcept {
+    explicit ExtraSafePointActionActivator(const char* reason) noexcept : safePointActivator_(reason) {
         std::unique_lock lock(mutex_);
         active_.store(true, std::memory_order_relaxed);
     }
@@ -79,7 +88,7 @@ private:
     [[clang::no_destroy]] inline static std::shared_mutex mutex_{};
     inline static std::atomic<bool> active_ = false;
 
-    SafePointActivator safePointActivator_{};
+    SafePointActivator safePointActivator_;
 };
 
 template <typename Impl>

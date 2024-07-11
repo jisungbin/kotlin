@@ -50,7 +50,7 @@ void gcScheduler::internal::MutatorAssists::requestAssists(Epoch epoch) noexcept
 
     RuntimeLogDebug({kTagGC}, "Enabling assists for epoch %" PRId64, epoch);
     if (!safePointActivator_) {
-        safePointActivator_ = mm::SafePointActivator();
+        safePointActivator_ = mm::SafePointActivator("Mutator assists");
     }
 }
 

@@ -92,7 +92,7 @@ private:
     EpochScheduler scheduleGC_;
     HeapGrowthController heapGrowthController_;
     SafePointTracker<> safePointTracker_;
-    mm::SafePointActivator safePointActivator_;
+    mm::SafePointActivator safePointActivator_{"Aggressive GC"};
     MutatorAssists mutatorAssists_;
 };
 

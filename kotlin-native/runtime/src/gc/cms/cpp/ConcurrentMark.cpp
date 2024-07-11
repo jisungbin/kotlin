@@ -14,7 +14,10 @@ using namespace kotlin;
 
 namespace {
 
-class FlushActionActivator final : public mm::ExtraSafePointActionActivator<FlushActionActivator> {};
+class FlushActionActivator final : public mm::ExtraSafePointActionActivator<FlushActionActivator> {
+public:
+    FlushActionActivator() noexcept : ExtraSafePointActionActivator("Mark termination") {}
+};
 
 } // namespace
 
