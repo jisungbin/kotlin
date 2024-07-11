@@ -272,12 +272,16 @@ class CacheBuilder(
                 lockFile.delete()
         } catch (t: FileAlreadyExistsException) {
             var ok = false
-            for (i in 0..<120) {
-                if (!lockFile.exists) {
-                    ok = true
-                    break
+            try {
+                for (i in 0..<120) {
+                    if (!lockFile.exists) {
+                        ok = true
+                        break
+                    }
+                    Thread.sleep(1000)
                 }
-                Thread.sleep(1000)
+            } finally {
+                lockFile.delete() // It checks that file actually exists.
             }
             if (ok && libraryCache.exists) {
                 cacheRootDirectories[library] = libraryCache.absolutePath
@@ -285,7 +289,6 @@ class CacheBuilder(
                 configuration.report(CompilerMessageSeverity.WARNING,
                         "Failed to wait for cache to be built\n" +
                                 "Falling back to not use cache for ${library.libraryName}")
-                lockFile.delete()
             }
         }
     }
