@@ -1840,12 +1840,6 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
     }
 
     @Test
-    @TestMetadata("unproperDefaultInitializationInTailrec.kt")
-    public void testUnproperDefaultInitializationInTailrec() {
-      runTest("compiler/testData/diagnostics/tests/unproperDefaultInitializationInTailrec.kt");
-    }
-
-    @Test
     @TestMetadata("Unresolved.kt")
     public void testUnresolved() {
       runTest("compiler/testData/diagnostics/tests/Unresolved.kt");

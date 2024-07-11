@@ -18428,12 +18428,6 @@ public class BlackBoxCodegenTestGenerated extends AbstractBlackBoxCodegenTest {
         }
 
         @Test
-        @TestMetadata("defaultArgsWithSideEffectsOld.kt")
-        public void testDefaultArgsWithSideEffectsOld() {
-          runTest("compiler/testData/codegen/box/diagnostics/functions/tailRecursion/defaultArgsWithSideEffectsOld.kt");
-        }
-
-        @Test
         @TestMetadata("extensionTailCall.kt")
         public void testExtensionTailCall() {
           runTest("compiler/testData/codegen/box/diagnostics/functions/tailRecursion/extensionTailCall.kt");
