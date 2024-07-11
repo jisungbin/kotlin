@@ -281,6 +281,8 @@ class CacheBuilder(
                     Thread.sleep(1000)
                 }
             } finally {
+                // Remove file just in case if the process building the cache crashed,
+                // otherwise the next build will hang here for 2 minutes for no reason.
                 lockFile.delete() // It checks that file actually exists.
             }
             if (ok && libraryCache.exists) {
