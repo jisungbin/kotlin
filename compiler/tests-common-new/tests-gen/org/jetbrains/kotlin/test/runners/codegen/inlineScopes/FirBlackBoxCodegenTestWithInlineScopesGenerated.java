@@ -21516,12 +21516,6 @@ public class FirBlackBoxCodegenTestWithInlineScopesGenerated extends AbstractFir
     }
 
     @Test
-    @TestMetadata("kt31923_wrong.kt")
-    public void testKt31923_wrong() {
-      runTest("compiler/testData/codegen/box/finally/kt31923_wrong.kt");
-    }
-
-    @Test
     @TestMetadata("kt3549.kt")
     public void testKt3549() {
       runTest("compiler/testData/codegen/box/finally/kt3549.kt");

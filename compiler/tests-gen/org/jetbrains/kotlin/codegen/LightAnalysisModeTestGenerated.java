@@ -17953,11 +17953,6 @@ public class LightAnalysisModeTestGenerated extends AbstractLightAnalysisModeTes
       runTest("compiler/testData/codegen/box/finally/kt31923_return.kt");
     }
 
-    @TestMetadata("kt31923_wrong.kt")
-    public void testKt31923_wrong() {
-      runTest("compiler/testData/codegen/box/finally/kt31923_wrong.kt");
-    }
-
     @TestMetadata("kt3549.kt")
     public void testKt3549() {
       runTest("compiler/testData/codegen/box/finally/kt3549.kt");

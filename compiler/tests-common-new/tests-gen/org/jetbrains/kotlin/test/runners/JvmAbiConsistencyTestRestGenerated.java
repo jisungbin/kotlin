@@ -3814,12 +3814,6 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
           }
 
           @Test
-          @TestMetadata("kt31923_wrong.kt")
-          public void testKt31923_wrong() {
-            runTest("compiler/testData/codegen/boxInline/nonLocalReturns/tryFinally/exceptionTable/kt31923_wrong.kt");
-          }
-
-          @Test
           @TestMetadata("nested.kt")
           public void testNested() {
             runTest("compiler/testData/codegen/boxInline/nonLocalReturns/tryFinally/exceptionTable/nested.kt");
