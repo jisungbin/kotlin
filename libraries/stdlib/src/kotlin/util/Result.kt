@@ -54,7 +54,7 @@ public value class Result<out T> @PublishedApi internal constructor(
         }
 
     @InlineOnly
-    public inline val result: T get() = getOrNull()!!
+    public inline val result: T get() = value as T
 
     /**
      * Returns the encapsulated [Throwable] exception if this instance represents [failure][isFailure] or `null`

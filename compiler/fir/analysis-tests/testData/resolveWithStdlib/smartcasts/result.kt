@@ -23,6 +23,9 @@ fun branchThrowReverse(r: Result<String>): Throwable =
 fun incorrectNoCheck(r: Result<Int>): Int =
     <!UNSAFE_RESULT!>r.result<!>
 
+fun unreachable(r: Result<Int>): Int =
+    if (r.isSuccess && r.isFailure) 0 else 1
+
 @OptIn(ExperimentalContracts::class)
 fun correct(r: Result<Int>): Boolean {
     contract {

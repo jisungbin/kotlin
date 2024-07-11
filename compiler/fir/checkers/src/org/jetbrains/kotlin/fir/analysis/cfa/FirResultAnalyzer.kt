@@ -13,8 +13,10 @@ import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors
 import org.jetbrains.kotlin.fir.declarations.FirControlFlowGraphOwner
 import org.jetbrains.kotlin.fir.references.toResolvedVariableSymbol
+import org.jetbrains.kotlin.fir.resolve.dfa.DataFlowInfo
 import org.jetbrains.kotlin.fir.resolve.dfa.RealVariable
 import org.jetbrains.kotlin.fir.resolve.dfa.ResultStatement
+import org.jetbrains.kotlin.fir.resolve.dfa.cfg.CFGNode
 import org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraph
 import org.jetbrains.kotlin.fir.resolve.dfa.cfg.QualifiedAccessNode
 import org.jetbrains.kotlin.fir.resolve.dfa.dataFlowInfo
@@ -24,22 +26,23 @@ object FirResultAnalyzer : FirControlFlowChecker(MppCheckerKind.Common) {
     override fun analyze(graph: ControlFlowGraph, reporter: DiagnosticReporter, context: CheckerContext) {
         val variableInfo = (graph.declaration as? FirControlFlowGraphOwner)?.controlFlowGraphReference?.dataFlowInfo ?: return
         for (node in graph.nodes) {
-            if (node !is QualifiedAccessNode) continue
-            val fir = node.fir
-
-            val callableId = fir.calleeReference.toResolvedVariableSymbol()?.callableId ?: continue
-            val required = when (callableId) {
-                StandardClassIds.Callables.result -> ResultStatement.SUCCESS
-                StandardClassIds.Callables.exception -> ResultStatement.FAILURE
-                else -> continue
-            }
-
-            val realVariable = fir.dispatchReceiver?.let { variableInfo.variableStorage.get(it) { v, _ -> v } } as? RealVariable
-            val actual = realVariable?.let { node.flow.getTypeStatement(it) }?.resultStatement ?: ResultStatement.UNKNOWN
-            if (required != actual) {
-                reporter.reportOn(fir.source, FirErrors.UNSAFE_RESULT, context)
-            }
+            checkUnsafe(variableInfo, node, reporter, context)
         }
     }
 
+    private fun checkUnsafe(variableInfo: DataFlowInfo, node: CFGNode<*>, reporter: DiagnosticReporter, context: CheckerContext) {
+        val fir = (node as? QualifiedAccessNode)?.fir ?: return
+        val callableId = fir.calleeReference.toResolvedVariableSymbol()?.callableId ?: return
+        val required = when (callableId) {
+            StandardClassIds.Callables.result -> ResultStatement.SUCCESS
+            StandardClassIds.Callables.exception -> ResultStatement.FAILURE
+            else -> return
+        }
+
+        val realVariable = fir.dispatchReceiver?.let { variableInfo.variableStorage.get(it) { v, _ -> v } } as? RealVariable
+        val actual = realVariable?.let { node.flow.getTypeStatement(it) }?.resultStatement ?: ResultStatement.UNKNOWN
+        if (required != actual) {
+            reporter.reportOn(fir.source, FirErrors.UNSAFE_RESULT, context)
+        }
+    }
 }
