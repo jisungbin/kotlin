@@ -178,12 +178,6 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
     }
 
     @Test
-    @TestMetadata("BreakContinueInWhen_before.kt")
-    public void testBreakContinueInWhen_before() {
-      runTest("compiler/testData/diagnostics/tests/BreakContinueInWhen_before.kt");
-    }
-
-    @Test
     @TestMetadata("Builders.kt")
     public void testBuilders() {
       runTest("compiler/testData/diagnostics/tests/Builders.kt");
