@@ -1702,12 +1702,6 @@ public class DiagnosticCompilerTestFE10TestdataTestGenerated extends AbstractDia
     }
 
     @Test
-    @TestMetadata("tailRecOnVirtualMember.kt")
-    public void testTailRecOnVirtualMember() {
-      runTest("compiler/testData/diagnostics/tests/tailRecOnVirtualMember.kt");
-    }
-
-    @Test
     @TestMetadata("tailRecOnVirtualMemberError.kt")
     public void testTailRecOnVirtualMemberError() {
       runTest("compiler/testData/diagnostics/tests/tailRecOnVirtualMemberError.kt");
