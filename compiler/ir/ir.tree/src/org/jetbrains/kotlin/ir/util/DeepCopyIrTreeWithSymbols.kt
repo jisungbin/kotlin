@@ -422,7 +422,7 @@ open class DeepCopyIrTreeWithSymbols(
     override fun visitConst(expression: IrConst): IrConst =
         expression.shallowCopyConst().processAttributes(expression)
 
-    private fun IrConst.shallowCopyConst() = IrConstImpl(startOffset, endOffset, type.remapType(), kind, value)
+    private fun IrConst.shallowCopyConst() = IrConstImpl(null, startOffset, endOffset, type.remapType(), kind, value)
 
     override fun visitConstantObject(expression: IrConstantObject): IrConstantValue =
         IrConstantObjectImpl(
