@@ -58133,12 +58133,6 @@ public class LLFirReversedBlackBoxCodegenBasedTestGenerated extends AbstractLLFi
     }
 
     @Test
-    @TestMetadata("delegationAndThrows_1_3.kt")
-    public void testDelegationAndThrows_1_3() {
-      runTest("compiler/testData/codegen/box/throws/delegationAndThrows_1_3.kt");
-    }
-
-    @Test
     @TestMetadata("delegationAndThrows_AgainstCompiled.kt")
     public void testDelegationAndThrows_AgainstCompiled() {
       runTest("compiler/testData/codegen/box/throws/delegationAndThrows_AgainstCompiled.kt");
