@@ -21431,12 +21431,6 @@ public class LLFirPreresolvedReversedDiagnosticCompilerFE10TestDataTestGenerated
       }
 
       @Test
-      @TestMetadata("returnedAnonymousObjects.kt")
-      public void testReturnedAnonymousObjects() {
-        runTest("compiler/testData/diagnostics/tests/inline/returnedAnonymousObjects.kt");
-      }
-
-      @Test
       @TestMetadata("returnedAnonymousObjects_2.kt")
       public void testReturnedAnonymousObjects_2() {
         runTest("compiler/testData/diagnostics/tests/inline/returnedAnonymousObjects_2.kt");
