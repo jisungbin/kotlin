@@ -31492,12 +31492,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
         }
 
         @Test
-        @TestMetadata("annotatedFunctionType_1_4.kt")
-        public void testAnnotatedFunctionType_1_4() {
-          runTest("compiler/testData/diagnostics/tests/resolve/dslMarker/annotatedFunctionType_1_4.kt");
-        }
-
-        @Test
         @TestMetadata("annotatedTypeArgument.kt")
         public void testAnnotatedTypeArgument() {
           runTest("compiler/testData/diagnostics/tests/resolve/dslMarker/annotatedTypeArgument.kt");
