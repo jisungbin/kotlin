@@ -44960,12 +44960,6 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
         }
 
         @Test
-        @TestMetadata("jvmOverloadsOnAnnotationClassConstructor_1_3.kt")
-        public void testJvmOverloadsOnAnnotationClassConstructor_1_3() {
-          runTest("compiler/testData/diagnostics/testsWithStdLib/annotations/jvmOverloads/jvmOverloadsOnAnnotationClassConstructor_1_3.kt");
-        }
-
-        @Test
         @TestMetadata("jvmOverloadsOnAnnotationClassConstructor_1_4.kt")
         public void testJvmOverloadsOnAnnotationClassConstructor_1_4() {
           runTest("compiler/testData/diagnostics/testsWithStdLib/annotations/jvmOverloads/jvmOverloadsOnAnnotationClassConstructor_1_4.kt");
