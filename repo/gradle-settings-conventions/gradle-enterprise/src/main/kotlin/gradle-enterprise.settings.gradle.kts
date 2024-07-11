@@ -28,20 +28,26 @@ gradleEnterprise {
             termsOfServiceAgree = "yes"
         }
 
-        val overridenName = (buildProperties.getOrNull("kotlin.build.scan.username") as? String)?.trim()
+        val overriddenUsername = (buildProperties.getOrNull("kotlin.build.scan.username") as? String)?.trim()
+        val overriddenHostname = (buildProperties.getOrNull("kotlin.build.scan.hostname") as? String)?.trim()
         val isTeamCity = buildProperties.isTeamcityBuild
         if (buildProperties.isJpsBuildEnabled) {
             tag("JPS")
         }
         obfuscation {
             ipAddresses { _ -> listOf("0.0.0.0") }
-            hostname { _ -> "concealed" }
+            hostname { _ ->
+                when {
+                    overriddenHostname != null -> overriddenHostname
+                    else -> "concealed"
+                }
+            }
             username { originalUsername ->
                 when {
                     isTeamCity -> "TeamCity"
-                    overridenName == null || overridenName.isEmpty() -> "concealed"
-                    overridenName == "<default>" -> originalUsername
-                    else -> overridenName
+                    overriddenUsername.isNullOrEmpty() -> "concealed"
+                    overriddenUsername == "<default>" -> originalUsername
+                    else -> overriddenUsername
                 }
             }
         }
