@@ -15990,12 +15990,6 @@ public class LLFirPreresolvedReversedDiagnosticCompilerFE10TestDataTestGenerated
         }
 
         @Test
-        @TestMetadata("GenericArrayAsReifiedArgumentWarning.kt")
-        public void testGenericArrayAsReifiedArgumentWarning() {
-          runTest("compiler/testData/diagnostics/tests/generics/tpAsReified/GenericArrayAsReifiedArgumentWarning.kt");
-        }
-
-        @Test
         @TestMetadata("GenericAsReifiedArgument.kt")
         public void testGenericAsReifiedArgument() {
           runTest("compiler/testData/diagnostics/tests/generics/tpAsReified/GenericAsReifiedArgument.kt");
