@@ -23782,12 +23782,6 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
         public void testSpreadOperator_after() {
           runTest("compiler/testData/diagnostics/tests/j+k/polymorphicSignature/spreadOperator_after.kt");
         }
-
-        @Test
-        @TestMetadata("spreadOperator_before.kt")
-        public void testSpreadOperator_before() {
-          runTest("compiler/testData/diagnostics/tests/j+k/polymorphicSignature/spreadOperator_before.kt");
-        }
       }
 
       @Nested
