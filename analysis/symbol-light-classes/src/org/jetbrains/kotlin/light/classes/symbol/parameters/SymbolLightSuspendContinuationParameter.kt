@@ -47,7 +47,8 @@ internal class SymbolLightSuspendContinuationParameter(
             ktType.asPsiType(
                 this,
                 allowErrorTypes = true,
-                getTypeMappingMode(ktType)
+                getTypeMappingMode(ktType),
+                forceValueClassResolution = false,
             ) ?: nonExistentType()
         }
     }

@@ -83,6 +83,7 @@ internal abstract class SymbolLightParameterCommon(
                     allowErrorTypes = true,
                     getTypeMappingMode(ktType),
                     suppressWildcards = parameterSymbol.suppressWildcardMode(),
+                    forceValueClassResolution = false,
                 )
             } ?: nonExistentType()
 

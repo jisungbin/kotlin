@@ -233,6 +233,7 @@ internal class SymbolLightSimpleMethod(
                 typeMappingMode,
                 this@SymbolLightSimpleMethod.containingClass.isAnnotationType,
                 suppressWildcards = suppressWildcards(),
+                forceValueClassResolution = isTopLevel || functionSymbol.hasJvmNameAnnotation(),
             )
         } ?: nonExistentType()
     }
