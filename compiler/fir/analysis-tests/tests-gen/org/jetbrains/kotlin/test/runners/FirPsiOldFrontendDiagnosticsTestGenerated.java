@@ -12817,12 +12817,6 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
       }
 
       @Test
-      @TestMetadata("secondaryConstructorWithoutDelegatingToPrimaryOne.kt")
-      public void testSecondaryConstructorWithoutDelegatingToPrimaryOne() {
-        runTest("compiler/testData/diagnostics/tests/enum/secondaryConstructorWithoutDelegatingToPrimaryOne.kt");
-      }
-
-      @Test
       @TestMetadata("secondaryConstructorWithoutDelegatingToPrimaryOneWithEnabledFeature.kt")
       public void testSecondaryConstructorWithoutDelegatingToPrimaryOneWithEnabledFeature() {
         runTest("compiler/testData/diagnostics/tests/enum/secondaryConstructorWithoutDelegatingToPrimaryOneWithEnabledFeature.kt");
