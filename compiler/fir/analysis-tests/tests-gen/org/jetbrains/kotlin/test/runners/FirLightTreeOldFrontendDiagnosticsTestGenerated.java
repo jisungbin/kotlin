@@ -14261,12 +14261,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
       }
 
       @Test
-      @TestMetadata("basicFunInterfaceDisabled.kt")
-      public void testBasicFunInterfaceDisabled() {
-        runTest("compiler/testData/diagnostics/tests/funInterface/basicFunInterfaceDisabled.kt");
-      }
-
-      @Test
       @TestMetadata("funInterfaceConstructorReferences_after.kt")
       public void testFunInterfaceConstructorReferences_after() {
         runTest("compiler/testData/diagnostics/tests/funInterface/funInterfaceConstructorReferences_after.kt");
