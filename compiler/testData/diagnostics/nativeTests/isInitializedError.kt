@@ -15,7 +15,7 @@ package kotlin
 import kotlin.internal.AccessibleLateinitPropertyLiteral
 import kotlin.reflect.KProperty0
 
-inline val @receiver:AccessibleLateinitPropertyLiteral KProperty0<*>.isInitialized: Boolean
+val @receiver:AccessibleLateinitPropertyLiteral KProperty0<*>.isInitialized: Boolean
     get() = true
 
 
