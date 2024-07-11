@@ -1,16 +1,18 @@
+// LANGUAGE: +ValueClasses
 // WITH_STDLIB
-// LANGUAGE: -MangleClassMembersReturningInlineClasses +ValueClasses
+// TARGET_BACKEND: JVM
 // WORKS_WHEN_VALUE_CLASS
 
 OPTIONAL_JVM_INLINE_ANNOTATION
 value class S(val x: String)
 
 class Test {
-    fun getO() = S("O")
-    val k = S("K")
+    @Suppress("INAPPLICABLE_JVM_NAME")
+    @JvmName("getO")
+    fun getOK() = S("OK")
 }
 
 fun box(): String {
     val t = Test()
-    return t.getO().x + t.k.x
+    return t.getOK().x
 }

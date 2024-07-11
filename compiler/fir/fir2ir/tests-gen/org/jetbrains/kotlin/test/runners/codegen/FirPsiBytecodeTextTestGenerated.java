@@ -3989,12 +3989,6 @@ public class FirPsiBytecodeTextTestGenerated extends AbstractFirPsiBytecodeTextT
     }
 
     @Test
-    @TestMetadata("noReturnTypeMangling.kt")
-    public void testNoReturnTypeMangling() {
-      runTest("compiler/testData/codegen/bytecodeText/inlineClasses/noReturnTypeMangling.kt");
-    }
-
-    @Test
     @TestMetadata("nonOverridingMethodsAreCalledByInlineClass.kt")
     public void testNonOverridingMethodsAreCalledByInlineClass() {
       runTest("compiler/testData/codegen/bytecodeText/inlineClasses/nonOverridingMethodsAreCalledByInlineClass.kt");
@@ -4130,6 +4124,12 @@ public class FirPsiBytecodeTextTestGenerated extends AbstractFirPsiBytecodeTextT
     @TestMetadata("unboxMethodCalledByInlineClass.kt")
     public void testUnboxMethodCalledByInlineClass() {
       runTest("compiler/testData/codegen/bytecodeText/inlineClasses/unboxMethodCalledByInlineClass.kt");
+    }
+
+    @Test
+    @TestMetadata("withReturnTypeMangling.kt")
+    public void testWithReturnTypeMangling() {
+      runTest("compiler/testData/codegen/bytecodeText/inlineClasses/withReturnTypeMangling.kt");
     }
   }
 

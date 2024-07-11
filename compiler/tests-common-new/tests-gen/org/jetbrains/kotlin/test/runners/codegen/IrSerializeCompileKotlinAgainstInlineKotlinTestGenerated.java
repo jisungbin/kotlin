@@ -2699,24 +2699,6 @@ public class IrSerializeCompileKotlinAgainstInlineKotlinTestGenerated extends Ab
     }
 
     @Test
-    @TestMetadata("noReturnTypeManglingFun.kt")
-    public void testNoReturnTypeManglingFun() {
-      runTest("compiler/testData/codegen/boxInline/inlineClasses/noReturnTypeManglingFun.kt");
-    }
-
-    @Test
-    @TestMetadata("noReturnTypeManglingFunJvmName.kt")
-    public void testNoReturnTypeManglingFunJvmName() {
-      runTest("compiler/testData/codegen/boxInline/inlineClasses/noReturnTypeManglingFunJvmName.kt");
-    }
-
-    @Test
-    @TestMetadata("noReturnTypeManglingVal.kt")
-    public void testNoReturnTypeManglingVal() {
-      runTest("compiler/testData/codegen/boxInline/inlineClasses/noReturnTypeManglingVal.kt");
-    }
-
-    @Test
     @TestMetadata("withReturnTypeManglingFun.kt")
     public void testWithReturnTypeManglingFun() {
       runTest("compiler/testData/codegen/boxInline/inlineClasses/withReturnTypeManglingFun.kt");

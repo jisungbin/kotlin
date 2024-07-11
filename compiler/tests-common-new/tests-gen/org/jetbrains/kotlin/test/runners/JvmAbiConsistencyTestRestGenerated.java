@@ -2702,24 +2702,6 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
       }
 
       @Test
-      @TestMetadata("noReturnTypeManglingFun.kt")
-      public void testNoReturnTypeManglingFun() {
-        runTest("compiler/testData/codegen/boxInline/inlineClasses/noReturnTypeManglingFun.kt");
-      }
-
-      @Test
-      @TestMetadata("noReturnTypeManglingFunJvmName.kt")
-      public void testNoReturnTypeManglingFunJvmName() {
-        runTest("compiler/testData/codegen/boxInline/inlineClasses/noReturnTypeManglingFunJvmName.kt");
-      }
-
-      @Test
-      @TestMetadata("noReturnTypeManglingVal.kt")
-      public void testNoReturnTypeManglingVal() {
-        runTest("compiler/testData/codegen/boxInline/inlineClasses/noReturnTypeManglingVal.kt");
-      }
-
-      @Test
       @TestMetadata("withReturnTypeManglingFun.kt")
       public void testWithReturnTypeManglingFun() {
         runTest("compiler/testData/codegen/boxInline/inlineClasses/withReturnTypeManglingFun.kt");
@@ -10886,12 +10868,6 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
       }
 
       @Test
-      @TestMetadata("noReturnTypeMangling.kt")
-      public void testNoReturnTypeMangling() {
-        runTest("compiler/testData/codegen/bytecodeText/inlineClasses/noReturnTypeMangling.kt");
-      }
-
-      @Test
       @TestMetadata("nonOverridingMethodsAreCalledByInlineClass.kt")
       public void testNonOverridingMethodsAreCalledByInlineClass() {
         runTest("compiler/testData/codegen/bytecodeText/inlineClasses/nonOverridingMethodsAreCalledByInlineClass.kt");
@@ -11027,6 +11003,12 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
       @TestMetadata("unboxMethodCalledByInlineClass.kt")
       public void testUnboxMethodCalledByInlineClass() {
         runTest("compiler/testData/codegen/bytecodeText/inlineClasses/unboxMethodCalledByInlineClass.kt");
+      }
+
+      @Test
+      @TestMetadata("withReturnTypeMangling.kt")
+      public void testWithReturnTypeMangling() {
+        runTest("compiler/testData/codegen/bytecodeText/inlineClasses/withReturnTypeMangling.kt");
       }
     }
 
@@ -14940,12 +14922,6 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
         @TestMetadata("new.kt")
         public void testNew() {
           runTest("compiler/testData/codegen/bytecodeListing/inlineClasses/stdlibManglingIn1430/new.kt");
-        }
-
-        @Test
-        @TestMetadata("old.kt")
-        public void testOld() {
-          runTest("compiler/testData/codegen/bytecodeListing/inlineClasses/stdlibManglingIn1430/old.kt");
         }
       }
     }

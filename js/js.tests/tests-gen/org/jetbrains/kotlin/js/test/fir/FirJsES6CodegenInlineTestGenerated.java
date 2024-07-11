@@ -2375,18 +2375,6 @@ public class FirJsES6CodegenInlineTestGenerated extends AbstractFirJsES6CodegenI
     }
 
     @Test
-    @TestMetadata("noReturnTypeManglingFun.kt")
-    public void testNoReturnTypeManglingFun() {
-      runTest("compiler/testData/codegen/boxInline/inlineClasses/noReturnTypeManglingFun.kt");
-    }
-
-    @Test
-    @TestMetadata("noReturnTypeManglingVal.kt")
-    public void testNoReturnTypeManglingVal() {
-      runTest("compiler/testData/codegen/boxInline/inlineClasses/noReturnTypeManglingVal.kt");
-    }
-
-    @Test
     @TestMetadata("withReturnTypeManglingFun.kt")
     public void testWithReturnTypeManglingFun() {
       runTest("compiler/testData/codegen/boxInline/inlineClasses/withReturnTypeManglingFun.kt");

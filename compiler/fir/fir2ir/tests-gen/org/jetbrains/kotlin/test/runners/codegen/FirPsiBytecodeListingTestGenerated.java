@@ -1828,12 +1828,6 @@ public class FirPsiBytecodeListingTestGenerated extends AbstractFirPsiBytecodeLi
       public void testNew() {
         runTest("compiler/testData/codegen/bytecodeListing/inlineClasses/stdlibManglingIn1430/new.kt");
       }
-
-      @Test
-      @TestMetadata("old.kt")
-      public void testOld() {
-        runTest("compiler/testData/codegen/bytecodeListing/inlineClasses/stdlibManglingIn1430/old.kt");
-      }
     }
   }
 

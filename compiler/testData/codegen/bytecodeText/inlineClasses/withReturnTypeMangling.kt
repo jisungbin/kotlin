@@ -1,4 +1,4 @@
-// LANGUAGE: +InlineClasses -MangleClassMembersReturningInlineClasses
+// LANGUAGE: +InlineClasses
 
 inline class S(val x: String)
 
@@ -12,5 +12,5 @@ fun box(): String {
     return t.getO().x + t.k.x
 }
 
-// 1 public final getO\(\)Ljava/lang/String;
-// 1 public final getK\(\)Ljava/lang/String;
+// 0 public final getO\(\)Ljava/lang/String;
+// 0 public final getK\(\)Ljava/lang/String;
