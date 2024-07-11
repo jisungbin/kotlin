@@ -40529,12 +40529,6 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
       }
 
       @Test
-      @TestMetadata("invisibleSetterOfJavaClassWithDisabledFeature.kt")
-      public void testInvisibleSetterOfJavaClassWithDisabledFeature() {
-        runTest("compiler/testData/diagnostics/tests/visibility/invisibleSetterOfJavaClassWithDisabledFeature.kt");
-      }
-
-      @Test
       @TestMetadata("javaInterfaceFieldDirectAccess.kt")
       public void testJavaInterfaceFieldDirectAccess() {
         runTest("compiler/testData/diagnostics/tests/visibility/javaInterfaceFieldDirectAccess.kt");
