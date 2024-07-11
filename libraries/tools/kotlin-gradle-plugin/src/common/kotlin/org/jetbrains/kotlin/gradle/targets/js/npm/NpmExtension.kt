@@ -23,6 +23,7 @@ open class NpmExtension(
 ) : ConfigurationPhaseAware<NpmEnv>(), NpmApiExtension<NpmEnvironment, Npm> {
     init {
         check(project == project.rootProject)
+        project.logger.kotlinInfo("Storing cached files in ${project.gradle.gradleUserHomeDir}")
     }
 
     override val packageManager: Npm by lazy {
