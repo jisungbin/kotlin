@@ -54644,12 +54644,6 @@ public class FirLightTreeBlackBoxCodegenTestGenerated extends AbstractFirLightTr
     }
 
     @Test
-    @TestMetadata("arrayAsVarargAfterSamArgument.kt")
-    public void testArrayAsVarargAfterSamArgument() {
-      runTest("compiler/testData/codegen/box/sam/arrayAsVarargAfterSamArgument.kt");
-    }
-
-    @Test
     @TestMetadata("castFromAny.kt")
     public void testCastFromAny() {
       runTest("compiler/testData/codegen/box/sam/castFromAny.kt");

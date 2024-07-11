@@ -32267,12 +32267,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
       }
 
       @Test
-      @TestMetadata("arrayAsVarargAfterSamArgument.kt")
-      public void testArrayAsVarargAfterSamArgument() {
-        runTest("compiler/testData/diagnostics/tests/samConversions/arrayAsVarargAfterSamArgument.kt");
-      }
-
-      @Test
       @TestMetadata("arrayAsVarargAfterSamArgumentProhibited.kt")
       public void testArrayAsVarargAfterSamArgumentProhibited() {
         runTest("compiler/testData/diagnostics/tests/samConversions/arrayAsVarargAfterSamArgumentProhibited.kt");

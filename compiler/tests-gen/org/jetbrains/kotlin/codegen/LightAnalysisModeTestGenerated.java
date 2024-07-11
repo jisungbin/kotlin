@@ -43508,11 +43508,6 @@ public class LightAnalysisModeTestGenerated extends AbstractLightAnalysisModeTes
       KtTestUtil.assertAllTestsPresentByMetadataWithExcluded(this.getClass(), new File("compiler/testData/codegen/box/sam"), Pattern.compile("^(.+)\\.kt$"), null, TargetBackend.JVM_IR, true);
     }
 
-    @TestMetadata("arrayAsVarargAfterSamArgument.kt")
-    public void testArrayAsVarargAfterSamArgument() {
-      runTest("compiler/testData/codegen/box/sam/arrayAsVarargAfterSamArgument.kt");
-    }
-
     @TestMetadata("castFromAny.kt")
     public void testCastFromAny() {
       runTest("compiler/testData/codegen/box/sam/castFromAny.kt");
