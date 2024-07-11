@@ -8154,21 +8154,9 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
       }
 
       @Test
-      @TestMetadata("privateCompanionObjectAccessors_before.kt")
-      public void testPrivateCompanionObjectAccessors_before() {
-        runTest("compiler/testData/codegen/bytecodeText/companion/privateCompanionObjectAccessors_before.kt");
-      }
-
-      @Test
       @TestMetadata("protectedCompanionObjectAccessors_after.kt")
       public void testProtectedCompanionObjectAccessors_after() {
         runTest("compiler/testData/codegen/bytecodeText/companion/protectedCompanionObjectAccessors_after.kt");
-      }
-
-      @Test
-      @TestMetadata("protectedCompanionObjectAccessors_before.kt")
-      public void testProtectedCompanionObjectAccessors_before() {
-        runTest("compiler/testData/codegen/bytecodeText/companion/protectedCompanionObjectAccessors_before.kt");
       }
     }
 
@@ -13226,12 +13214,6 @@ public class JvmAbiConsistencyTestRestGenerated extends AbstractJvmAbiConsistenc
     @TestMetadata("companionObjectVisibility_after.kt")
     public void testCompanionObjectVisibility_after() {
       runTest("compiler/testData/codegen/bytecodeListing/companionObjectVisibility_after.kt");
-    }
-
-    @Test
-    @TestMetadata("companionObjectVisibility_before.kt")
-    public void testCompanionObjectVisibility_before() {
-      runTest("compiler/testData/codegen/bytecodeListing/companionObjectVisibility_before.kt");
     }
 
     @Test

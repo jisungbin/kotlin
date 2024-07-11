@@ -1215,21 +1215,9 @@ public class BytecodeTextTestGenerated extends AbstractBytecodeTextTest {
     }
 
     @Test
-    @TestMetadata("privateCompanionObjectAccessors_before.kt")
-    public void testPrivateCompanionObjectAccessors_before() {
-      runTest("compiler/testData/codegen/bytecodeText/companion/privateCompanionObjectAccessors_before.kt");
-    }
-
-    @Test
     @TestMetadata("protectedCompanionObjectAccessors_after.kt")
     public void testProtectedCompanionObjectAccessors_after() {
       runTest("compiler/testData/codegen/bytecodeText/companion/protectedCompanionObjectAccessors_after.kt");
-    }
-
-    @Test
-    @TestMetadata("protectedCompanionObjectAccessors_before.kt")
-    public void testProtectedCompanionObjectAccessors_before() {
-      runTest("compiler/testData/codegen/bytecodeText/companion/protectedCompanionObjectAccessors_before.kt");
     }
   }
 
