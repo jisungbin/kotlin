@@ -271,7 +271,7 @@ class CacheBuilder(
 
             if (shouldUseLockFile)
                 lockFile.delete()
-        } catch (t: Throwable) {
+        } catch (t: FileAlreadyExistsException) {
             var ok = false
             for (i in 0..<120) {
                 Thread.sleep(1000)
