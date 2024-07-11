@@ -45759,12 +45759,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
       }
 
       @Test
-      @TestMetadata("concurrentHashMapContains.kt")
-      public void testConcurrentHashMapContains() {
-        runTest("compiler/testData/diagnostics/testsWithStdLib/java/concurrentHashMapContains.kt");
-      }
-
-      @Test
       @TestMetadata("concurrentHashMapContainsError.kt")
       public void testConcurrentHashMapContainsError() {
         runTest("compiler/testData/diagnostics/testsWithStdLib/java/concurrentHashMapContainsError.kt");
