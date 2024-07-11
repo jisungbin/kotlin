@@ -1400,7 +1400,7 @@ private class KotlinLikeDumper(val p: Printer, val options: KotlinLikeDumpOption
         branch.condition.let {
             // Deserialized IR contains no IrElseBranch nodes. They are represented with IrBranch(condition=true)
             // To match Kotlin-like IR dump before serialization, the following logic tried to infer IR node which was before serialization
-            if (options.inferElseBranches && it is IrConst<*> && it.value == true && branch == currentWhenStmt?.branches?.last())
+            if (options.inferElseBranches && it is IrConst && it.value == true && branch == currentWhenStmt?.branches?.last())
                 p.printWithNoIndent("else")
             else
                 it.accept(this, data)
