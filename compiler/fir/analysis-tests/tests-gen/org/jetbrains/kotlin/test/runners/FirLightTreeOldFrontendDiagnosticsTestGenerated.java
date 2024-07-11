@@ -7155,12 +7155,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
       }
 
       @Test
-      @TestMetadata("inAnnotationArguments_noTypeParams.kt")
-      public void testInAnnotationArguments_noTypeParams() {
-        runTest("compiler/testData/diagnostics/tests/classLiteral/inAnnotationArguments_noTypeParams.kt");
-      }
-
-      @Test
       @TestMetadata("integerValueType.kt")
       public void testIntegerValueType() {
         runTest("compiler/testData/diagnostics/tests/classLiteral/integerValueType.kt");
