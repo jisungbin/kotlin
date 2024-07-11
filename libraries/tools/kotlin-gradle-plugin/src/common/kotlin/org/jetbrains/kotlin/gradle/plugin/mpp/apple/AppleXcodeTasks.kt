@@ -24,6 +24,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.StaticLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.FrameworkCopy.Companion.dsymFile
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.SwiftExportDSLConstants
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.SwiftExportExtension
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.internal.swiftExportedModules
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.registerSwiftExportTask
 import org.jetbrains.kotlin.gradle.plugin.mpp.enabledOnCurrentHostForBinariesCompilation
 import org.jetbrains.kotlin.gradle.tasks.*
@@ -32,7 +33,6 @@ import org.jetbrains.kotlin.gradle.tasks.registerTask
 import org.jetbrains.kotlin.gradle.utils.getFile
 import org.jetbrains.kotlin.gradle.utils.lowerCamelCaseName
 import org.jetbrains.kotlin.gradle.utils.mapToFile
-import org.jetbrains.kotlin.gradle.utils.setProperty
 import org.jetbrains.kotlin.swiftexport.ExperimentalSwiftExportDsl
 import java.io.File
 import java.io.IOException
@@ -198,15 +198,11 @@ internal fun Project.registerEmbedSwiftExportTask(
     val envBuildType = environment.buildType
     val isMatchingBinary = envTargets.contains(binary.konanTarget) && binary.buildType == envBuildType
     val frameworkTaskName = binary.embedSwiftExportTaskName()
-    val exportedModules = objects.setProperty<SwiftExportExtension.ModuleExport>().convention(
-        swiftExportExtension.exportedModules
-    )
 
     if (isMatchingBinary) {
         val swiftExportTask = registerSwiftExportTask(
             swiftExportExtension.nameProvider,
-            swiftExportExtension.flattenPackageProvider,
-            exportedModules,
+            swiftExportedModules(binary, swiftExportExtension),
             SwiftExportDSLConstants.TASK_GROUP,
             binary
         ).apply {

@@ -31,25 +31,20 @@ internal abstract class SwiftExportAction : WorkAction<SwiftExportParameters> {
     }
 
     override fun execute() {
-        runSwiftExport(
-            input = setOf(
-                InputModule(
-                    name = parameters.swiftModule.flatMap { it.moduleName }.get(),
-                    path = parameters.swiftModule.map { it.artifacts.files.first() }.get().toPath(),
-                    config = SwiftExportConfig(
-                        settings = mapOf(
-                            SwiftExportConfig.STABLE_DECLARATIONS_ORDER to parameters.stableDeclarationsOrder.getOrElse(true).toString(),
-                            SwiftExportConfig.BRIDGE_MODULE_NAME to parameters.bridgeModuleName.getOrElse(SwiftExportConfig.DEFAULT_BRIDGE_MODULE_NAME),
-                            SwiftExportConfig.RENDER_DOC_COMMENTS to parameters.renderDocComments.getOrElse(false).toString(),
-                        ),
-                        logger = Companion,
-                        distribution = parameters.konanDistribution.get(),
-                        outputPath = parameters.outputPath.getFile().toPath(),
-                        multipleModulesHandlingStrategy = MultipleModulesHandlingStrategy.IntoSingleModule
-                    )
-                )
+        val config = SwiftExportConfig(
+            settings = mapOf(
+                SwiftExportConfig.STABLE_DECLARATIONS_ORDER to parameters.stableDeclarationsOrder.getOrElse(true).toString(),
+                SwiftExportConfig.BRIDGE_MODULE_NAME to parameters.bridgeModuleName.getOrElse(SwiftExportConfig.DEFAULT_BRIDGE_MODULE_NAME),
+                SwiftExportConfig.RENDER_DOC_COMMENTS to parameters.renderDocComments.getOrElse(false).toString(),
             ),
-        ).apply {
+            logger = Companion,
+            distribution = parameters.konanDistribution.get(),
+            outputPath = parameters.outputPath.getFile().toPath()
+        )
+
+        val exportModules = parameters.swiftModules.get().map { it.toInputModule(config) }.toSet()
+
+        runSwiftExport(exportModules).apply {
             val modules = getOrThrow().toPlainList()
             val path = parameters.swiftModulesFile.getFile().canonicalPath
             val json = SerializationTools.writeToJson(modules)
@@ -75,6 +70,14 @@ internal fun Set<SwiftExportModule>.toPlainList(): List<GradleSwiftExportModule>
     }
 
     return modules
+}
+
+private fun SwiftExportedModule.toInputModule(config: SwiftExportConfig): InputModule {
+    return InputModule(
+        name = moduleName.get(),
+        path = artifacts.files.first().toPath(),
+        config = config
+    )
 }
 
 private fun SwiftExportModule.toKGPModule(): GradleSwiftExportModule {

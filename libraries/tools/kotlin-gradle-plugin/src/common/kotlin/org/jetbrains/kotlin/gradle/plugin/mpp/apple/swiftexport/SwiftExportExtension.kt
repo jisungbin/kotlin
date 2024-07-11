@@ -71,10 +71,7 @@ abstract class SwiftExportExtension @Inject constructor(
             project.dependencies.addProvider(binary.exportConfigurationName, dependencyProvider)
         }
 
-        val dependencyName = dependencyProvider.map {
-            "${it.group}:${it.name}:${it.version}"
-        }
-
+        val projectName = dependencyProvider.map { it.name }
         val dependencyId = dependencyProvider.map {
             object : ModuleVersionIdentifier {
                 override fun getGroup() = it.group ?: "unspecified"
@@ -90,7 +87,7 @@ abstract class SwiftExportExtension @Inject constructor(
 
         project.objects.newInstance(
             ModuleExport::class.java,
-            dependencyName,
+            projectName,
             dependencyId
         ).apply {
             configure()
@@ -135,7 +132,7 @@ abstract class SwiftExportExtension @Inject constructor(
     }
 
     abstract class ModuleExport @Inject constructor(
-        @get:Input val dependencyName: Provider<String>,
+        @get:Input val projectName: Provider<String>,
         @get:Input val moduleVersion: Provider<ModuleVersionIdentifier>
     ) : Named {
         @get:Input
@@ -144,6 +141,8 @@ abstract class SwiftExportExtension @Inject constructor(
         @get:Input
         var flattenPackage: String? = null
 
-        override fun getName(): String = dependencyName.get()
+        override fun getName(): String = moduleVersion.map {
+            "${it.group}:${it.name}:${it.version}"
+        }.get()
     }
 }
