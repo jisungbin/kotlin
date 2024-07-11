@@ -43267,12 +43267,6 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
           }
 
           @Test
-          @TestMetadata("contractCallSites.1.3.kt")
-          public void testContractCallSites_1_3() {
-            runTest("compiler/testData/diagnostics/testsWithStdLib/contracts/dsl/errors/contractCallSites.1.3.kt");
-          }
-
-          @Test
           @TestMetadata("contractCallSites.1.4.kt")
           public void testContractCallSites_1_4() {
             runTest("compiler/testData/diagnostics/testsWithStdLib/contracts/dsl/errors/contractCallSites.1.4.kt");
@@ -43327,21 +43321,9 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
           }
 
           @Test
-          @TestMetadata("referenceToProperty.1.3.kt")
-          public void testReferenceToProperty_1_3() {
-            runTest("compiler/testData/diagnostics/testsWithStdLib/contracts/dsl/errors/referenceToProperty.1.3.kt");
-          }
-
-          @Test
           @TestMetadata("referenceToProperty.1.4.kt")
           public void testReferenceToProperty_1_4() {
             runTest("compiler/testData/diagnostics/testsWithStdLib/contracts/dsl/errors/referenceToProperty.1.4.kt");
-          }
-
-          @Test
-          @TestMetadata("typeReferences.1.3.kt")
-          public void testTypeReferences_1_3() {
-            runTest("compiler/testData/diagnostics/testsWithStdLib/contracts/dsl/errors/typeReferences.1.3.kt");
           }
 
           @Test

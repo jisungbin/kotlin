@@ -2102,12 +2102,6 @@ public class FirLightTreeOldFrontendDiagnosticsWithoutAliasExpansionTestGenerate
         @TestDataPath("$PROJECT_ROOT")
         public class Errors {
           @Test
-          @TestMetadata("typeReferences.1.3.kt")
-          public void testTypeReferences_1_3() {
-            runTest("compiler/testData/diagnostics/testsWithStdLib/contracts/dsl/errors/typeReferences.1.3.kt");
-          }
-
-          @Test
           @TestMetadata("typeReferences.1.4.kt")
           public void testTypeReferences_1_4() {
             runTest("compiler/testData/diagnostics/testsWithStdLib/contracts/dsl/errors/typeReferences.1.4.kt");
