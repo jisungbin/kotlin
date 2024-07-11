@@ -18690,12 +18690,6 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
         }
 
         @Test
-        @TestMetadata("nullableCaptruredTypeAgainstNullableVariableWithDisabledComplatibilityFlag.kt")
-        public void testNullableCaptruredTypeAgainstNullableVariableWithDisabledComplatibilityFlag() {
-          runTest("compiler/testData/diagnostics/tests/inference/capturedTypes/nullableCaptruredTypeAgainstNullableVariableWithDisabledComplatibilityFlag.kt");
-        }
-
-        @Test
         @TestMetadata("overApproximationForInCaptured.kt")
         public void testOverApproximationForInCaptured() {
           runTest("compiler/testData/diagnostics/tests/inference/capturedTypes/overApproximationForInCaptured.kt");
