@@ -273,11 +273,11 @@ class CacheBuilder(
         } catch (t: FileAlreadyExistsException) {
             var ok = false
             for (i in 0..<120) {
-                Thread.sleep(1000)
                 if (!lockFile.exists) {
                     ok = true
                     break
                 }
+                Thread.sleep(1000)
             }
             if (ok && libraryCache.exists) {
                 cacheRootDirectories[library] = libraryCache.absolutePath
