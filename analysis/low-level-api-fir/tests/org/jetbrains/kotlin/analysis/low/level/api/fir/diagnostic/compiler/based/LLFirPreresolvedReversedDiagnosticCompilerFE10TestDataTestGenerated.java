@@ -46271,12 +46271,6 @@ public class LLFirPreresolvedReversedDiagnosticCompilerFE10TestDataTestGenerated
       }
 
       @Test
-      @TestMetadata("allowNullOperatorsForResult_1_3.kt")
-      public void testAllowNullOperatorsForResult_1_3() {
-        runTest("compiler/testData/diagnostics/testsWithStdLib/coroutines/allowNullOperatorsForResult_1_3.kt");
-      }
-
-      @Test
       @TestMetadata("allowNullOperatorsForResult_1_4.kt")
       public void testAllowNullOperatorsForResult_1_4() {
         runTest("compiler/testData/diagnostics/testsWithStdLib/coroutines/allowNullOperatorsForResult_1_4.kt");
