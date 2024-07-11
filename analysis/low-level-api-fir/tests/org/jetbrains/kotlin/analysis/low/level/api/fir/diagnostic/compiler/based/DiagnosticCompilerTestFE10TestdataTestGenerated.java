@@ -34833,12 +34833,6 @@ public class DiagnosticCompilerTestFE10TestdataTestGenerated extends AbstractDia
       }
 
       @Test
-      @TestMetadata("arrayAsVarargAfterSamArgumentWithoutSamConversionsPerArgument.kt")
-      public void testArrayAsVarargAfterSamArgumentWithoutSamConversionsPerArgument() {
-        runTest("compiler/testData/diagnostics/tests/samConversions/arrayAsVarargAfterSamArgumentWithoutSamConversionsPerArgument.kt");
-      }
-
-      @Test
       @TestMetadata("conversionOnLambdaAsLastExpression.kt")
       public void testConversionOnLambdaAsLastExpression() {
         runTest("compiler/testData/diagnostics/tests/samConversions/conversionOnLambdaAsLastExpression.kt");

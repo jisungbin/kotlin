@@ -34833,12 +34833,6 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
       }
 
       @Test
-      @TestMetadata("arrayAsVarargAfterSamArgumentWithoutSamConversionsPerArgument.kt")
-      public void testArrayAsVarargAfterSamArgumentWithoutSamConversionsPerArgument() {
-        runTest("compiler/testData/diagnostics/tests/samConversions/arrayAsVarargAfterSamArgumentWithoutSamConversionsPerArgument.kt");
-      }
-
-      @Test
       @TestMetadata("conversionOnLambdaAsLastExpression.kt")
       public void testConversionOnLambdaAsLastExpression() {
         runTest("compiler/testData/diagnostics/tests/samConversions/conversionOnLambdaAsLastExpression.kt");
