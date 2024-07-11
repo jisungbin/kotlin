@@ -1,5 +1,6 @@
-// LANGUAGE: -ProhibitProtectedCallFromInline
+// FIR_IDENTICAL
 // TARGET_BACKEND: JVM
+// DIAGNOSTICS: -NOTHING_TO_INLINE
 
 // FILE: First.java
 
@@ -20,7 +21,7 @@ import First
 class Test : First() {
 
     inline fun doTest(): String {
-        return TEST + test()
+        return <!PROTECTED_CALL_FROM_PUBLIC_INLINE_ERROR!>TEST<!> + <!PROTECTED_CALL_FROM_PUBLIC_INLINE_ERROR!>test<!>()
     }
 }
 

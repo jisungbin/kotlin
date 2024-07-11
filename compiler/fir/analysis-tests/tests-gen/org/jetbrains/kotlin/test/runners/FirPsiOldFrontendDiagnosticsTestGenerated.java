@@ -21245,6 +21245,18 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
       }
 
       @Test
+      @TestMetadata("inlineCallsStaticMethod.kt")
+      public void testInlineCallsStaticMethod() {
+        runTest("compiler/testData/diagnostics/tests/inline/inlineCallsStaticMethod.kt");
+      }
+
+      @Test
+      @TestMetadata("inlineCallsStaticMethodFromOtherPackage.kt")
+      public void testInlineCallsStaticMethodFromOtherPackage() {
+        runTest("compiler/testData/diagnostics/tests/inline/inlineCallsStaticMethodFromOtherPackage.kt");
+      }
+
+      @Test
       @TestMetadata("inlineLambdaInDefaultInlineParameter.kt")
       public void testInlineLambdaInDefaultInlineParameter() {
         runTest("compiler/testData/diagnostics/tests/inline/inlineLambdaInDefaultInlineParameter.kt");
@@ -21401,15 +21413,33 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
       }
 
       @Test
-      @TestMetadata("protectedCallDepecation.kt")
-      public void testProtectedCallDepecation() {
-        runTest("compiler/testData/diagnostics/tests/inline/protectedCallDepecation.kt");
-      }
-
-      @Test
       @TestMetadata("protectedCallError.kt")
       public void testProtectedCallError() {
         runTest("compiler/testData/diagnostics/tests/inline/protectedCallError.kt");
+      }
+
+      @Test
+      @TestMetadata("protectedJavaFieldInInline.kt")
+      public void testProtectedJavaFieldInInline() {
+        runTest("compiler/testData/diagnostics/tests/inline/protectedJavaFieldInInline.kt");
+      }
+
+      @Test
+      @TestMetadata("protectedMembers.kt")
+      public void testProtectedMembers() {
+        runTest("compiler/testData/diagnostics/tests/inline/protectedMembers.kt");
+      }
+
+      @Test
+      @TestMetadata("protectedMembersFromSuper.kt")
+      public void testProtectedMembersFromSuper() {
+        runTest("compiler/testData/diagnostics/tests/inline/protectedMembersFromSuper.kt");
+      }
+
+      @Test
+      @TestMetadata("protectedStaticAndInline.kt")
+      public void testProtectedStaticAndInline() {
+        runTest("compiler/testData/diagnostics/tests/inline/protectedStaticAndInline.kt");
       }
 
       @Test

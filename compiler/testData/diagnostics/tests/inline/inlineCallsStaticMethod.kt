@@ -1,5 +1,6 @@
-// LANGUAGE: -ProhibitProtectedCallFromInline
+// FIR_IDENTICAL
 // TARGET_BACKEND: JVM
+// DIAGNOSTICS: -NOTHING_TO_INLINE
 
 // FILE: Test.java
 
@@ -21,7 +22,7 @@ public class Test {
 
 public inline fun test(): String {
     val p = object : Test() {}
-    return p.data + Test.testStatic();
+    return p.data + Test.<!PROTECTED_CALL_FROM_PUBLIC_INLINE_ERROR!>testStatic<!>();
 }
 
 

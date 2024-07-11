@@ -5805,18 +5805,6 @@ public class BlackBoxInlineCodegenTestGenerated extends AbstractBlackBoxInlineCo
     }
 
     @Test
-    @TestMetadata("protectedMembers.kt")
-    public void testProtectedMembers() {
-      runTest("compiler/testData/codegen/boxInline/syntheticAccessors/protectedMembers.kt");
-    }
-
-    @Test
-    @TestMetadata("protectedMembersFromSuper.kt")
-    public void testProtectedMembersFromSuper() {
-      runTest("compiler/testData/codegen/boxInline/syntheticAccessors/protectedMembersFromSuper.kt");
-    }
-
-    @Test
     @TestMetadata("superCall.kt")
     public void testSuperCall() {
       runTest("compiler/testData/codegen/boxInline/syntheticAccessors/superCall.kt");
@@ -5877,12 +5865,6 @@ public class BlackBoxInlineCodegenTestGenerated extends AbstractBlackBoxInlineCo
       @TestMetadata("protectedInCrossinline.kt")
       public void testProtectedInCrossinline() {
         runTest("compiler/testData/codegen/boxInline/syntheticAccessors/withinInlineLambda/protectedInCrossinline.kt");
-      }
-
-      @Test
-      @TestMetadata("protectedMembersFromSuper.kt")
-      public void testProtectedMembersFromSuper() {
-        runTest("compiler/testData/codegen/boxInline/syntheticAccessors/withinInlineLambda/protectedMembersFromSuper.kt");
       }
 
       @Test

@@ -1,6 +1,7 @@
-// LANGUAGE: -ProhibitProtectedCallFromInline
+// FIR_IDENTICAL
 // IGNORE_BACKEND: JVM
 // IGNORE_BACKEND_MULTI_MODULE: JVM, JVM_MULTI_MODULE_IR_AGAINST_OLD
+// DIAGNOSTICS: -NOTHING_TO_INLINE
 // FILE: 1.kt
 
 package test
@@ -15,10 +16,10 @@ open class Base {
 
 open class P : Base() {
     inline fun protectedProp(crossinline f: (String) -> String): String =
-        runCrossinline { f(FOO) }
+        runCrossinline { f(<!PROTECTED_CALL_FROM_PUBLIC_INLINE_ERROR!>FOO<!>) }
 
     inline fun protectedFun(crossinline f: (String) -> String): String =
-        runCrossinline { f(test()) }
+        runCrossinline { f(<!PROTECTED_CALL_FROM_PUBLIC_INLINE_ERROR!>test<!>()) }
 }
 
 // FILE: 2.kt

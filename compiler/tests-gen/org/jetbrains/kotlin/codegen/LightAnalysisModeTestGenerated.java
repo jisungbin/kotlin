@@ -35989,11 +35989,6 @@ public class LightAnalysisModeTestGenerated extends AbstractLightAnalysisModeTes
       runTest("compiler/testData/codegen/box/properties/propertyInUpperCaseWithJava.kt");
     }
 
-    @TestMetadata("protectedJavaFieldInInline.kt")
-    public void testProtectedJavaFieldInInline() {
-      runTest("compiler/testData/codegen/box/properties/protectedJavaFieldInInline.kt");
-    }
-
     @TestMetadata("protectedJavaProperty.kt")
     public void testProtectedJavaProperty() {
       runTest("compiler/testData/codegen/box/properties/protectedJavaProperty.kt");
@@ -45201,16 +45196,6 @@ public class LightAnalysisModeTestGenerated extends AbstractLightAnalysisModeTes
       runTest("compiler/testData/codegen/box/statics/inheritedPropertyInObject.kt");
     }
 
-    @TestMetadata("inlineCallsStaticMethod.kt")
-    public void testInlineCallsStaticMethod() {
-      runTest("compiler/testData/codegen/box/statics/inlineCallsStaticMethod.kt");
-    }
-
-    @TestMetadata("inlineCallsStaticMethodFromOtherPackage.kt")
-    public void testInlineCallsStaticMethodFromOtherPackage() {
-      runTest("compiler/testData/codegen/box/statics/inlineCallsStaticMethodFromOtherPackage.kt");
-    }
-
     @TestMetadata("kt8089.kt")
     public void testKt8089() {
       runTest("compiler/testData/codegen/box/statics/kt8089.kt");
@@ -45229,11 +45214,6 @@ public class LightAnalysisModeTestGenerated extends AbstractLightAnalysisModeTes
     @TestMetadata("protectedStatic2.kt")
     public void testProtectedStatic2() {
       runTest("compiler/testData/codegen/box/statics/protectedStatic2.kt");
-    }
-
-    @TestMetadata("protectedStaticAndInline.kt")
-    public void testProtectedStaticAndInline() {
-      runTest("compiler/testData/codegen/box/statics/protectedStaticAndInline.kt");
     }
 
     @TestMetadata("simpleStaticInJavaSuperChain.kt")

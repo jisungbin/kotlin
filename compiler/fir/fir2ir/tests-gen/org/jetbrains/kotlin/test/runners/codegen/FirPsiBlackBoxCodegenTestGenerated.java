@@ -42886,12 +42886,6 @@ public class FirPsiBlackBoxCodegenTestGenerated extends AbstractFirPsiBlackBoxCo
     }
 
     @Test
-    @TestMetadata("protectedJavaFieldInInline.kt")
-    public void testProtectedJavaFieldInInline() {
-      runTest("compiler/testData/codegen/box/properties/protectedJavaFieldInInline.kt");
-    }
-
-    @Test
     @TestMetadata("protectedJavaProperty.kt")
     public void testProtectedJavaProperty() {
       runTest("compiler/testData/codegen/box/properties/protectedJavaProperty.kt");
@@ -56598,18 +56592,6 @@ public class FirPsiBlackBoxCodegenTestGenerated extends AbstractFirPsiBlackBoxCo
     }
 
     @Test
-    @TestMetadata("inlineCallsStaticMethod.kt")
-    public void testInlineCallsStaticMethod() {
-      runTest("compiler/testData/codegen/box/statics/inlineCallsStaticMethod.kt");
-    }
-
-    @Test
-    @TestMetadata("inlineCallsStaticMethodFromOtherPackage.kt")
-    public void testInlineCallsStaticMethodFromOtherPackage() {
-      runTest("compiler/testData/codegen/box/statics/inlineCallsStaticMethodFromOtherPackage.kt");
-    }
-
-    @Test
     @TestMetadata("kt8089.kt")
     public void testKt8089() {
       runTest("compiler/testData/codegen/box/statics/kt8089.kt");
@@ -56631,12 +56613,6 @@ public class FirPsiBlackBoxCodegenTestGenerated extends AbstractFirPsiBlackBoxCo
     @TestMetadata("protectedStatic2.kt")
     public void testProtectedStatic2() {
       runTest("compiler/testData/codegen/box/statics/protectedStatic2.kt");
-    }
-
-    @Test
-    @TestMetadata("protectedStaticAndInline.kt")
-    public void testProtectedStaticAndInline() {
-      runTest("compiler/testData/codegen/box/statics/protectedStaticAndInline.kt");
     }
 
     @Test

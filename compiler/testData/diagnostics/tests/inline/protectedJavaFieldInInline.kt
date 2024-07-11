@@ -1,5 +1,6 @@
-// LANGUAGE: -ProhibitProtectedCallFromInline
+// FIR_IDENTICAL
 // TARGET_BACKEND: JVM
+// DIAGNOSTICS: -NOTHING_TO_INLINE
 
 // FILE: JavaClass.java
 
@@ -16,7 +17,7 @@ package test
 import JavaClass
 
 class B : JavaClass() {
-    inline fun bar() = FIELD
+    inline fun bar() = <!PROTECTED_CALL_FROM_PUBLIC_INLINE_ERROR!>FIELD<!>
 }
 
 fun box() = B().bar()

@@ -1,22 +1,21 @@
-// LANGUAGE: -ProhibitProtectedCallFromInline
+// FIR_IDENTICAL
+// DIAGNOSTICS: -NOTHING_TO_INLINE
+
 // FILE: 1.kt
 
 package test
 
-open class Base {
+open class P {
     protected open val FOO = "O"
 
     protected open fun test() = "K"
-}
-
-open class P : Base() {
 
     inline fun protectedProp(): String {
-        return FOO
+        return <!PROTECTED_CALL_FROM_PUBLIC_INLINE_ERROR!>FOO<!>
     }
 
     inline fun protectedFun(): String {
-        return test()
+        return <!PROTECTED_CALL_FROM_PUBLIC_INLINE_ERROR!>test<!>()
     }
 }
 
