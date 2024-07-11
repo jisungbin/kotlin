@@ -2870,12 +2870,6 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
         }
 
         @Test
-        @TestMetadata("nonParenthesizedAnnotationsWithError.kt")
-        public void testNonParenthesizedAnnotationsWithError() {
-          runTest("compiler/testData/diagnostics/tests/annotations/functionalTypes/nonParenthesizedAnnotationsWithError.kt");
-        }
-
-        @Test
         @TestMetadata("nonParenthesizedAnnotationsWithoutError.kt")
         public void testNonParenthesizedAnnotationsWithoutError() {
           runTest("compiler/testData/diagnostics/tests/annotations/functionalTypes/nonParenthesizedAnnotationsWithoutError.kt");
