@@ -43304,12 +43304,6 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
         }
 
         @Test
-        @TestMetadata("extensionReceiver.kt")
-        public void testExtensionReceiver() {
-          runTest("compiler/testData/diagnostics/testsWithStdLib/contracts/smartcasts/extensionReceiver.kt");
-        }
-
-        @Test
         @TestMetadata("extensionReceiver_after.kt")
         public void testExtensionReceiver_after() {
           runTest("compiler/testData/diagnostics/testsWithStdLib/contracts/smartcasts/extensionReceiver_after.kt");
