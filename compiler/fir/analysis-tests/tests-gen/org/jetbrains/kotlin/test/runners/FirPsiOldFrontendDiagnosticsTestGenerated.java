@@ -40157,12 +40157,6 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
       }
 
       @Test
-      @TestMetadata("assignArrayToVararagInNamedForm_1_3.kt")
-      public void testAssignArrayToVararagInNamedForm_1_3() {
-        runTest("compiler/testData/diagnostics/tests/varargs/assignArrayToVararagInNamedForm_1_3.kt");
-      }
-
-      @Test
       @TestMetadata("assignArrayToVararagInNamedForm_1_4.kt")
       public void testAssignArrayToVararagInNamedForm_1_4() {
         runTest("compiler/testData/diagnostics/tests/varargs/assignArrayToVararagInNamedForm_1_4.kt");
@@ -40202,12 +40196,6 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
       @TestMetadata("assigningSingleElementsInNamedFormFunDeprecation_after.kt")
       public void testAssigningSingleElementsInNamedFormFunDeprecation_after() {
         runTest("compiler/testData/diagnostics/tests/varargs/assigningSingleElementsInNamedFormFunDeprecation_after.kt");
-      }
-
-      @Test
-      @TestMetadata("assigningSingleElementsInNamedFormFunDeprecation_before.kt")
-      public void testAssigningSingleElementsInNamedFormFunDeprecation_before() {
-        runTest("compiler/testData/diagnostics/tests/varargs/assigningSingleElementsInNamedFormFunDeprecation_before.kt");
       }
 
       @Test
