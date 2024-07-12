@@ -274,6 +274,9 @@ internal class SymbolLightAccessorMethod private constructor(
         } ?: nonExistentType()
     }
 
+    /**
+     * @see org.jetbrains.kotlin.light.classes.symbol.methods.canHaveValueClassInSignature
+     */
     fun canHaveValueClassInSignature(): Boolean = isTopLevel || withAccessorSymbol { it.hasJvmNameAnnotation() }
 
     override fun getReturnType(): PsiType = _returnedType
