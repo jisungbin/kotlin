@@ -9,7 +9,18 @@ kotlin {
 
     @OptIn(org.jetbrains.kotlin.swiftexport.ExperimentalSwiftExportDsl::class)
     swiftexport {
-        name = "Shared"
+        moduleName = "Shared"
         flattenPackage = "com.github.jetbrains.swiftexport"
+
+        export(project(":subproject")) {
+            moduleName = "Subproject"
+            flattenPackage = "com.subproject.library"
+        }
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(":subproject"))
+        }
     }
 }
