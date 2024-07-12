@@ -11,6 +11,7 @@ import org.gradle.api.file.FileCollection
 import org.jetbrains.kotlin.gradle.dsl.awaitMetadataTarget
 import org.jetbrains.kotlin.gradle.dsl.multiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.*
+import org.jetbrains.kotlin.gradle.plugin.PropertiesProvider.Companion.kotlinPropertiesProvider
 import org.jetbrains.kotlin.gradle.plugin.mpp.configureMetadataDependenciesAttribute
 import org.jetbrains.kotlin.gradle.plugin.mpp.resolvableMetadataConfiguration
 import org.jetbrains.kotlin.gradle.plugin.sources.InternalKotlinSourceSet
@@ -65,17 +66,21 @@ internal fun Project.setupProjectStructureMetadataOutgoingArtifacts() {
     }
 }
 
-internal val InternalKotlinSourceSet.projectStructureMetadataResolvableConfiguration: Configuration by extrasStoredProperty {
-    project.configurations.maybeCreateResolvable(projectStructureMetadataConfigurationName) {
-        copyDependenciesLazy(project, resolvableMetadataConfiguration)
-        configurePsmResolvableAttributes(project)
+internal val InternalKotlinSourceSet.projectStructureMetadataResolvableConfiguration: Configuration? by extrasStoredProperty {
+    if (project.kotlinPropertiesProvider.kotlinKmpProjectIsolationEnabled) {
+        project.configurations.maybeCreateResolvable(projectStructureMetadataConfigurationName) {
+            copyDependenciesLazy(project, resolvableMetadataConfiguration)
+            configurePsmResolvableAttributes(project)
+        }
+    } else {
+        null
     }
 }
 
 internal fun resolvableMetadataConfigurationForEachSourSet(project: Project): List<FileCollection> {
     return project.multiplatformExtension.sourceSets.mapNotNull { sourceSet ->
         if (sourceSet is InternalKotlinSourceSet) {
-            LazyResolvedConfiguration(sourceSet.projectStructureMetadataResolvableConfiguration).files
+            sourceSet.projectStructureMetadataResolvableConfiguration?.lenientArtifactsView?.artifactFiles
         } else null
     }
 }

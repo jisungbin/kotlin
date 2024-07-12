@@ -18,22 +18,22 @@ import org.jetbrains.kotlin.gradle.utils.buildNameCompat
 import org.jetbrains.kotlin.gradle.utils.buildPathCompat
 import org.jetbrains.kotlin.gradle.utils.getOrPut
 
-internal val Project.kotlinMppDependencyProjectStructureMetadataExtractorFactoryDeprecated: MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactoryDeprecated
-    get() = MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactoryDeprecated.getOrCreate(this)
+internal val Project.kotlinMppDependencyProjectStructureMetadataExtractorFactoryDeprecated: MppDependenciesProjectStructureMetadataExtractorFactoryDeprecated
+    get() = MppDependenciesProjectStructureMetadataExtractorFactoryDeprecated.getOrCreate(this)
 
 @Deprecated(
     message = "This factory is not Gradle project isolation compatible.",
     replaceWith = ReplaceWith("MppDependencyProjectStructureMetadataExtractorFactory")
 )
-internal class MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactoryDeprecated
+internal class MppDependenciesProjectStructureMetadataExtractorFactoryDeprecated
 private constructor(
     private val currentBuild: CurrentBuildIdentifier,
     private val includedBuildsProjectStructureMetadataProviders: Lazy<Map<ProjectPathWithBuildPath, Lazy<KotlinProjectStructureMetadata?>>>,
     private val currentBuildProjectStructureMetadataProviders: Map<String, Lazy<KotlinProjectStructureMetadata?>>,
-): IMppDependenciesProjectStucureMetadataExtractorFactory {
+): IMppDependenciesProjectStructureMetadataExtractorFactory {
     override fun create(
         metadataArtifact: ResolvedArtifactResult,
-        resolvedMetadataConfiguration: LazyResolvedConfiguration,
+        resolvedMetadataConfiguration: LazyResolvedConfiguration?,
     ): MppDependencyProjectStructureMetadataExtractor {
         val moduleId = metadataArtifact.variant.owner
 
@@ -71,10 +71,10 @@ private constructor(
     }
 
     companion object {
-        private val extensionName = MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactoryDeprecated::class.java.simpleName
-        fun getOrCreate(project: Project): MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactoryDeprecated =
+        private val extensionName = MppDependenciesProjectStructureMetadataExtractorFactoryDeprecated::class.java.simpleName
+        fun getOrCreate(project: Project): MppDependenciesProjectStructureMetadataExtractorFactoryDeprecated =
             project.rootProject.extraProperties.getOrPut(extensionName) {
-                MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactoryDeprecated(
+                MppDependenciesProjectStructureMetadataExtractorFactoryDeprecated(
                     currentBuild = project.currentBuild,
                     lazy { GlobalProjectStructureMetadataStorage.getProjectStructureMetadataProvidersFromAllGradleBuilds(project) },
                     collectAllProjectStructureMetadataInCurrentBuild(project)

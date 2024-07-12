@@ -8,7 +8,7 @@ package org.jetbrains.kotlin.gradle.plugin.ide
 import com.google.gson.*
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
-import org.gradle.api.file.FileCollection
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.tasks.*
 import org.gradle.work.DisableCachingByDefault
 import org.gradle.work.NormalizeLineEndings
@@ -18,9 +18,9 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinProjectSetupAction
 import org.jetbrains.kotlin.gradle.plugin.mpp.internal.projectStructureMetadataResolvableConfiguration
 import org.jetbrains.kotlin.gradle.plugin.sources.internal
 import org.jetbrains.kotlin.gradle.tasks.locateOrRegisterTask
-import org.jetbrains.kotlin.gradle.utils.LazyResolvedConfiguration
 import org.jetbrains.kotlin.gradle.utils.appendLine
 import org.jetbrains.kotlin.gradle.utils.filesProvider
+import org.jetbrains.kotlin.gradle.utils.lenientArtifactsView
 import org.jetbrains.kotlin.gradle.utils.notCompatibleWithConfigurationCacheCompat
 import org.jetbrains.kotlin.tooling.core.Extras
 import java.io.File
@@ -51,9 +51,9 @@ internal open class IdeResolveDependenciesTask : DefaultTask() {
     @get:PathSensitive(PathSensitivity.RELATIVE)
     @get:IgnoreEmptyDirectories
     @get:NormalizeLineEndings
-    val projectStructureMetadataFileCollection: FileCollection = project.filesProvider {
+    val projectStructureMetadataFileCollection: ConfigurableFileCollection = project.filesProvider {
         project.kotlinExtension.sourceSets.map {
-            LazyResolvedConfiguration(it.internal.projectStructureMetadataResolvableConfiguration).files
+            it.internal.projectStructureMetadataResolvableConfiguration?.lenientArtifactsView?.artifactFiles
         }
     }
 
