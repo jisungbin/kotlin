@@ -665,7 +665,7 @@ class FirSignatureEnhancement(
                 }
             }
             purelyImplementedSupertype?.let {
-                add(buildResolvedTypeRef { type = it })
+                add(buildResolvedTypeRef { coneType = it })
             }
         }
     }
@@ -789,7 +789,7 @@ class FirSignatureEnhancement(
                         typeInSignature = TypeInSignature.ReturnPossiblyDeferred(calc),
                         predefinedEnhancementInfo?.returnTypeInfo,
                         forAnnotationMember = forAnnotationMember
-                    ).type
+                    ).coneType
                 }
 
                 override fun toString(): String = "Deferred for Enhancement (Overriddens with Implicit Types)"
@@ -905,7 +905,7 @@ class FirSignatureEnhancement(
         val typesFromOverridden = typeRefsFromOverridden.map { it.toConeKotlinType(mode, typeRef.source) }
         val qualifiers = typeWithoutEnhancement.computeIndexedQualifiers(typesFromOverridden, predefined)
         return buildResolvedTypeRef {
-            type = typeWithoutEnhancement.enhance(session, qualifiers) ?: typeWithoutEnhancement
+            coneType = typeWithoutEnhancement.enhance(session, qualifiers) ?: typeWithoutEnhancement
             annotations += typeRef.annotations
             source = typeRef.source
         }
