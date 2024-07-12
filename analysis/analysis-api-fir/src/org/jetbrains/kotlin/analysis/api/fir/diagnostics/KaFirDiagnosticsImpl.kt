@@ -1803,6 +1803,16 @@ internal class SealedArgumentNoConstructorImpl(
     token: KaLifetimeToken,
 ) : KaAbstractFirDiagnostic<PsiElement>(firDiagnostic, token), KaFirDiagnostic.SealedArgumentNoConstructor
 
+internal class DataargWithoutSpreadImpl(
+    firDiagnostic: KtPsiDiagnostic,
+    token: KaLifetimeToken,
+) : KaAbstractFirDiagnostic<KtElement>(firDiagnostic, token), KaFirDiagnostic.DataargWithoutSpread
+
+internal class DataargSpreadAndNonSpreadImpl(
+    firDiagnostic: KtPsiDiagnostic,
+    token: KaLifetimeToken,
+) : KaAbstractFirDiagnostic<KtElement>(firDiagnostic, token), KaFirDiagnostic.DataargSpreadAndNonSpread
+
 internal class AssignmentTypeMismatchImpl(
     override val expectedType: KaType,
     override val actualType: KaType,

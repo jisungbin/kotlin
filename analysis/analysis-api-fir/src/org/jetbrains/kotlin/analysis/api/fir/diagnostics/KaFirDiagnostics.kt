@@ -1502,6 +1502,14 @@ sealed interface KaFirDiagnostic<PSI : PsiElement> : KaDiagnosticWithPsi<PSI> {
         override val diagnosticClass get() = SealedArgumentNoConstructor::class
     }
 
+    interface DataargWithoutSpread : KaFirDiagnostic<KtElement> {
+        override val diagnosticClass get() = DataargWithoutSpread::class
+    }
+
+    interface DataargSpreadAndNonSpread : KaFirDiagnostic<KtElement> {
+        override val diagnosticClass get() = DataargSpreadAndNonSpread::class
+    }
+
     interface AssignmentTypeMismatch : KaFirDiagnostic<KtExpression> {
         override val diagnosticClass get() = AssignmentTypeMismatch::class
         val expectedType: KaType

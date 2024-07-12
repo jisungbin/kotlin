@@ -62,6 +62,16 @@ class ValueDataArgumentConflict(
     override val argument: FirNamedArgumentExpression,
 ) : InapplicableArgumentDiagnostic()
 
+class DataArgumentWithoutSpread(
+    override val argument: FirExpression,
+    val valueParameter: FirValueParameter
+) : InapplicableArgumentDiagnostic()
+
+class DataArgumentSpreadAndNonSpread(
+    override val argument: FirExpression,
+    val valueParameter: FirValueParameter
+) : InapplicableArgumentDiagnostic()
+
 class SealedArgumentNoConstructor(
     override val argument: FirExpression,
 ) : InapplicableArgumentDiagnostic()

@@ -430,6 +430,8 @@ object FirErrors {
     val NAME_FOR_AMBIGUOUS_PARAMETER: KtDiagnosticFactory0 = KtDiagnosticFactory0("NAME_FOR_AMBIGUOUS_PARAMETER", ERROR, SourceElementPositioningStrategies.NAME_OF_NAMED_ARGUMENT, KtValueArgument::class)
     val VALUE_DATA_ARGUMENT_CONFLICT: KtDiagnosticFactory0 = KtDiagnosticFactory0("VALUE_DATA_ARGUMENT_CONFLICT", ERROR, SourceElementPositioningStrategies.NAME_OF_NAMED_ARGUMENT, KtValueArgument::class)
     val SEALED_ARGUMENT_NO_CONSTRUCTOR: KtDiagnosticFactory0 = KtDiagnosticFactory0("SEALED_ARGUMENT_NO_CONSTRUCTOR", ERROR, SourceElementPositioningStrategies.DEFAULT, PsiElement::class)
+    val DATAARG_WITHOUT_SPREAD: KtDiagnosticFactory0 = KtDiagnosticFactory0("DATAARG_WITHOUT_SPREAD", ERROR, SourceElementPositioningStrategies.DEFAULT, KtElement::class)
+    val DATAARG_SPREAD_AND_NON_SPREAD: KtDiagnosticFactory0 = KtDiagnosticFactory0("DATAARG_SPREAD_AND_NON_SPREAD", ERROR, SourceElementPositioningStrategies.DEFAULT, KtElement::class)
     val ASSIGNMENT_TYPE_MISMATCH: KtDiagnosticFactory3<ConeKotlinType, ConeKotlinType, Boolean> = KtDiagnosticFactory3("ASSIGNMENT_TYPE_MISMATCH", ERROR, SourceElementPositioningStrategies.DEFAULT, KtExpression::class)
     val RESULT_TYPE_MISMATCH: KtDiagnosticFactory2<ConeKotlinType, ConeKotlinType> = KtDiagnosticFactory2("RESULT_TYPE_MISMATCH", ERROR, SourceElementPositioningStrategies.DEFAULT, KtExpression::class)
     val MANY_LAMBDA_EXPRESSION_ARGUMENTS: KtDiagnosticFactory0 = KtDiagnosticFactory0("MANY_LAMBDA_EXPRESSION_ARGUMENTS", ERROR, SourceElementPositioningStrategies.DEFAULT, KtLambdaExpression::class)

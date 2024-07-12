@@ -667,6 +667,9 @@ object DIAGNOSTICS_LIST : DiagnosticList("FirErrors") {
         val VALUE_DATA_ARGUMENT_CONFLICT by error<KtValueArgument>(PositioningStrategy.NAME_OF_NAMED_ARGUMENT)
         val SEALED_ARGUMENT_NO_CONSTRUCTOR by error<PsiElement>()
 
+        val DATAARG_WITHOUT_SPREAD by error<KtElement>()
+        val DATAARG_SPREAD_AND_NON_SPREAD by error<KtElement>()
+
         val ASSIGNMENT_TYPE_MISMATCH by error<KtExpression> {
             parameter<ConeKotlinType>("expectedType")
             parameter<ConeKotlinType>("actualType")

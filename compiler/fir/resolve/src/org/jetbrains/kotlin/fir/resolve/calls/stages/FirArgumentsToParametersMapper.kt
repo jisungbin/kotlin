@@ -314,7 +314,7 @@ private class FirCallArgumentsProcessor(
 
     fun processDefaultsAndRunChecks() {
         for ((parameter, resolvedArgument) in result) {
-            if (!parameter.isVararg) {
+            if (!parameter.isVararg && !parameter.isDataArgument && !parameter.isSealedArgument) {
                 if (resolvedArgument !is ResolvedCallArgument.SimpleArgument) {
                     errorWithAttachment("Incorrect resolved argument for parameter ${parameter::class.java}: ${resolvedArgument::class.java}") {
                         withFirEntry("parameter", parameter)
@@ -346,12 +346,22 @@ private class FirCallArgumentsProcessor(
         }
 
         if (dataParameter != null) {
-            for (parameter in getDataConstructor()?.valueParameters.orEmpty()) {
-                if (!dataArguments.contains(parameter)) {
-                    dataArguments[parameter] = ResolvedCallArgument.DefaultArgument
+            val dataArgument = result[dataParameter]
+            if (dataArgument is ResolvedCallArgument.SimpleArgument) {
+                if (!dataArgument.callArgument.expression.isSpread) {
+                    addDiagnostic(DataArgumentWithoutSpread(dataArgument.callArgument.expression, dataParameter))
                 }
+                if (dataArguments.isNotEmpty()) {
+                    addDiagnostic(DataArgumentSpreadAndNonSpread(dataArgument.callArgument.expression, dataParameter))
+                }
+            } else {
+                for (parameter in getDataConstructor()?.valueParameters.orEmpty()) {
+                    if (!dataArguments.contains(parameter)) {
+                        dataArguments[parameter] = ResolvedCallArgument.DefaultArgument
+                    }
+                }
+                result[dataParameter] = ResolvedCallArgument.DataArgument(dataArguments)
             }
-            result[dataParameter] = ResolvedCallArgument.DataArgument(dataArguments)
         }
 
         for (parameter in result.keys) {
@@ -359,6 +369,8 @@ private class FirCallArgumentsProcessor(
 
             val argument = result[parameter]
             if (argument !is ResolvedCallArgument.SimpleArgument) continue
+            // if we have spread arguments, they are fine as they are
+            if (argument.callArgument.expression.isSpread) continue
 
             val argumentType = argument.callArgument.expression.resolvedType
             val parameterType = parameter.getPotentialSealedConstructors().firstOrNull {
