@@ -8,11 +8,13 @@
 #include "CompilerConstants.hpp"
 
 #if KONAN_SUPPORTS_SIGNPOSTS
-
 #include <os/log.h>
 #include <os/signpost.h>
+#endif
 
 using namespace kotlin;
+
+#if KONAN_SUPPORTS_SIGNPOSTS
 
 namespace {
 

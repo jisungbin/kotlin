@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <optional>
+
 #include "Utils.hpp"
 
 namespace kotlin::mm {
