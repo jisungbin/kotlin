@@ -370,6 +370,7 @@ class StabilityInferencer(
         return when (val owner = classifier.owner) {
             is IrClass -> stabilityOf(owner, substitutions, currentlyAnalyzing)
             is IrTypeParameter -> Stability.Unstable
+            is IrScript -> Stability.Stable
             else -> error("Unexpected IrClassifier: $owner")
         }
     }
@@ -418,6 +419,16 @@ class StabilityInferencer(
                 currentlyAnalyzing
             )
 
+            // This check needs to be above using `type.isInlineClassType()` until
+            // KT-69856 is fixed.
+            type is IrSimpleType -> {
+                stabilityOf(
+                    type.classifier,
+                    substitutions + type.substitutionMap(),
+                    currentlyAnalyzing
+                )
+            }
+
             type.isInlineClassType() -> {
                 val inlineClassDeclaration = type.getClass()
                     ?: error("Failed to resolve the class definition of inline type $type")
@@ -431,14 +442,6 @@ class StabilityInferencer(
                         currentlyAnalyzing = currentlyAnalyzing
                     )
                 }
-            }
-
-            type is IrSimpleType -> {
-                stabilityOf(
-                    type.classifier,
-                    substitutions + type.substitutionMap(),
-                    currentlyAnalyzing
-                )
             }
 
             type is IrTypeAbbreviation -> {
