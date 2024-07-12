@@ -20,6 +20,7 @@ import org.jetbrains.kotlin.light.classes.symbol.annotations.GranularAnnotations
 import org.jetbrains.kotlin.light.classes.symbol.annotations.NullabilityAnnotationsProvider
 import org.jetbrains.kotlin.light.classes.symbol.isValid
 import org.jetbrains.kotlin.light.classes.symbol.methods.SymbolLightMethodBase
+import org.jetbrains.kotlin.light.classes.symbol.methods.canHaveValueClassInSignature
 import org.jetbrains.kotlin.light.classes.symbol.modifierLists.SymbolLightClassModifierList
 import org.jetbrains.kotlin.light.classes.symbol.nonExistentType
 import org.jetbrains.kotlin.light.classes.symbol.withSymbol
@@ -48,7 +49,7 @@ internal class SymbolLightSuspendContinuationParameter(
                 this,
                 allowErrorTypes = true,
                 getTypeMappingMode(ktType),
-                forceValueClassResolution = false,
+                forceValueClassResolution = method.canHaveValueClassInSignature(),
             ) ?: nonExistentType()
         }
     }

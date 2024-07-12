@@ -269,10 +269,12 @@ internal class SymbolLightAccessorMethod private constructor(
                 typeMappingMode,
                 containingClass.isAnnotationType,
                 suppressWildcards(),
-                forceValueClassResolution = isTopLevel || propertySymbol.getter?.hasJvmNameAnnotation() == true,
+                forceValueClassResolution = canHaveValueClassInSignature(),
             )
         } ?: nonExistentType()
     }
+
+    fun canHaveValueClassInSignature(): Boolean = isTopLevel || withAccessorSymbol { it.hasJvmNameAnnotation() }
 
     override fun getReturnType(): PsiType = _returnedType
 
