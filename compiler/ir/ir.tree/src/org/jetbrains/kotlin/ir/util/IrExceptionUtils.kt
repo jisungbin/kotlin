@@ -23,9 +23,8 @@ class IrExceptionBuilder(val message: String) {
 
 inline fun irError(
     message: String,
-    cause: Throwable? = null,
     buildAttachment: IrExceptionBuilder.() -> Unit = {},
 ): Nothing {
     val builder = IrExceptionBuilder(message).apply { buildAttachment() }
-    throw IllegalStateException(builder.buildString(), cause)
+    error(builder.buildString())
 }

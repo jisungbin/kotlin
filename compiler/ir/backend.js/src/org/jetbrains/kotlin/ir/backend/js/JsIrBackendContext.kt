@@ -292,7 +292,7 @@ class JsIrBackendContext(
                 toUIntSymbols.associateBy {
                     it.owner.extensionReceiverParameter?.type?.classifierOrFail
                         ?: irError("Expected extension receiver for") {
-                            withIrEntry("irFunction", it.owner)
+                            withIrEntry("it.owner", it.owner)
                         }
                 }
             }
@@ -303,7 +303,7 @@ class JsIrBackendContext(
                 toULongSymbols.associateBy {
                     it.owner.extensionReceiverParameter?.type?.classifierOrFail
                         ?: irError("Expected extension receiver for") {
-                            withIrEntry("irFunction", it.owner)
+                            withIrEntry("it.owner", it.owner)
                         }
                 }
             }

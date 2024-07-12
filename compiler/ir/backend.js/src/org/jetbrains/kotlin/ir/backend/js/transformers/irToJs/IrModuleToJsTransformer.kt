@@ -490,7 +490,7 @@ class IrModuleToJsTransformer(
 
         if (tag == null && !contains(declaration)) {
             irError("Signature not found for") {
-                withIrEntry("IrDeclaration", declaration)
+                withIrEntry("declaration", declaration)
             }
         }
 
@@ -518,7 +518,7 @@ class IrModuleToJsTransformer(
         nameGenerator.imports.entries.forEach { (declaration, importExpression) ->
             val tag = definitions.computeTag(declaration)
                 ?: irError("No tag for imported declaration") {
-                    withIrEntry("IrDeclaration", declaration)
+                    withIrEntry("declaration", declaration)
                 }
             imports[tag] = importExpression
             optionalCrossModuleImports += tag
