@@ -16,26 +16,30 @@ sealed class MppDependencyProjectStructureMetadataExtractor {
     companion object Factory
 }
 
+internal abstract class AbstractProjectMppDependencyProjectStructureMetadataExtractor(
+    val projectPath: String,
+) : MppDependencyProjectStructureMetadataExtractor()
+
 @Deprecated(
     message = "This class is not compatible with gradle project Isolation",
     replaceWith = ReplaceWith("ProjectMppDependencyProjectStructureMetadataExtractor")
 )
 internal class ProjectMppDependencyProjectStructureMetadataExtractorDeprecated(
-    val projectPath: String,
+    projectPath: String,
     private val projectStructureMetadataProvider: () -> KotlinProjectStructureMetadata?,
-) : MppDependencyProjectStructureMetadataExtractor() {
+) : AbstractProjectMppDependencyProjectStructureMetadataExtractor(projectPath) {
 
     override fun getProjectStructureMetadata(): KotlinProjectStructureMetadata? = projectStructureMetadataProvider()
 }
 
 internal class ProjectMppDependencyProjectStructureMetadataExtractor(
-    val projectPath: String,
+    projectPath: String,
     private val projectStructureMetadataFile: File?,
-) : MppDependencyProjectStructureMetadataExtractor() {
+) : AbstractProjectMppDependencyProjectStructureMetadataExtractor(projectPath) {
 
     override fun getProjectStructureMetadata(): KotlinProjectStructureMetadata? {
         return projectStructureMetadataFile?.let {
-            parseKotlinSourceSetMetadataFromJson(projectStructureMetadataFile.reader().readText())
+            parseKotlinSourceSetMetadataFromJson(projectStructureMetadataFile.readText())
         }
     }
 }
@@ -69,6 +73,6 @@ internal class IncludedBuildMppDependencyProjectStructureMetadataExtractor(
 ) : JarMppDependencyProjectStructureMetadataExtractor(primaryArtifact) {
     override fun getProjectStructureMetadata(): KotlinProjectStructureMetadata? =
         projectStructureMetadataFile?.let {
-            parseKotlinSourceSetMetadataFromJson(projectStructureMetadataFile.reader().readText())
+            parseKotlinSourceSetMetadataFromJson(projectStructureMetadataFile.readText())
         } ?: projectStructureMetadataProvider()
 }
