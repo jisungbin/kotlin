@@ -98,6 +98,11 @@ public final class FqName {
         return fqName.pathSegments();
     }
 
+    @NotNull
+    public List<Name> properPathSegments() {
+        return fqName.properPathSegments();
+    }
+
     public boolean startsWith(@NotNull Name segment) {
         return fqName.startsWith(segment);
     }

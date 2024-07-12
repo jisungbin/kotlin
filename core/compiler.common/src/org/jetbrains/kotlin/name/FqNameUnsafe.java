@@ -21,6 +21,7 @@ import kotlin.jvm.functions.Function1;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -156,6 +157,29 @@ public final class FqNameUnsafe {
     @NotNull
     public List<Name> pathSegments() {
         return isRoot() ? Collections.<Name>emptyList() : ArraysKt.map(SPLIT_BY_DOTS.split(fqName), STRING_TO_NAME);
+    }
+
+    @NotNull
+    public List<Name> properPathSegments() {
+        if (isRoot()) {
+            return new ArrayList<>();
+        }
+
+        List<Name> parentSegments = parent.properPathSegments();
+        parentSegments.add(shortName);
+        return parentSegments;
+
+        //List<Name> result = new ArrayList<>();
+        //FqNameUnsafe current = this;
+        //
+        //while (!current.isRoot()) {
+        //    result.add(current.shortName);
+        //    current = current.parent;
+        //}
+        //
+        //result.add(current.shortName);
+        //Collections.reverse(result);
+        //return result;
     }
 
     public boolean startsWith(@NotNull Name segment) {
