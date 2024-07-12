@@ -11,8 +11,8 @@ import org.gradle.api.artifacts.component.ProjectComponentIdentifier
 import org.gradle.api.artifacts.result.ResolvedArtifactResult
 import org.jetbrains.kotlin.gradle.utils.*
 
-internal val Project.kotlinMppDependencyProjectStructureMetadataExtractorFactory: MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactory
-    get() = MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactory.getOrCreate(this)
+internal val Project.kotlinMppDependencyProjectStructureMetadataExtractorFactory: MppDependenciesProjectStructureMetadataExtractorFactory
+    get() = MppDependenciesProjectStructureMetadataExtractorFactory.getOrCreate(this)
 
 internal data class ProjectPathWithBuildPath(
     val projectPath: String,
@@ -24,7 +24,7 @@ internal interface IMppDependenciesProjectStucureMetadataExtractorFactory {
         resolvedMetadataConfiguration: LazyResolvedConfiguration,
     ): MppDependencyProjectStructureMetadataExtractor
 }
-internal class MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactory
+internal class MppDependenciesProjectStructureMetadataExtractorFactory
 private constructor(
     private val currentBuild: CurrentBuildIdentifier,
     private val includedBuildsProjectStructureMetadataProviders: Lazy<Map<ProjectPathWithBuildPath, Lazy<KotlinProjectStructureMetadata?>>>,
@@ -91,8 +91,8 @@ private constructor(
         .singleOrNull()
 
     companion object {
-        fun getOrCreate(project: Project): MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactory =
-            MppDependencyProjectStructureMetadataMppDependenciesProjectStucureMetadataExtractorFactory(
+        fun getOrCreate(project: Project): MppDependenciesProjectStructureMetadataExtractorFactory =
+            MppDependenciesProjectStructureMetadataExtractorFactory(
                 currentBuild = project.currentBuild,
                 lazy { GlobalProjectStructureMetadataStorage.getProjectStructureMetadataProvidersFromAllGradleBuilds(project) },
             )

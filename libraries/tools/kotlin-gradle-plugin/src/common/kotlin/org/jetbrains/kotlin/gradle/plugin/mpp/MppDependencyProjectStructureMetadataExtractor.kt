@@ -35,7 +35,7 @@ internal class ProjectMppDependencyProjectStructureMetadataExtractor(
 
     override fun getProjectStructureMetadata(): KotlinProjectStructureMetadata? {
         return projectStructureMetadataFile?.let {
-            parseKotlinSourceSetMetadataFromJson(projectStructureMetadataFile.reader().readText())
+            parseKotlinSourceSetMetadataFromJson(projectStructureMetadataFile.readText())
         }
     }
 }
@@ -69,6 +69,6 @@ internal class IncludedBuildMppDependencyProjectStructureMetadataExtractor(
 ) : JarMppDependencyProjectStructureMetadataExtractor(primaryArtifact) {
     override fun getProjectStructureMetadata(): KotlinProjectStructureMetadata? =
         projectStructureMetadataFile?.let {
-            parseKotlinSourceSetMetadataFromJson(projectStructureMetadataFile.reader().readText())
+            parseKotlinSourceSetMetadataFromJson(projectStructureMetadataFile.readText())
         } ?: projectStructureMetadataProvider()
 }

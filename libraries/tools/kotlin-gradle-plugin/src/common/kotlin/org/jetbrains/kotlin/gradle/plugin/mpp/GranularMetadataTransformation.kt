@@ -222,9 +222,8 @@ internal class GranularMetadataTransformation(
             .singleOrNull()
             // Make sure that resolved metadata artifact is actually Multiplatform one
             ?.takeIf { it.variant.attributes.containsMultiplatformMetadataAttributes }
-        // expected only ony Composite Metadata Klib, but if dependency got resolved into platform variant
         // expected only Composite Metadata Klib, but if dependency got resolved into platform variant
-        // when source set is a leaf then we might get multiple artifacts in such case we must return KeepOriginal
+        // when a source set is a leaf, then we might get multiple artifacts in such a case we must return KeepOriginal
             ?: return MetadataDependencyResolution.KeepOriginalDependency(module)
 
         logger.debug("Transform composite metadata artifact: '${compositeMetadataArtifact.file}'")

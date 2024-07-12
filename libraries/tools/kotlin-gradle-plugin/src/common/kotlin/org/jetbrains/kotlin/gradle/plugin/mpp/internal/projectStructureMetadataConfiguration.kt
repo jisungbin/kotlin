@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.plugin.sources.disambiguateName
 import org.jetbrains.kotlin.gradle.targets.metadata.locateOrRegisterGenerateProjectStructureMetadataTask
 import org.jetbrains.kotlin.gradle.utils.*
 
-internal val psmAttribute = Attribute.of("org.jetbrains.kotlin.psmFile", Boolean::class.javaObjectType)
+internal val psmAttribute = Attribute.of("org.jetbrains.kotlin.projectStructureMetadata", Boolean::class.javaObjectType)
 
 /**
  * This Setup Action is required for creating psm configuration for non-KMP projects.
