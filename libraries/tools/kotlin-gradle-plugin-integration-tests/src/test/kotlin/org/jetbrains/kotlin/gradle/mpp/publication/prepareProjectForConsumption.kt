@@ -15,7 +15,7 @@ import kotlin.io.path.appendText
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
 
-fun GradleProject.prepareProjectForConsumption(
+fun GradleProject.prepareConsumerProject(
     consumer: Scenario.Project,
     dependencies: List<Scenario.Project>,
     localRepoDir: Path,
@@ -41,13 +41,13 @@ fun GradleProject.prepareProjectForConsumption(
     }
 
     when (consumer.variant) {
-        ProjectVariant.AndroidOnly -> prepareAndroidForConsumption(consumer, dependencies)
-        ProjectVariant.JavaOnly -> prepareJavaForConsumption(consumer, dependencies)
-        is ProjectVariant.Kmp -> prepareKmpForConsumption(consumer, dependencies)
+        ProjectVariant.AndroidOnly -> prepareAndroidConsumer(dependencies)
+        ProjectVariant.JavaOnly -> prepareJavaConsumer(dependencies)
+        is ProjectVariant.Kmp -> prepareKmpConsumer(consumer, dependencies)
     }
 }
 
-private fun GradleProject.prepareAndroidForConsumption(consumer: Scenario.Project, dependencies: List<Scenario.Project>) {
+private fun GradleProject.prepareAndroidConsumer(dependencies: List<Scenario.Project>) {
     buildGradleKts.appendText(
         """
             
@@ -62,7 +62,7 @@ private fun List<Scenario.Project>.asDependenciesBlock(): String = joinToString(
     """   api("${it.packageName}:${it.artifactName}:1.0") """
 }
 
-private fun GradleProject.prepareJavaForConsumption(consumer: Scenario.Project, dependencies: List<Scenario.Project>) {
+private fun GradleProject.prepareJavaConsumer(dependencies: List<Scenario.Project>) {
     buildGradleKts.appendText(
         """
             
@@ -73,7 +73,7 @@ private fun GradleProject.prepareJavaForConsumption(consumer: Scenario.Project, 
     )
 }
 
-private fun GradleProject.prepareKmpForConsumption(consumer: Scenario.Project, dependencies: List<Scenario.Project>) {
+private fun GradleProject.prepareKmpConsumer(consumer: Scenario.Project, dependencies: List<Scenario.Project>) {
     val projectVariant = consumer.variant
     check(projectVariant is ProjectVariant.Kmp)
     val kotlinVersion = checkNotNull(consumer.kotlinVersion)

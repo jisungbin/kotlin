@@ -34,16 +34,23 @@ data class Scenario(
 
         val resolvedConfigurationsNames
             get() = when (variant) {
-                ProjectVariant.AndroidOnly -> listOf("releaseCompileClasspath")
+                ProjectVariant.AndroidOnly -> listOf(
+                    "flavor1ReleaseCompileClasspath",
+                    "flavor1DebugCompileClasspath"
+                )
                 ProjectVariant.JavaOnly -> listOf("compileClasspath")
                 is ProjectVariant.Kmp -> listOfNotNull(
                     "linuxX64CompileKlibraries",
                     "linuxArm64CompileKlibraries",
                     "jvmCompileClasspath".takeIf { variant.withJvm },
-                    "androidReleaseCompileClasspath".takeIf { variant.withAndroid }
-                )
+                ) + if (variant.withAndroid) listOf(
+                    "androidFlavor1ReleaseCompileClasspath",
+                    "androidFlavor1DebugCompileClasspath"
+                ) else emptyList()
             }
     }
+
+    override fun toString(): String = consumer.id + " consumes " + producer.id
 }
 
 fun ScenarioProject(
@@ -56,6 +63,14 @@ fun ScenarioProject(
     ProjectVariant.JavaOnly -> Scenario.Project(variant, gradleVersion, null, null)
     is ProjectVariant.Kmp -> Scenario.Project(variant, gradleVersion, kotlinVersion, agpVersion.takeIf { variant.withAndroid })
 }
+
+val Scenario.Project.id
+    get() = listOfNotNull(
+        "gradle_${sanitizedGradleVersionString.lettersDigitsUnderscores}",
+        variant.toString(),
+        sanitizedKotlinVersionString?.let { "kgp_$it" },
+        sanitizedAndroidVersionString?.let { "agp_$it" },
+    ).joinToString("_") { it.lettersDigitsUnderscores }
 
 val Scenario.Project.packageName get() = "sample.gradle_${sanitizedGradleVersionString.lettersDigitsUnderscores}"
 
