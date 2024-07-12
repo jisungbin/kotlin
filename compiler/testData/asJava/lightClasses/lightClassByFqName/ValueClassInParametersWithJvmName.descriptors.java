@@ -11,6 +11,9 @@ public final class UTypeDeclarationClass /* one.UTypeDeclarationClass*/ {
   @org.jetbrains.annotations.NotNull()
   private java.lang.String setterAndGetter;
 
+  @kotlin.jvm.JvmName(name = "_functionWithValueClassInReceiverWithJvmName")
+  public final void _functionWithValueClassInReceiverWithJvmName(@org.jetbrains.annotations.NotNull() java.lang.String);//  _functionWithValueClassInReceiverWithJvmName(java.lang.String)
+
   @kotlin.jvm.JvmName(name = "_functionWithValueClassInReturnWithJvmName")
   @org.jetbrains.annotations.Nullable()
   public final java.lang.String _functionWithValueClassInReturnWithJvmName();//  _functionWithValueClassInReturnWithJvmName()
@@ -42,6 +45,8 @@ public final class UTypeDeclarationClass /* one.UTypeDeclarationClass*/ {
   public final java.lang.String functionWithValueClassInReturn();//  functionWithValueClassInReturn()
 
   public  UTypeDeclarationClass();//  .ctor()
+
+  public final void functionWithValueClassInReceiver(@org.jetbrains.annotations.NotNull() java.lang.String);//  functionWithValueClassInReceiver(java.lang.String)
 
   public final void methodWithValueClass(@org.jetbrains.annotations.NotNull() java.lang.String);//  methodWithValueClass(java.lang.String)
 

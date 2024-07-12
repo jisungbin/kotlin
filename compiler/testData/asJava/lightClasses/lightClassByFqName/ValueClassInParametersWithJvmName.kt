@@ -31,4 +31,9 @@ class UTypeDeclarationClass {
 
     @JvmName("_functionWithValueClassInReturnWithJvmName")
     fun functionWithValueClassInReturnWithJvmName(): MyValueClass? = null
+
+    fun MyValueClass.functionWithValueClassInReceiver() {}
+
+    @JvmName("_functionWithValueClassInReceiverWithJvmName")
+    fun MyValueClass.functionWithValueClassInReceiverWithJvmName() {}
 }
