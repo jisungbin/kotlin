@@ -18,17 +18,19 @@ internal data class ProjectPathWithBuildPath(
     val projectPath: String,
     val buildPath: String,
 )
+
 internal interface IMppDependenciesProjectStructureMetadataExtractorFactory {
     fun create(
         metadataArtifact: ResolvedArtifactResult,
         resolvedMetadataConfiguration: LazyResolvedConfiguration?,
     ): MppDependencyProjectStructureMetadataExtractor
 }
+
 internal class MppDependenciesProjectStructureMetadataExtractorFactory
 private constructor(
     private val currentBuild: CurrentBuildIdentifier,
     private val includedBuildsProjectStructureMetadataProviders: Lazy<Map<ProjectPathWithBuildPath, Lazy<KotlinProjectStructureMetadata?>>>,
-): IMppDependenciesProjectStructureMetadataExtractorFactory {
+) : IMppDependenciesProjectStructureMetadataExtractorFactory {
     override fun create(
         metadataArtifact: ResolvedArtifactResult,
         resolvedMetadataConfiguration: LazyResolvedConfiguration?,
@@ -56,7 +58,8 @@ private constructor(
                     IncludedBuildMppDependencyProjectStructureMetadataExtractor(
                         primaryArtifact = metadataArtifact.file,
                         projectStructureMetadataProvider = { null },
-                        projectStructureMetadataFile = projectStructureMetadataFileForCurrentModuleId)
+                        projectStructureMetadataFile = projectStructureMetadataFileForCurrentModuleId
+                    )
                 } else {
                     /*
                     We switched to using 'buildPath' instead of 'buildName' in 1.9.20,
@@ -78,7 +81,10 @@ private constructor(
                 }
             }
         } else {
-            JarMppDependencyProjectStructureMetadataExtractor(metadataArtifact.file)
+            val projectStructureMetadataFile =
+                getProjectStructureMetadataFileForCurrentModuleId(resolvedMetadataConfiguration, moduleId)
+                    ?: error("Project structure metadata not found for external dependency '${moduleId.displayName}'")
+            JarMppDependencyProjectStructureMetadataExtractor(projectStructureMetadataFile)
         }
     }
 
