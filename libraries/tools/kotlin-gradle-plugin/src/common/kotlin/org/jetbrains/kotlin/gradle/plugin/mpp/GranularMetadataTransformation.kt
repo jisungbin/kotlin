@@ -99,10 +99,10 @@ internal class GranularMetadataTransformation(
         val sourceSetName: String,
         val resolvedMetadataConfiguration: LazyResolvedConfiguration,
         val sourceSetVisibilityProvider: SourceSetVisibilityProvider,
-        val projectStructureMetadataExtractorFactory: IMppDependenciesProjectStucureMetadataExtractorFactory,
+        val projectStructureMetadataExtractorFactory: IMppDependenciesProjectStructureMetadataExtractorFactory,
         val projectData: Map<String, ProjectData>,
         val platformCompilationSourceSets: Set<String>,
-        val projectStructureMetadataResolvableConfiguration: LazyResolvedConfiguration,
+        val projectStructureMetadataResolvableConfiguration: LazyResolvedConfiguration?,
     ) {
         constructor(project: Project, kotlinSourceSet: KotlinSourceSet) : this(
             build = project.currentBuild,
@@ -112,7 +112,8 @@ internal class GranularMetadataTransformation(
             projectStructureMetadataExtractorFactory = if (project.kotlinPropertiesProvider.kotlinKmpProjectIsolationEnabled) project.kotlinMppDependencyProjectStructureMetadataExtractorFactory else project.kotlinMppDependencyProjectStructureMetadataExtractorFactoryDeprecated,
             projectData = project.allProjectsData,
             platformCompilationSourceSets = project.multiplatformExtension.platformCompilationSourceSets,
-            projectStructureMetadataResolvableConfiguration = LazyResolvedConfiguration(kotlinSourceSet.internal.projectStructureMetadataResolvableConfiguration),
+            projectStructureMetadataResolvableConfiguration =
+            kotlinSourceSet.internal.projectStructureMetadataResolvableConfiguration?.let { LazyResolvedConfiguration(it) },
         )
     }
 
@@ -229,7 +230,10 @@ internal class GranularMetadataTransformation(
         logger.debug("Transform composite metadata artifact: '${compositeMetadataArtifact.file}'")
 
         val mppDependencyMetadataExtractor =
-            params.projectStructureMetadataExtractorFactory.create(compositeMetadataArtifact, params.projectStructureMetadataResolvableConfiguration)
+            params.projectStructureMetadataExtractorFactory.create(
+                compositeMetadataArtifact,
+                params.projectStructureMetadataResolvableConfiguration
+            )
         val projectStructureMetadata = mppDependencyMetadataExtractor.getProjectStructureMetadata()
             ?: return MetadataDependencyResolution.KeepOriginalDependency(module)
 

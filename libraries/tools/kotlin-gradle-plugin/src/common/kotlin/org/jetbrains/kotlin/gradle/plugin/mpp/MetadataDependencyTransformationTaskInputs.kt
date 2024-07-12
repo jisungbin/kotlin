@@ -1,9 +1,9 @@
 package org.jetbrains.kotlin.gradle.plugin.mpp
 
 import org.gradle.api.Project
-import org.gradle.api.artifacts.ArtifactCollection
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.ProjectDependency
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.*
 import org.gradle.work.NormalizeLineEndings
@@ -29,8 +29,9 @@ internal class MetadataDependencyTransformationTaskInputs(
     @get:PathSensitive(PathSensitivity.RELATIVE)
     @get:IgnoreEmptyDirectories
     @get:NormalizeLineEndings
-    val projectStructureMetadataFileCollection: ArtifactCollection =
-        kotlinSourceSet.internal.projectStructureMetadataResolvableConfiguration.lenientArtifactsView
+    val projectStructureMetadataFileCollection: ConfigurableFileCollection = project.filesProvider {
+        kotlinSourceSet.internal.projectStructureMetadataResolvableConfiguration?.lenientArtifactsView?.artifactFiles
+    }
 
     @Suppress("unused") // Gradle input
     @get:InputFiles

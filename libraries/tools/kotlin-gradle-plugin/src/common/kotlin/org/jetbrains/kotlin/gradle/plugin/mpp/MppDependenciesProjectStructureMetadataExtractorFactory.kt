@@ -18,20 +18,20 @@ internal data class ProjectPathWithBuildPath(
     val projectPath: String,
     val buildPath: String,
 )
-internal interface IMppDependenciesProjectStucureMetadataExtractorFactory {
+internal interface IMppDependenciesProjectStructureMetadataExtractorFactory {
     fun create(
         metadataArtifact: ResolvedArtifactResult,
-        resolvedMetadataConfiguration: LazyResolvedConfiguration,
+        resolvedMetadataConfiguration: LazyResolvedConfiguration?,
     ): MppDependencyProjectStructureMetadataExtractor
 }
 internal class MppDependenciesProjectStructureMetadataExtractorFactory
 private constructor(
     private val currentBuild: CurrentBuildIdentifier,
     private val includedBuildsProjectStructureMetadataProviders: Lazy<Map<ProjectPathWithBuildPath, Lazy<KotlinProjectStructureMetadata?>>>,
-): IMppDependenciesProjectStucureMetadataExtractorFactory {
+): IMppDependenciesProjectStructureMetadataExtractorFactory {
     override fun create(
         metadataArtifact: ResolvedArtifactResult,
-        resolvedMetadataConfiguration: LazyResolvedConfiguration,
+        resolvedMetadataConfiguration: LazyResolvedConfiguration?,
     ): MppDependencyProjectStructureMetadataExtractor {
         val moduleId = metadataArtifact.variant.owner
 
@@ -83,12 +83,12 @@ private constructor(
     }
 
     private fun getProjectStructureMetadataFileForCurrentModuleId(
-        resolvedMetadataConfiguration: LazyResolvedConfiguration,
+        resolvedMetadataConfiguration: LazyResolvedConfiguration?,
         moduleId: ComponentIdentifier?,
-    ) = resolvedMetadataConfiguration.resolvedArtifacts
-        .filter { it.id.componentIdentifier == moduleId }
-        .map { it.file }
-        .singleOrNull()
+    ) = resolvedMetadataConfiguration?.resolvedArtifacts
+        ?.filter { it.id.componentIdentifier == moduleId }
+        ?.map { it.file }
+        ?.singleOrNull()
 
     companion object {
         fun getOrCreate(project: Project): MppDependenciesProjectStructureMetadataExtractorFactory =

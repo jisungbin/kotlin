@@ -97,9 +97,7 @@ class KotlinMetadataTargetConfigurator :
                 // As it configures legacy metadata configurations that is used by older IDE Import
                 // And it also configures platform source sets for the same reason
                 sourceSet.internal.resolvableMetadataConfiguration
-                if (project.kotlinPropertiesProvider.kotlinKmpProjectIsolationEnabled) {
-                    sourceSet.internal.projectStructureMetadataResolvableConfiguration
-                }
+                sourceSet.internal.projectStructureMetadataResolvableConfiguration
             }
         }
     }
