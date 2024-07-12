@@ -11,6 +11,10 @@ public final class UTypeDeclarationClass /* one.UTypeDeclarationClass*/ {
   @org.jetbrains.annotations.NotNull()
   private java.lang.String setterAndGetter;
 
+  @kotlin.jvm.JvmName(name = "_functionWithValueClassInReturnWithJvmName")
+  @org.jetbrains.annotations.Nullable()
+  public final java.lang.String _functionWithValueClassInReturnWithJvmName();//  _functionWithValueClassInReturnWithJvmName()
+
   @kotlin.jvm.JvmName(name = "_methodWithJvmName")
   public final void _methodWithJvmName(@org.jetbrains.annotations.NotNull() java.lang.String);//  _methodWithJvmName(java.lang.String)
 
@@ -33,6 +37,9 @@ public final class UTypeDeclarationClass /* one.UTypeDeclarationClass*/ {
 
   @org.jetbrains.annotations.NotNull()
   public final java.lang.String getSetter-KOFEOT0();//  getSetter-KOFEOT0()
+
+  @org.jetbrains.annotations.Nullable()
+  public final java.lang.String functionWithValueClassInReturn-BXGQg7w();//  functionWithValueClassInReturn-BXGQg7w()
 
   public  UTypeDeclarationClass();//  .ctor()
 

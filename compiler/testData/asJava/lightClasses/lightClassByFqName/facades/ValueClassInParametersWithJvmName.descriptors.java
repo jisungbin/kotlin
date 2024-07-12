@@ -11,6 +11,10 @@ public final class ValueClassInParametersWithJvmNameKt /* one.ValueClassInParame
   @org.jetbrains.annotations.NotNull()
   private static java.lang.String setterAndGetter;
 
+  @kotlin.jvm.JvmName(name = "_functionWithValueClassInReturnWithJvmName")
+  @org.jetbrains.annotations.Nullable()
+  public static final java.lang.String _functionWithValueClassInReturnWithJvmName();//  _functionWithValueClassInReturnWithJvmName()
+
   @kotlin.jvm.JvmName(name = "_methodWithJvmName")
   public static final void _methodWithJvmName(@org.jetbrains.annotations.NotNull() java.lang.String);//  _methodWithJvmName(java.lang.String)
 
@@ -33,6 +37,9 @@ public final class ValueClassInParametersWithJvmNameKt /* one.ValueClassInParame
 
   @org.jetbrains.annotations.NotNull()
   public static final java.lang.String getSetter();//  getSetter()
+
+  @org.jetbrains.annotations.Nullable()
+  public static final java.lang.String functionWithValueClassInReturn();//  functionWithValueClassInReturn()
 
   public static final void methodWithValueClass(@org.jetbrains.annotations.NotNull() java.lang.String);//  methodWithValueClass(java.lang.String)
 
