@@ -154,6 +154,11 @@ public final class FqNameUnsafe {
         }
     }
 
+    /**
+     * @deprecated
+     * Produces segments that may not properly split package parts containing dots. Use `properPathSegments`
+     */
+    @Deprecated
     @NotNull
     public List<Name> pathSegments() {
         return isRoot() ? Collections.<Name>emptyList() : ArraysKt.map(SPLIT_BY_DOTS.split(fqName), STRING_TO_NAME);

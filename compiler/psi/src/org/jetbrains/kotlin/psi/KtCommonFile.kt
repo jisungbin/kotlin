@@ -90,6 +90,7 @@ open class KtCommonFile(viewProvider: FileViewProvider, val isCompiled: Boolean)
             return if (ast != null) ast.psi as KtPackageDirective else null
         }
 
+    @Deprecated("Produces an FqName that may not properly split package parts containing dots. Use `properPackageFqName`")
     var packageFqName: FqName
         get() = stub?.getPackageFqName() ?: packageFqNameByTree
         set(value) {
@@ -102,8 +103,24 @@ open class KtCommonFile(viewProvider: FileViewProvider, val isCompiled: Boolean)
             }
         }
 
+    var properPackageFqName: FqName
+        get() = stub?.getPackageFqName() ?: properPackageFqNameByTree
+        set(value) {
+            val packageDirective = packageDirective
+            if (packageDirective != null) {
+                packageDirective.fqName = value
+            } else {
+                val newPackageDirective = KtPsiFactory(project).createPackageDirectiveIfNeeded(value) ?: return
+                addAfter(newPackageDirective, null)
+            }
+        }
+
+    @Deprecated("Produces an FqName that may not properly split package parts containing dots. Use `properPackageFqNameByTree`")
     val packageFqNameByTree: FqName
         get() = packageDirectiveByTree?.fqName ?: FqName.ROOT
+
+    val properPackageFqNameByTree: FqName
+        get() = packageDirectiveByTree?.parsePackageName() ?: FqName.ROOT
 
     val script: KtScript?
         get() {

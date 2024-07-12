@@ -107,10 +107,27 @@ public class KtPackageDirective extends KtModifierListOwnerStub<KotlinPlaceHolde
         return getName().length() == 0;
     }
 
+    /**
+     * @deprecated
+     * Produces an FqName that may not properly split package parts containing dots. Use `parsePackageName`
+     */
+    @Deprecated()
     @NotNull
     public FqName getFqName() {
         String qualifiedName = getQualifiedName();
         return qualifiedName.isEmpty() ? FqName.ROOT : new FqName(qualifiedName);
+    }
+
+    @NotNull
+    public FqName parsePackageName() {
+        FqName packageName = FqName.ROOT;
+        List<KtSimpleNameExpression> parts = getPackageNames();
+
+        for (KtSimpleNameExpression part : parts) {
+            packageName = packageName.child(Name.identifier(part.getReferencedName()));
+        }
+
+        return packageName;
     }
 
     @NotNull

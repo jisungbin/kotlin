@@ -33,10 +33,12 @@ private fun Name.shouldBeEscaped(): Boolean {
 }
 
 fun FqNameUnsafe.render(): String {
+    @Suppress("DEPRECATION")
     return renderFqName(pathSegments())
 }
 
 fun FqName.render(): String {
+    @Suppress("DEPRECATION")
     return renderFqName(pathSegments())
 }
 

@@ -93,6 +93,11 @@ public final class FqName {
         return fqName.shortNameOrSpecial();
     }
 
+    /**
+     * @deprecated
+     * Produces segments that may not properly split package parts containing dots. Use `properPathSegments`
+     */
+    @Deprecated
     @NotNull
     public List<Name> pathSegments() {
         return fqName.pathSegments();
