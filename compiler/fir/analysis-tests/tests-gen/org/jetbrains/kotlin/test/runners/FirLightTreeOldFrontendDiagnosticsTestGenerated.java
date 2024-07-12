@@ -11091,6 +11091,12 @@ public class FirLightTreeOldFrontendDiagnosticsTestGenerated extends AbstractFir
       }
 
       @Test
+      @TestMetadata("overrideWithoutDefaultButBaseWithDefaultAndKMP.kt")
+      public void testOverrideWithoutDefaultButBaseWithDefaultAndKMP() {
+        runTest("compiler/testData/diagnostics/tests/defaultArguments/overrideWithoutDefaultButBaseWithDefaultAndKMP.kt");
+      }
+
+      @Test
       @TestMetadata("superCall.kt")
       public void testSuperCall() {
         runTest("compiler/testData/diagnostics/tests/defaultArguments/superCall.kt");
