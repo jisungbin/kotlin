@@ -10,7 +10,6 @@ import org.jetbrains.kotlin.fir.FirSessionComponent
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutor
 import org.jetbrains.kotlin.fir.scopes.*
-import org.jetbrains.kotlin.fir.scopes.impl.FirAbstractImportingScope
 
 class FirDefaultParametersResolver : FirSessionComponent {
     fun declaresDefaultValue(
@@ -25,8 +24,8 @@ class FirDefaultParametersResolver : FirSessionComponent {
         val symbol = function.symbol
         val typeScope = when (originScope) {
             is FirTypeScope -> originScope
-            // imported from object case
-            is FirAbstractImportingScope -> {
+            // Handle other scopes, including importing from an object
+            else -> {
                 val containingClass = function.getContainingClass() ?: return false
                 containingClass.scopeForClass(
                     ConeSubstitutor.Empty,
@@ -36,7 +35,6 @@ class FirDefaultParametersResolver : FirSessionComponent {
                     memberRequiredPhase = null,
                 )
             }
-            else -> return false
         }
         var result = false
 
