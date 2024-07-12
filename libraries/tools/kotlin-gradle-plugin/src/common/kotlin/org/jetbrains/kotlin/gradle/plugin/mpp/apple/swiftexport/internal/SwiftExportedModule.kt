@@ -15,7 +15,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.StaticLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.SwiftExportExtension
 import org.jetbrains.kotlin.gradle.utils.LazyResolvedConfiguration
 import org.jetbrains.kotlin.gradle.utils.newInstance
-import org.jetbrains.kotlin.gradle.utils.setProperty
 
 // Exported module declaration
 abstract class SwiftExportedModule {
@@ -35,27 +34,22 @@ internal fun Project.swiftExportedModules(
     binary: StaticLibrary,
     swiftExportExtension: SwiftExportExtension,
 ): Provider<List<SwiftExportedModule>> {
-    val exportedModules = objects.setProperty<SwiftExportExtension.ModuleExport>().convention(
-        swiftExportExtension.exportedModules
-    )
-
     val mainCompilation = binary.target.compilations.getByName("main")
-
-    val rootModule = objects.newInstance<SwiftExportedModule>().apply {
-        moduleName.set(swiftExportExtension.nameProvider)
-        flattenPackage.set(swiftExportExtension.flattenPackageProvider)
-        artifacts.from(mainCompilation.compileTaskProvider.map { it.outputFile.get() })
-    }
-
     val configuration = LazyResolvedConfiguration(
         project.configurations.getByName(binary.exportConfigurationName)
     )
 
-    return exportedModules.map { modules ->
+    return mainCompilation.compileTaskProvider.map { compile ->
         configuration.allResolvedDependencies.mapNotNull { resolvedDependency ->
-            findAndCreateSwiftExportedModule(modules, resolvedDependency, configuration)
+            findAndCreateSwiftExportedModule(swiftExportExtension.exportedModules, resolvedDependency, configuration)
         }.toMutableList().apply {
-            add(rootModule)
+            add(
+                objects.newInstance<SwiftExportedModule>().apply {
+                    moduleName.set(swiftExportExtension.nameProvider)
+                    flattenPackage.set(swiftExportExtension.flattenPackageProvider)
+                    artifacts.from(compile.outputFile)
+                }
+            )
         }
     }
 }

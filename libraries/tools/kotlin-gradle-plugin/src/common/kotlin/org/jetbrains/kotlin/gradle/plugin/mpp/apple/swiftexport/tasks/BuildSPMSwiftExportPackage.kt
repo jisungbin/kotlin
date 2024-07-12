@@ -8,7 +8,6 @@ package org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.tasks
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.*
 import org.gradle.api.model.ObjectFactory
-import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.ProviderFactory
 import org.gradle.api.tasks.*
@@ -44,10 +43,6 @@ internal abstract class BuildSPMSwiftExportPackage @Inject constructor(
 
     @get:Input
     abstract val configuration: Property<String>
-
-    @get:Input
-    @get:Optional
-    abstract val autolinkLibraries: ListProperty<String>
 
     @get:Optional
     @get:Input
@@ -103,7 +98,7 @@ internal abstract class BuildSPMSwiftExportPackage @Inject constructor(
             "BUILT_PRODUCTS_DIR" to interfacesPath.getFile().canonicalPath,
         )
 
-        val autolinkLibraries = autolinkLibraries.get()
+        val swiftModuleName = swiftApiModuleName.get()
 
         val buildArguments = mapOf(
             "ARCHS" to target.map { it.appleArchitecture }.get(),
@@ -113,18 +108,15 @@ internal abstract class BuildSPMSwiftExportPackage @Inject constructor(
             All object files will be merged in `lib${swiftApiModuleName}.a`
             More information can be found here: https://github.com/swiftlang/swift/pull/35936
              */
-            "OTHER_SWIFT_FLAGS" to autolinkLibraries.joinToString(" ") { library ->
-                "-Xfrontend -public-autolink-library -Xfrontend $library"
-            }
+            "OTHER_SWIFT_FLAGS" to "-Xfrontend -public-autolink-library -Xfrontend $swiftModuleName"
         )
 
         val derivedData = packageDerivedData.getFile()
-        val scheme = swiftApiModuleName.get()
 
         val command = listOf(
             "xcodebuild",
             "-derivedDataPath", derivedData.relativeOrAbsolute(packageRootPath),
-            "-scheme", scheme,
+            "-scheme", swiftModuleName,
             "-destination", destination()
         ) + (intermediatesDestination + buildArguments).map { (k, v) -> "$k=$v" }
 
