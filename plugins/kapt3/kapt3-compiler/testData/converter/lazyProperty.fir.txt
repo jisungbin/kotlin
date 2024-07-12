@@ -4,24 +4,24 @@
  *   // signature: <init>()V
  *   public constructor()
  *
- *   // field: bar$delegate:Lkotlin/Lazy;
- *   // getter: getBar()Ljava/lang/Object;
- *   private final (* delegated *) val bar: kotlin/Any
+ *   // getter: getBar()Ljava/lang/Runnable;
+ *   // synthetic method for delegate: getBar$delegate(LFoo;)Ljava/lang/Object;
+ *   private final (* delegated *) val bar: java/lang/Runnable
  *     private final (* non-default *) get
  *
- *   // field: baz$delegate:Lkotlin/Lazy;
  *   // getter: getBaz()Ljava/lang/Object;
- *   private final (* delegated *) val baz: kotlin/Any
+ *   // synthetic method for delegate: getBaz$delegate(LFoo;)Ljava/lang/Object;
+ *   private final (* delegated *) val baz: .<local>/LocalIntf
  *     private final (* non-default *) get
  *
- *   // field: foo$delegate:Lkotlin/Lazy;
  *   // getter: getFoo()Ljava/lang/Runnable;
+ *   // synthetic method for delegate: getFoo$delegate(LFoo;)Ljava/lang/Object;
  *   private final (* delegated *) val foo: java/lang/Runnable
  *     private final (* non-default *) get
  *
- *   // field: generic1$delegate:Lkotlin/Lazy;
  *   // getter: getGeneric1()LGenericIntf;
- *   private final (* delegated *) val generic1: GenericIntf<kotlin/CharSequence>
+ *   // synthetic method for delegate: getGeneric1$delegate(LFoo;)Ljava/lang/Object;
+ *   private final (* delegated *) val generic1: .<local>/LocalIntf
  *     private final (* non-default *) get
  *
  *   // module name: main
@@ -29,14 +29,6 @@
  */
 @kotlin.Metadata()
 public final class Foo {
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.Lazy foo$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.Lazy bar$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.Lazy baz$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.Lazy generic1$delegate = null;
 
     public Foo() {
         super();
@@ -46,7 +38,7 @@ public final class Foo {
         return null;
     }
 
-    private final java.lang.Object getBar() {
+    private final java.lang.Runnable getBar() {
         return null;
     }
 
@@ -55,6 +47,22 @@ public final class Foo {
     }
 
     private final GenericIntf<java.lang.CharSequence> getGeneric1() {
+        return null;
+    }
+
+    private static java.lang.Object getBar$delegate(Foo p0) {
+        return null;
+    }
+
+    private static java.lang.Object getBaz$delegate(Foo p0) {
+        return null;
+    }
+
+    private static java.lang.Object getFoo$delegate(Foo p0) {
+        return null;
+    }
+
+    private static java.lang.Object getGeneric1$delegate(Foo p0) {
         return null;
     }
 }

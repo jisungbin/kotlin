@@ -19,9 +19,9 @@
 @kotlin.Metadata()
 public abstract @interface AnnoArray {
 
-    public abstract java.lang.String[] a();
-
     public abstract int x();
+
+    public abstract java.lang.String[] a();
 }
 
 ////////////////////
@@ -48,9 +48,9 @@ public abstract @interface AnnoArray {
 @kotlin.Metadata()
 public abstract @interface AnnoBoolean {
 
-    public abstract boolean bool();
-
     public abstract int x();
+
+    public abstract boolean bool();
 }
 
 ////////////////////
@@ -77,9 +77,9 @@ public abstract @interface AnnoBoolean {
 @kotlin.Metadata()
 public abstract @interface AnnoChar {
 
-    public abstract char chr();
-
     public abstract int x();
+
+    public abstract char chr();
 }
 
 ////////////////////
@@ -106,9 +106,9 @@ public abstract @interface AnnoChar {
 @kotlin.Metadata()
 public abstract @interface AnnoClass {
 
-    public abstract java.lang.Class<Color> c();
-
     public abstract int x();
+
+    public abstract java.lang.Class<Color> c();
 }
 
 ////////////////////
@@ -135,9 +135,9 @@ public abstract @interface AnnoClass {
 @kotlin.Metadata()
 public abstract @interface AnnoDouble {
 
-    public abstract double dbl();
-
     public abstract int x();
+
+    public abstract double dbl();
 }
 
 ////////////////////
@@ -164,9 +164,9 @@ public abstract @interface AnnoDouble {
 @kotlin.Metadata()
 public abstract @interface AnnoEnum {
 
-    public abstract Color c();
-
     public abstract int x();
+
+    public abstract Color c();
 }
 
 ////////////////////
@@ -193,9 +193,9 @@ public abstract @interface AnnoEnum {
 @kotlin.Metadata()
 public abstract @interface AnnoFloat {
 
-    public abstract float flt();
-
     public abstract int x();
+
+    public abstract float flt();
 }
 
 ////////////////////
@@ -222,9 +222,9 @@ public abstract @interface AnnoFloat {
 @kotlin.Metadata()
 public abstract @interface AnnoInt {
 
-    public abstract int i();
-
     public abstract int x();
+
+    public abstract int i();
 }
 
 ////////////////////
@@ -251,9 +251,9 @@ public abstract @interface AnnoInt {
 @kotlin.Metadata()
 public abstract @interface AnnoIntArray {
 
-    public abstract int[] b();
-
     public abstract int x();
+
+    public abstract int[] b();
 }
 
 ////////////////////
@@ -280,9 +280,9 @@ public abstract @interface AnnoIntArray {
 @kotlin.Metadata()
 public abstract @interface AnnoLong {
 
-    public abstract long l();
-
     public abstract int x();
+
+    public abstract long l();
 }
 
 ////////////////////
@@ -309,9 +309,9 @@ public abstract @interface AnnoLong {
 @kotlin.Metadata()
 public abstract @interface AnnoLongArray {
 
-    public abstract long[] b();
-
     public abstract int x();
+
+    public abstract long[] b();
 }
 
 ////////////////////
@@ -338,9 +338,9 @@ public abstract @interface AnnoLongArray {
 @kotlin.Metadata()
 public abstract @interface AnnoString {
 
-    public abstract java.lang.String s();
-
     public abstract int x();
+
+    public abstract java.lang.String s();
 }
 
 ////////////////////

@@ -14,9 +14,9 @@
  */
 @kotlin.Metadata()
 public abstract interface Intf {
+    public static final int WHITE = 0;
     @org.jetbrains.annotations.NotNull()
     public static final Intf.Companion Companion = null;
-    public static final int WHITE = 0;
 
     public abstract int getColor();
 

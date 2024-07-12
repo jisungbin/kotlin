@@ -1,11 +1,9 @@
-import kotlin.reflect.KProperty;
-
 /**
  * package {
  *
- *   // field: delegate$delegate:Ljava/lang/Object;
  *   // getter: getDelegate()Ljava/lang/Object;
  *   // setter: setDelegate(Ljava/lang/Object;)V
+ *   // synthetic method for delegate: getDelegate$delegate()Ljava/lang/Object;
  *   public final (* delegated *) var delegate: kotlin/Any
  *     public final (* non-default *) get
  *     public final (* non-default *) set(<set-?>: kotlin/Any)
@@ -19,23 +17,23 @@ public final class AnonymousDelegateKt {
     public AnonymousDelegateKt() {
         super();
     }
-    @org.jetbrains.annotations.NotNull()
-    private static final java.lang.Object delegate$delegate = null;
+
+    public static final void setDelegate(@org.jetbrains.annotations.NotNull()
+    java.lang.Object p0) {
+    }
 
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.Object getDelegate() {
         return null;
     }
 
-    public static final void setDelegate(@org.jetbrains.annotations.NotNull()
-    java.lang.Object p0) {
+    private static java.lang.Object getDelegate$delegate() {
+        return null;
     }
 }
 
 ////////////////////
 
-
-import kotlin.reflect.KProperty;
 
 /**
  * public final class ConcreteDelegate : kotlin/Any {
@@ -66,34 +64,32 @@ public final class ConcreteDelegate {
 ////////////////////
 
 
-import kotlin.reflect.KProperty;
-
 /**
  * public final class Test : kotlin/Any {
  *
  *   // signature: <init>()V
  *   public constructor()
  *
- *   // field: broken$delegate:Ljava/lang/Object;
  *   // getter: getBroken()Ljava/lang/Object;
  *   // setter: setBroken(Ljava/lang/Object;)V
+ *   // synthetic method for delegate: getBroken$delegate(LTest;)Ljava/lang/Object;
  *   public final (* delegated *) var broken: kotlin/Any
  *     public final (* non-default *) get
  *     public final (* non-default *) set(<set-?>: kotlin/Any)
  *
- *   // field: concreteDelegate$delegate:LConcreteDelegate;
  *   // getter: getConcreteDelegate()I
+ *   // synthetic method for delegate: getConcreteDelegate$delegate(LTest;)Ljava/lang/Object;
  *   public final (* delegated *) val concreteDelegate: kotlin/Int
  *     public final (* non-default *) get
  *
- *   // field: lazyProp$delegate:Lkotlin/Lazy;
- *   // getter: getLazyProp()Ljava/lang/Runnable;
- *   private final (* delegated *) val lazyProp: java/lang/Runnable
+ *   // getter: getLazyProp()Ljava/lang/Object;
+ *   // synthetic method for delegate: getLazyProp$delegate(LTest;)Ljava/lang/Object;
+ *   private final (* delegated *) val lazyProp: .kotlin/Any
  *     private final (* non-default *) get
  *
- *   // field: overridden$delegate:Ljava/io/Serializable;
  *   // getter: getOverridden()Ljava/lang/Object;
  *   // setter: setOverridden(Ljava/lang/Object;)V
+ *   // synthetic method for delegate: getOverridden$delegate(LTest;)Ljava/lang/Object;
  *   public final (* delegated *) var overridden: kotlin/Any
  *     public final (* non-default *) get
  *     public final (* non-default *) set(<set-?>: kotlin/Any)
@@ -103,17 +99,13 @@ import kotlin.reflect.KProperty;
  */
 @kotlin.Metadata()
 public final class Test {
-    @org.jetbrains.annotations.NotNull()
-    private final java.lang.Object broken$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final java.io.Serializable overridden$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.Lazy lazyProp$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final ConcreteDelegate concreteDelegate$delegate = null;
 
     public Test() {
         super();
+    }
+
+    public final void setBroken(@org.jetbrains.annotations.NotNull()
+    java.lang.Object p0) {
     }
 
     @org.jetbrains.annotations.NotNull()
@@ -121,7 +113,7 @@ public final class Test {
         return null;
     }
 
-    public final void setBroken(@org.jetbrains.annotations.NotNull()
+    public final void setOverridden(@org.jetbrains.annotations.NotNull()
     java.lang.Object p0) {
     }
 
@@ -130,15 +122,27 @@ public final class Test {
         return null;
     }
 
-    public final void setOverridden(@org.jetbrains.annotations.NotNull()
-    java.lang.Object p0) {
-    }
-
-    private final java.lang.Runnable getLazyProp() {
+    private final java.lang.Object getLazyProp() {
         return null;
     }
 
     public final int getConcreteDelegate() {
         return 0;
+    }
+
+    private static java.lang.Object getBroken$delegate(Test p0) {
+        return null;
+    }
+
+    private static java.lang.Object getConcreteDelegate$delegate(Test p0) {
+        return null;
+    }
+
+    private static java.lang.Object getLazyProp$delegate(Test p0) {
+        return null;
+    }
+
+    private static java.lang.Object getOverridden$delegate(Test p0) {
+        return null;
     }
 }

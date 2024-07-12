@@ -6,34 +6,34 @@ package test;
  *   // signature: <init>()V
  *   public constructor()
  *
- *   // field: a$delegate:Lkotlin/Lazy;
  *   // getter: getA()Ltest/C;
+ *   // synthetic method for delegate: getA$delegate(Ltest/A;)Ljava/lang/Object;
  *   public final (* delegated *) val a: test/C<kotlin/String>
  *     public final (* non-default *) get
  *
- *   // field: b$delegate:Lkotlin/Lazy;
  *   // getter: getB()Ltest/C;
+ *   // synthetic method for delegate: getB$delegate(Ltest/A;)Ljava/lang/Object;
  *   public final (* delegated *) val b: test/C<kotlin/String>
  *     public final (* non-default *) get
  *
- *   // field: c$delegate:Lkotlin/reflect/KProperty0;
  *   // getter: getC()Ltest/C;
+ *   // synthetic method for delegate: getC$delegate(Ltest/A;)Ljava/lang/Object;
  *   public final (* delegated *) val c: test/C<kotlin/String>
  *     public final (* non-default *) get
  *
- *   // field: x$delegate:Lkotlin/Lazy;
- *   // getter: getX()Lkotlin/Unit;
+ *   // getter: getX()Lerror/NonExistentClass;
  *   // synthetic method for annotations: getX$annotations()V
- *   public final (* delegated *) val x: kotlin/Unit
+ *   // synthetic method for delegate: getX$delegate(Ltest/A;)Ljava/lang/Object;
+ *   public final (* delegated *) val x: error/NonExistentClass
  *     public final (* non-default *) get
  *
- *   // field: y$delegate:Ltest/C;
  *   // getter: getY()Ljava/lang/String;
+ *   // synthetic method for delegate: getY$delegate(Ltest/A;)Ljava/lang/Object;
  *   public final (* delegated *) val y: kotlin/String
  *     public final (* non-default *) get
  *
- *   // field: z$delegate:Ltest/C;
  *   // getter: getZ()Ljava/lang/String;
+ *   // synthetic method for delegate: getZ$delegate(Ltest/A;)Ljava/lang/Object;
  *   public final (* delegated *) val z: kotlin/String
  *     public final (* non-default *) get
  *
@@ -42,25 +42,13 @@ package test;
  */
 @kotlin.Metadata()
 public final class A {
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.Lazy x$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final test.C z$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final test.C y$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.Lazy a$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.Lazy b$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.reflect.KProperty0 c$delegate = null;
 
     public A() {
         super();
     }
 
     @org.jetbrains.annotations.NotNull()
-    public final kotlin.Unit getX() {
+    public final error.NonExistentClass getX() {
         return null;
     }
 
@@ -91,6 +79,30 @@ public final class A {
 
     @org.jetbrains.annotations.NotNull()
     public final test.C<java.lang.String> getC() {
+        return null;
+    }
+
+    private static java.lang.Object getA$delegate(test.A p0) {
+        return null;
+    }
+
+    private static java.lang.Object getB$delegate(test.A p0) {
+        return null;
+    }
+
+    private static java.lang.Object getC$delegate(test.A p0) {
+        return null;
+    }
+
+    private static java.lang.Object getX$delegate(test.A p0) {
+        return null;
+    }
+
+    private static java.lang.Object getY$delegate(test.A p0) {
+        return null;
+    }
+
+    private static java.lang.Object getZ$delegate(test.A p0) {
         return null;
     }
 }

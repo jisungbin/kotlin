@@ -88,8 +88,21 @@ public final class R<T extends java.lang.Object> extends java.lang.Record implem
         super();
     }
 
+    public final int x() {
+        return 0;
+    }
+
+    public final T y() {
+        return null;
+    }
+
     public R(T y) {
         super();
+    }
+
+    @java.lang.Override()
+    public int foo() {
+        return 0;
     }
 
     public final int component1() {
@@ -113,11 +126,6 @@ public final class R<T extends java.lang.Object> extends java.lang.Record implem
     }
 
     @java.lang.Override()
-    public int foo() {
-        return 0;
-    }
-
-    @java.lang.Override()
     public int hashCode() {
         return 0;
     }
@@ -125,14 +133,6 @@ public final class R<T extends java.lang.Object> extends java.lang.Record implem
     @java.lang.Override()
     @org.jetbrains.annotations.NotNull()
     public java.lang.String toString() {
-        return null;
-    }
-
-    public final int x() {
-        return 0;
-    }
-
-    public final T y() {
         return null;
     }
 }

@@ -25,14 +25,14 @@ public final class GroupedNewsListDelegateAdapter {
  *   // signature: <init>()V
  *   public constructor()
  *
- *   // field: categoryNewsListPresenter$delegate:Lkotlin/Unit;
  *   // getter: getCategoryNewsListPresenter()Lerror/NonExistentClass;
  *   // synthetic method for annotations: getCategoryNewsListPresenter$annotations()V
+ *   // synthetic method for delegate: getCategoryNewsListPresenter$delegate(LHomeFragment;)Ljava/lang/Object;
  *   private final (* delegated *) val categoryNewsListPresenter: error/NonExistentClass
  *     private final (* non-default *) get
  *
- *   // field: groupedNewsListAdapter$delegate:Lkotlin/Lazy;
  *   // getter: getGroupedNewsListAdapter()LGroupedNewsListDelegateAdapter;
+ *   // synthetic method for delegate: getGroupedNewsListAdapter$delegate(LHomeFragment;)Ljava/lang/Object;
  *   private final (* delegated *) val groupedNewsListAdapter: GroupedNewsListDelegateAdapter
  *     private final (* non-default *) get
  *
@@ -41,10 +41,6 @@ public final class GroupedNewsListDelegateAdapter {
  */
 @kotlin.Metadata()
 public final class HomeFragment {
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.Unit categoryNewsListPresenter$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    private final kotlin.Lazy groupedNewsListAdapter$delegate = null;
 
     public HomeFragment() {
         super();
@@ -60,6 +56,14 @@ public final class HomeFragment {
     }
 
     private final GroupedNewsListDelegateAdapter getGroupedNewsListAdapter() {
+        return null;
+    }
+
+    private static java.lang.Object getCategoryNewsListPresenter$delegate(HomeFragment p0) {
+        return null;
+    }
+
+    private static java.lang.Object getGroupedNewsListAdapter$delegate(HomeFragment p0) {
         return null;
     }
 }

@@ -6,8 +6,8 @@ package test;
  *   // signature: <init>(Ltest/Delegate;)V
  *   public constructor(delegate: test/Delegate)
  *
- *   // field: unknown$delegate:Ltest/Delegate;
  *   // getter: getUnknown()Lerror/NonExistentClass;
+ *   // synthetic method for delegate: getUnknown$delegate(Ltest/Bar;)Ljava/lang/Object;
  *   private final (* delegated *) val unknown: error/NonExistentClass
  *     private final (* non-default *) get
  *
@@ -16,15 +16,17 @@ package test;
  */
 @kotlin.Metadata()
 public final class Bar {
-    @org.jetbrains.annotations.NotNull()
-    private final test.Delegate unknown$delegate = null;
 
     public Bar(@org.jetbrains.annotations.NotNull()
     test.Delegate delegate) {
         super();
     }
 
-    private final Unknown getUnknown() {
+    private final java.lang.Object getUnknown() {
+        return null;
+    }
+
+    private static java.lang.Object getUnknown$delegate(test.Bar p0) {
         return null;
     }
 }
@@ -55,7 +57,7 @@ public final class Delegate {
     @org.jetbrains.annotations.NotNull()
     public final java.lang.Object getValue(@org.jetbrains.annotations.NotNull()
     java.lang.Object thisRef, @org.jetbrains.annotations.NotNull()
-    KProperty<?> property) {
+    java.lang.Object property) {
         return null;
     }
 }

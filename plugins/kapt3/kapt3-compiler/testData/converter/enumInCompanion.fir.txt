@@ -18,9 +18,9 @@
 @kotlin.Metadata()
 public final class Test {
     @org.jetbrains.annotations.NotNull()
-    public static final Test.Companion Companion = null;
-    @org.jetbrains.annotations.NotNull()
     private final Test.Companion.Example foo;
+    @org.jetbrains.annotations.NotNull()
+    public static final Test.Companion Companion = null;
 
     public Test() {
         super();
@@ -95,9 +95,9 @@ public final class Test {
 @kotlin.Metadata()
 public final class Test2 {
     @org.jetbrains.annotations.NotNull()
-    public static final Test2.Amigo Amigo = null;
-    @org.jetbrains.annotations.NotNull()
     private final Test2.Amigo.Example foo;
+    @org.jetbrains.annotations.NotNull()
+    public static final Test2.Amigo Amigo = null;
 
     public Test2() {
         super();
@@ -246,9 +246,9 @@ public final class Test3 {
  */
 @kotlin.Metadata()
 public final class Test4 {
+    private final int foo = 0;
     @org.jetbrains.annotations.NotNull()
     public static final Test4.Companion Companion = null;
-    private final int foo = 0;
 
     public Test4() {
         super();
@@ -287,9 +287,9 @@ public final class Test4 {
          */
         @kotlin.Metadata()
         public static final class Foo {
+            public static final int constProperty = 0;
             @org.jetbrains.annotations.NotNull()
             public static final Test4.Companion.Foo INSTANCE = null;
-            public static final int constProperty = 0;
 
             private Foo() {
                 super();
