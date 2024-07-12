@@ -16,6 +16,7 @@ import org.jetbrains.kotlin.ir.backend.js.lower.isBuiltInClass
 import org.jetbrains.kotlin.ir.backend.js.utils.*
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.util.IdSignatureRenderer
+import org.jetbrains.kotlin.ir.util.irError
 import org.jetbrains.kotlin.ir.util.isInterface
 import org.jetbrains.kotlin.ir.util.render
 import org.jetbrains.kotlin.js.backend.JsToStringGenerationVisitor
@@ -488,7 +489,9 @@ class IrModuleToJsTransformer(
         val tag = (backendContext.irFactory as IdSignatureRetriever).declarationSignature(declaration)?.render(IdSignatureRenderer.LEGACY)
 
         if (tag == null && !contains(declaration)) {
-            error("signature for ${declaration.render()} not found")
+            irError("Signature not found for") {
+                withIrEntry("IrDeclaration", declaration)
+            }
         }
 
         return tag
@@ -513,7 +516,10 @@ class IrModuleToJsTransformer(
         nameGenerator: JsNameLinkingNamer
     ) {
         nameGenerator.imports.entries.forEach { (declaration, importExpression) ->
-            val tag = definitions.computeTag(declaration) ?: error("No tag for imported declaration ${declaration.render()}")
+            val tag = definitions.computeTag(declaration)
+                ?: irError("No tag for imported declaration") {
+                    withIrEntry("IrDeclaration", declaration)
+                }
             imports[tag] = importExpression
             optionalCrossModuleImports += tag
         }
