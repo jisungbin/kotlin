@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.EMPTY_PROJECT_STRUCTURE_METADATA_F
 import org.jetbrains.kotlin.gradle.plugin.mpp.MULTIPLATFORM_PROJECT_METADATA_JSON_FILE_NAME
 import javax.inject.Inject
 
-@DisableCachingByDefault(because = "Does only I/O")
+@DisableCachingByDefault(because = "Trivial transformation: does only I/O operations.")
 abstract class ProjectStructureMetadataTransformationAction : TransformAction<TransformParameters.None> {
 
     @get:Inject

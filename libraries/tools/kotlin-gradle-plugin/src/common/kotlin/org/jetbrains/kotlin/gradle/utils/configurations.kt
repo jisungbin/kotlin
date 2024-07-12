@@ -137,3 +137,5 @@ internal fun Configuration.addSecondaryOutgoingJvmClassesVariant(
         }
     }
 }
+
+internal val Configuration.lenientArtifactsView get() = incoming.artifactView { view -> view.isLenient = true }.artifacts

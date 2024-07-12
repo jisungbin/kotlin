@@ -1,6 +1,7 @@
 package org.jetbrains.kotlin.gradle.plugin.mpp
 
 import org.gradle.api.Project
+import org.gradle.api.artifacts.ArtifactCollection
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.file.FileCollection
@@ -10,9 +11,9 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.PropertiesProvider.Companion.kotlinPropertiesProvider
 import org.jetbrains.kotlin.gradle.plugin.mpp.internal.projectStructureMetadataResolvableConfiguration
 import org.jetbrains.kotlin.gradle.plugin.sources.internal
-import org.jetbrains.kotlin.gradle.utils.LazyResolvedConfiguration
 import org.jetbrains.kotlin.gradle.utils.currentBuild
 import org.jetbrains.kotlin.gradle.utils.filesProvider
+import org.jetbrains.kotlin.gradle.utils.lenientArtifactsView
 import org.jetbrains.kotlin.utils.addToStdlib.applyIf
 
 internal class MetadataDependencyTransformationTaskInputs(
@@ -28,8 +29,8 @@ internal class MetadataDependencyTransformationTaskInputs(
     @get:PathSensitive(PathSensitivity.RELATIVE)
     @get:IgnoreEmptyDirectories
     @get:NormalizeLineEndings
-    val projectStructureMetadataFileCollection: FileCollection =
-        LazyResolvedConfiguration(kotlinSourceSet.internal.projectStructureMetadataResolvableConfiguration).files
+    val projectStructureMetadataFileCollection: ArtifactCollection =
+        kotlinSourceSet.internal.projectStructureMetadataResolvableConfiguration.lenientArtifactsView
 
     @Suppress("unused") // Gradle input
     @get:InputFiles
