@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.declarations.builder.buildValueParameterCopy
 import org.jetbrains.kotlin.fir.declarations.utils.isOperator
+import org.jetbrains.kotlin.fir.declarations.utils.isSealed
 import org.jetbrains.kotlin.fir.expressions.*
 import org.jetbrains.kotlin.fir.isSubstitutionOrIntersectionOverride
 import org.jetbrains.kotlin.fir.resolve.*
@@ -443,6 +444,7 @@ private class FirCallArgumentsProcessor(
     private fun FirValueParameter.getPotentialSealedConstructors(): List<FirTypeRef> {
         val type = returnTypeRef.coneTypeSafe<ConeClassLikeType>() ?: return emptyList()
         val klass = (type.toSymbol(useSiteSession)?.fir as? FirRegularClass) ?: return emptyList()
+        if (!klass.isSealed) return emptyList()
         return klass.getSealedClassInheritors(useSiteSession).mapNotNull {
             (it.toSymbol(useSiteSession)?.fir as? FirRegularClass)
                 ?.primaryConstructorIfAny(useSiteSession)?.fir?.valueParameters?.singleOrNull()?.returnTypeRef

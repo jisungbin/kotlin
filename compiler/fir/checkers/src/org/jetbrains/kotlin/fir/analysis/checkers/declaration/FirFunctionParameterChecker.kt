@@ -93,7 +93,7 @@ object FirFunctionParameterChecker : FirFunctionChecker(MppCheckerKind.Common) {
             }
         }
 
-        if (varargParameters.size + dataParameters.size > 1) {
+        if (varargParameters.isNotEmpty() && dataParameters.isNotEmpty() && varargParameters.size + dataParameters.size > 1) {
             for (parameter in varargParameters) {
                 reporter.reportOn(parameter.source, FirErrors.VARARG_DATA_ARGUMENT, context)
             }
