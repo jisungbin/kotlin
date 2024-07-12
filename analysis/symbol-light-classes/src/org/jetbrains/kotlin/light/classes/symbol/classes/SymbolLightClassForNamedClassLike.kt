@@ -114,7 +114,7 @@ abstract class SymbolLightClassForNamedClassLike : SymbolLightClassForClassLike<
                 filter { it.isConstOrJvmField }
             }
             ?.forEach {
-                createField(
+                createFieldAndAdd(
                     declaration = it,
                     nameGenerator = nameGenerator,
                     isStatic = true,

@@ -422,7 +422,7 @@ internal fun SymbolLightClassBase.createPropertyAccessors(
 
 context(KaSession)
 @Suppress("CONTEXT_RECEIVERS_DEPRECATED")
-internal fun SymbolLightClassBase.createField(
+internal fun SymbolLightClassBase.createFieldAndAdd(
     declaration: KaPropertySymbol,
     nameGenerator: SymbolLightField.FieldNameGenerator,
     isStatic: Boolean,
@@ -672,7 +672,7 @@ internal fun SymbolLightClassBase.addPropertyBackingFields(
     val (ctorProperties, memberProperties) = propertySymbols.partition { it.isFromPrimaryConstructor }
     val isStatic = forceIsStaticTo ?: (containerSymbol is KaClassSymbol && containerSymbol.classKind.isObject)
     fun addPropertyBackingField(propertySymbol: KaPropertySymbol) {
-        createField(
+        createFieldAndAdd(
             declaration = propertySymbol,
             nameGenerator = nameGenerator,
             isStatic = isStatic,
