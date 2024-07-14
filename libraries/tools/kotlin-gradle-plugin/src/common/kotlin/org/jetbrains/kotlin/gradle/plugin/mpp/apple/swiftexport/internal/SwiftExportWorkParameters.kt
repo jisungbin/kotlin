@@ -13,13 +13,10 @@ import org.gradle.api.tasks.*
 import org.gradle.workers.WorkParameters
 import org.jetbrains.kotlin.konan.target.Distribution
 
-internal interface SwiftExportParameters : WorkParameters {
+internal interface SwiftExportTaskParameters {
 
     @get:Input
     val bridgeModuleName: Property<String>
-
-    @get:Nested
-    val swiftModules: ListProperty<SwiftExportedModule>
 
     @get:Input
     @get:Optional
@@ -37,4 +34,10 @@ internal interface SwiftExportParameters : WorkParameters {
 
     @get:OutputFile
     val swiftModulesFile: RegularFileProperty
+}
+
+internal interface SwiftExportWorkParameters : SwiftExportTaskParameters, WorkParameters {
+
+    @get:Nested
+    val swiftModules: ListProperty<SwiftExportedModule>
 }

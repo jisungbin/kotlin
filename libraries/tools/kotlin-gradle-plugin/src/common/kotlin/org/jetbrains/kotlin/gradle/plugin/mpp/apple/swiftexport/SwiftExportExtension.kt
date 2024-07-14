@@ -71,23 +71,29 @@ abstract class SwiftExportExtension @Inject constructor(
             project.dependencies.addProvider(binary.exportConfigurationName, dependencyProvider)
         }
 
-        val projectName = dependencyProvider.map { it.name }
-        val dependencyId = dependencyProvider.map {
+        val dependencyId = dependencyProvider.map { dep ->
+            val moduleGroupProvider = project.provider { dep.group ?: "unspecified" }
+            val moduleNameProvider = project.provider { dep.name }
+            val moduleVersionProvider = project.provider { dep.version ?: "unspecified" }
+
             object : ModuleVersionIdentifier {
-                override fun getGroup() = it.group ?: "unspecified"
-                override fun getName() = it.name
-                override fun getVersion() = it.version ?: "unspecified"
+                private val moduleName: String by moduleNameProvider
+                private val moduleGroup: String by moduleGroupProvider
+                private val moduleVersion: String by moduleVersionProvider
+
+                override fun getGroup() = moduleGroup
+                override fun getName() = moduleName
+                override fun getVersion() = moduleVersion
 
                 override fun getModule(): ModuleIdentifier = object : ModuleIdentifier {
-                    override fun getGroup(): String = it.group ?: "unspecified"
-                    override fun getName(): String = it.name
+                    override fun getGroup(): String = moduleGroup
+                    override fun getName(): String = moduleName
                 }
             }
         }
 
         project.objects.newInstance(
             ModuleExport::class.java,
-            projectName,
             dependencyId
         ).apply {
             configure()
@@ -132,7 +138,6 @@ abstract class SwiftExportExtension @Inject constructor(
     }
 
     abstract class ModuleExport @Inject constructor(
-        @get:Input val projectName: Provider<String>,
         @get:Input val moduleVersion: Provider<ModuleVersionIdentifier>
     ) : Named {
         @get:Input

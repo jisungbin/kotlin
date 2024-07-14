@@ -24,7 +24,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.StaticLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.FrameworkCopy.Companion.dsymFile
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.SwiftExportDSLConstants
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.SwiftExportExtension
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.internal.swiftExportedModules
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.registerSwiftExportTask
 import org.jetbrains.kotlin.gradle.plugin.mpp.enabledOnCurrentHostForBinariesCompilation
 import org.jetbrains.kotlin.gradle.tasks.*
@@ -201,8 +200,7 @@ internal fun Project.registerEmbedSwiftExportTask(
 
     if (isMatchingBinary) {
         val swiftExportTask = registerSwiftExportTask(
-            swiftExportExtension.nameProvider,
-            swiftExportedModules(binary, swiftExportExtension),
+            swiftExportExtension,
             SwiftExportDSLConstants.TASK_GROUP,
             binary
         ).apply {

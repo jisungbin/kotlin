@@ -13,7 +13,7 @@ import java.io.File
 import java.util.logging.Level
 import java.util.logging.Logger
 
-internal abstract class SwiftExportAction : WorkAction<SwiftExportParameters> {
+internal abstract class SwiftExportAction : WorkAction<SwiftExportWorkParameters> {
 
     companion object : SwiftExportLogger {
         private val logger = Logger.getLogger(this::class.java.name)
