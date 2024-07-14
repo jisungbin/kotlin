@@ -17,6 +17,7 @@ import org.jetbrains.kotlin.build.report.metrics.GradleBuildTime
 import org.jetbrains.kotlin.build.report.metrics.measure
 import org.jetbrains.kotlin.compilerRunner.KotlinCompilerArgumentsLogLevel
 import org.jetbrains.kotlin.gradle.internal.ClassLoadersCachingBuildService
+import org.jetbrains.kotlin.gradle.internal.properties.NativeProperties
 import org.jetbrains.kotlin.gradle.logging.gradleLogLevel
 import org.jetbrains.kotlin.konan.target.HostManager
 import java.io.IOException
@@ -39,6 +40,7 @@ internal abstract class KotlinNativeToolRunner @Inject constructor(
 
     fun runTool(args: ToolArguments) {
         metricsReporter.measure(GradleBuildTime.RUN_COMPILATION_IN_WORKER) {
+            toolSpec.checkClasspath()
             if (args.shouldRunInProcessMode) {
                 runInProcess(args)
             } else {
@@ -222,6 +224,14 @@ internal abstract class KotlinNativeToolRunner @Inject constructor(
             jvmArgs.add("-Xmx3g")
 
             return this
+        }
+
+        fun checkClasspath() = check(!classpath.isEmpty) {
+            """
+            Classpath of the tool is empty: $displayName
+            Probably the '${NativeProperties.NATIVE_HOME.name}' project property contains an incorrect path.
+            Please change it to the compiler root directory and rerun the build.
+            """.trimIndent()
         }
     }
 
