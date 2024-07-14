@@ -50,13 +50,7 @@ internal fun Project.registerSwiftExportTask(
         configuration = buildConfiguration,
         swiftApiModuleName = swiftApiModuleName,
         swiftApiFlattenPackage = swiftExportExtension.flattenPackageProvider,
-        exportedModules = swiftExportExtension.exportedModules.map { eModule ->
-            objects.newInstance(SwiftExportTask.DependencyModule::class.java).apply {
-                moduleName.set(eModule.moduleName)
-                flattenPackage.set(eModule.flattenPackage)
-                moduleVersion.set(eModule.moduleVersion)
-            }
-        },
+        exportedModules = swiftExportExtension.exportedModules,
         compileTask = mainCompilation.compileTaskProvider
     )
 
@@ -114,7 +108,7 @@ private fun Project.registerSwiftExportRun(
     configuration: String,
     swiftApiModuleName: Provider<String>,
     swiftApiFlattenPackage: Provider<String>,
-    exportedModules: List<SwiftExportTask.DependencyModule>,
+    exportedModules: Set<SwiftExportExtension. ModuleExport>,
     compileTask: TaskProvider<KotlinNativeCompile>,
 ): TaskProvider<SwiftExportTask> {
     val swiftExportTaskName = lowerCamelCaseName(
@@ -139,7 +133,16 @@ private fun Project.registerSwiftExportRun(
         task.parameters.bridgeModuleName.set("SharedBridge")
         task.parameters.konanDistribution.set(Distribution(konanDistribution.root.absolutePath))
 
-        task.dependencyInput.exportedModules.set(exportedModules)
+        task.dependencyInput.exportedModules.set(
+            exportedModules.map { eModule ->
+                project.objects.newInstance<SwiftExportTask.DependencyModule>().apply {
+                    moduleName.set(eModule.moduleName)
+                    flattenPackage.set(eModule.flattenPackage)
+                    moduleVersion.set(eModule.moduleVersion)
+                }
+            }
+        )
+
         task.dependencyInput.moduleName.set(swiftApiModuleName)
         task.dependencyInput.flattenPackage.set(swiftApiFlattenPackage)
         task.dependencyInput.configurationName.set(binary.exportConfigurationName)

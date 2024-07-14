@@ -11,8 +11,8 @@ import org.gradle.api.artifacts.result.ResolvedDependencyResult
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.provider.SetProperty
 import org.gradle.api.tasks.*
 import org.gradle.work.DisableCachingByDefault
 import org.gradle.workers.WorkerExecutor
@@ -34,19 +34,16 @@ internal abstract class SwiftExportTask @Inject constructor(
 
         @get:Input
         @get:Optional
-        abstract var moduleName: Property<String>
+        abstract val moduleName: Property<String>
 
         @get:Input
         @get:Optional
-        abstract var flattenPackage: Property<String>
+        abstract val flattenPackage: Property<String>
     }
 
     internal abstract class DependencyInput {
         @get:Input
         abstract val configurationName: Property<String>
-
-        @get:Nested
-        abstract val exportedModules: SetProperty<DependencyModule>
 
         @get:Input
         abstract val moduleName: Property<String>
@@ -56,6 +53,9 @@ internal abstract class SwiftExportTask @Inject constructor(
 
         @get:InputFile
         abstract val libraryFile: RegularFileProperty
+
+        @get:Nested
+        abstract val exportedModules: ListProperty<DependencyModule>
     }
 
     @get:InputFiles
@@ -105,7 +105,7 @@ internal abstract class SwiftExportTask @Inject constructor(
     }
 
     private fun findAndCreateSwiftExportedModule(
-        exportedModules: Set<DependencyModule>,
+        exportedModules: List<DependencyModule>,
         resolvedDependency: ResolvedDependencyResult,
         configuration: LazyResolvedConfiguration,
     ): SwiftExportedModule? {
@@ -120,7 +120,7 @@ internal abstract class SwiftExportTask @Inject constructor(
         return if (module != null) {
             val dependencyArtifacts = configuration.getArtifacts(resolvedDependency).map { it.file }
 
-            objectFactory.newInstance(SwiftExportedModule::class.java).apply {
+            objectFactory.newInstance<SwiftExportedModule>().apply {
                 moduleName.set(module.moduleName.orNull ?: module.moduleVersion.map { it.name }.get())
                 flattenPackage.set(module.flattenPackage)
                 artifacts.from(dependencyArtifacts)
