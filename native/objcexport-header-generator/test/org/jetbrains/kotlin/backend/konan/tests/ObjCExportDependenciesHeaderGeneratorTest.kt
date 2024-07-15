@@ -167,9 +167,9 @@ class ObjCExportDependenciesHeaderGeneratorTest(
     }
 
     @Test
-    fun `test - completionHandlerException`() {
+    fun `test - completionCoroutinesHandlerException`() {
         doTest(
-            dependenciesDir.resolve("completionHandlerException"), configuration = HeaderGenerator.Configuration(
+            dependenciesDir.resolve("completionCoroutinesHandlerException"), configuration = HeaderGenerator.Configuration(
                 dependencies = listOfNotNull(testLibraryKotlinxCoroutines)
             )
         )
