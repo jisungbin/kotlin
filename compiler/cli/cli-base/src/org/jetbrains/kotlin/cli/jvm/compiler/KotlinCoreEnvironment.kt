@@ -137,7 +137,7 @@ class KotlinCoreEnvironment private constructor(
                 useFastJarFSFlag == false && useK2 -> {
                     messageCollector.report(
                         INFO,
-                        "Using old slower version of JAR FS: it might make your build slower"
+                        "Using outdated version of JAR FS: it might make your build slower"
                     )
                 }
             }
