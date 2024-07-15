@@ -330,12 +330,7 @@ class FirElementSerializer private constructor(
             builder.flags = flags
         }
 
-        val name = script.name.let {
-            if (it.isSpecial) {
-                NameUtils.getScriptNameForFile(it.asStringStripSpecialMarkers().removePrefix("script-"))
-            } else it
-        }
-        val classId = ClassId(script.symbol.fqName.parentOrNull() ?: FqName.ROOT, name)
+        val classId = scriptClassId(script)
 
         builder.fqName = getClassifierId(classId)
 
@@ -394,7 +389,6 @@ class FirElementSerializer private constructor(
 
         return builder
     }
-
 
     /*
      * Order of nested classifiers:
@@ -1389,4 +1383,13 @@ class FirElementSerializer private constructor(
             return versionRequirementTable[requirement]
         }
     }
+}
+
+internal fun scriptClassId(script: FirScript): ClassId {
+    val name = script.name.let {
+        if (it.isSpecial) {
+            NameUtils.getScriptNameForFile(it.asStringStripSpecialMarkers().removePrefix("script-"))
+        } else it
+    }
+    return ClassId(script.symbol.fqName.parentOrNull() ?: FqName.ROOT, name)
 }

@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.fir.serialization
 
+import org.jetbrains.kotlin.fir.containingScriptSymbolAttr
 import org.jetbrains.kotlin.fir.declarations.FirClass
 import org.jetbrains.kotlin.fir.declarations.FirClassLikeDeclaration
 import org.jetbrains.kotlin.fir.render
@@ -16,9 +17,13 @@ interface FirElementAwareStringTable : StringTable {
         getQualifiedClassNameIndex(classId.asString(), classId.isLocal)
 
     fun getFqNameIndex(classLikeDeclaration: FirClassLikeDeclaration): Int {
-        val classId = classLikeDeclaration.symbol.classId.takeIf { !it.isLocal }
-            ?: getLocalClassIdReplacement(classLikeDeclaration as FirClass)
-            ?: throw IllegalStateException("Cannot get FQ name of local class: ${classLikeDeclaration.render()}")
+        val containingScript = classLikeDeclaration.containingScriptSymbolAttr
+        val baseClassId = classLikeDeclaration.symbol.classId
+        val classId = when {
+            baseClassId.isLocal -> getLocalClassIdReplacement(classLikeDeclaration as FirClass)
+            containingScript != null -> baseClassId.relativeClassName.pathSegments().fold(scriptClassId(containingScript.fir)) { acc, n -> acc.createNestedClassId(n) }
+            else -> baseClassId
+        } ?: throw IllegalStateException("Cannot get FQ name of local class: ${classLikeDeclaration.render()}")
 
         return getQualifiedClassNameIndex(classId)
     }
