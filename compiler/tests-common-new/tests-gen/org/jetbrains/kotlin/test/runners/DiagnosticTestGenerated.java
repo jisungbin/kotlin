@@ -40722,12 +40722,6 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
         }
 
         @Test
-        @TestMetadata("disabledFeature.kt")
-        public void testDisabledFeature() {
-          runTest("compiler/testData/diagnostics/tests/testsWithJava17/jvmRecord/disabledFeature.kt");
-        }
-
-        @Test
         @TestMetadata("explicitSuperConstructorCall.kt")
         public void testExplicitSuperConstructorCall() {
           runTest("compiler/testData/diagnostics/tests/testsWithJava17/jvmRecord/explicitSuperConstructorCall.kt");
