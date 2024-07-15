@@ -33704,12 +33704,6 @@ public class FirPsiOldFrontendDiagnosticsTestGenerated extends AbstractFirPsiDia
         }
 
         @Test
-        @TestMetadata("sealedInterfacesDisabled.kt")
-        public void testSealedInterfacesDisabled() {
-          runTest("compiler/testData/diagnostics/tests/sealed/interfaces/sealedInterfacesDisabled.kt");
-        }
-
-        @Test
         @TestMetadata("simpleSealedInterface.kt")
         public void testSimpleSealedInterface() {
           runTest("compiler/testData/diagnostics/tests/sealed/interfaces/simpleSealedInterface.kt");
