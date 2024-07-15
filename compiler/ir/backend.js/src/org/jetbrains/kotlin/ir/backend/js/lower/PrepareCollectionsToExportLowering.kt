@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.descriptors.Modality
 import org.jetbrains.kotlin.ir.UNDEFINED_OFFSET
 import org.jetbrains.kotlin.ir.backend.js.JsIrBackendContext
 import org.jetbrains.kotlin.ir.backend.js.ir.JsIrBuilder
+import org.jetbrains.kotlin.ir.backend.js.utils.isJsImplicitExport
 import org.jetbrains.kotlin.ir.backend.js.utils.valueArguments
 import org.jetbrains.kotlin.ir.builders.declarations.UNDEFINED_PARAMETER_INDEX
 import org.jetbrains.kotlin.ir.builders.irCall
@@ -31,6 +32,7 @@ import org.jetbrains.kotlin.ir.symbols.impl.IrSimpleFunctionSymbolImpl
 import org.jetbrains.kotlin.ir.symbols.impl.IrValueParameterSymbolImpl
 import org.jetbrains.kotlin.ir.types.typeWith
 import org.jetbrains.kotlin.ir.util.*
+import org.jetbrains.kotlin.js.config.JSConfigurationKeys
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.SpecialNames
 import org.jetbrains.kotlin.utils.memoryOptimizedPlus
@@ -50,8 +52,6 @@ class PrepareCollectionsToExportLowering(private val context: JsIrBackendContext
     private val jsImplicitExportCtor by lazy(LazyThreadSafetyMode.NONE) {
         context.intrinsics.jsImplicitExportAnnotationSymbol.primaryConstructorSymbol
     }
-
-    private val IrClassSymbol.primaryConstructorSymbol: IrConstructorSymbol get() = owner.primaryConstructor!!.symbol
 
     private val exportedMethodNames = setOf(
         "asJsReadonlyArrayView",
@@ -215,3 +215,35 @@ class PrepareCollectionsToExportLowering(private val context: JsIrBackendContext
 
     private data class FactoryMethod(val name: String, val callee: IrSimpleFunctionSymbol)
 }
+
+class RemoveImplicitExportsFromCollections(private val context: JsIrBackendContext) : DeclarationTransformer {
+    private val strictImplicitExport = context.configuration.getBoolean(JSConfigurationKeys.GENERATE_STRICT_IMPLICIT_EXPORT)
+    private val jsImplicitExportCtor by lazy(LazyThreadSafetyMode.NONE) {
+        context.intrinsics.jsImplicitExportAnnotationSymbol.primaryConstructorSymbol
+    }
+
+    private val exportableSymbols = setOf(
+        context.ir.symbols.list,
+        context.ir.symbols.mutableList,
+        context.ir.symbols.set,
+        context.ir.symbols.mutableSet,
+        context.ir.symbols.map,
+        context.ir.symbols.mutableMap,
+    )
+
+
+    override fun transformFlat(declaration: IrDeclaration): List<IrDeclaration>? {
+        if (!strictImplicitExport && declaration is IrClass && declaration.symbol in exportableSymbols && declaration.isJsImplicitExport()) {
+            declaration.removeJsImplicitExport()
+        }
+
+        return null
+    }
+
+    private fun IrDeclaration.removeJsImplicitExport() {
+        annotations = annotations.filter { it.symbol != jsImplicitExportCtor }
+    }
+
+}
+
+private val IrClassSymbol.primaryConstructorSymbol: IrConstructorSymbol get() = owner.primaryConstructor!!.symbol
