@@ -36165,12 +36165,6 @@ public class DiagnosticCompilerTestFE10TestdataTestGenerated extends AbstractDia
       }
 
       @Test
-      @TestMetadata("protectedConstructors_disabled.kt")
-      public void testProtectedConstructors_disabled() {
-        runTest("compiler/testData/diagnostics/tests/sealed/protectedConstructors_disabled.kt");
-      }
-
-      @Test
       @TestMetadata("protectedConstructors_enabled.kt")
       public void testProtectedConstructors_enabled() {
         runTest("compiler/testData/diagnostics/tests/sealed/protectedConstructors_enabled.kt");

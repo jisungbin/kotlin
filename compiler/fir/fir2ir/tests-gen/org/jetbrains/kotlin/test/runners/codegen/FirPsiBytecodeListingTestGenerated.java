@@ -2341,12 +2341,6 @@ public class FirPsiBytecodeListingTestGenerated extends AbstractFirPsiBytecodeLi
     }
 
     @Test
-    @TestMetadata("sealedClassConstructor_1_4.kt")
-    public void testSealedClassConstructor_1_4() {
-      runTest("compiler/testData/codegen/bytecodeListing/sealed/sealedClassConstructor_1_4.kt");
-    }
-
-    @Test
     @TestMetadata("sealedClassConstructor_1_5.kt")
     public void testSealedClassConstructor_1_5() {
       runTest("compiler/testData/codegen/bytecodeListing/sealed/sealedClassConstructor_1_5.kt");
