@@ -133,6 +133,7 @@ private fun Project.registerSwiftExportRun(
         task.parameters.bridgeModuleName.set("SharedBridge")
         task.parameters.konanDistribution.set(Distribution(konanDistribution.root.absolutePath))
 
+        task.dependencyInput.configurationName.set(binary.exportConfigurationName)
         task.dependencyInput.exportedModules.set(
             exportedModules.map { eModule ->
                 project.objects.newInstance<SwiftExportTask.DependencyModule>().apply {
@@ -143,14 +144,9 @@ private fun Project.registerSwiftExportRun(
             }
         )
 
-        task.dependencyInput.moduleName.set(swiftApiModuleName)
-        task.dependencyInput.flattenPackage.set(swiftApiFlattenPackage)
-        task.dependencyInput.configurationName.set(binary.exportConfigurationName)
-        task.dependencyInput.libraryFile.set(
-            compileTask.map {
-                it.outputFile.flatMap { file -> objects.fileProperty(file) }.get()
-            }
-        )
+        task.dependencyInput.mainModule.moduleName.set(swiftApiModuleName)
+        task.dependencyInput.mainModule.flattenPackage.set(swiftApiFlattenPackage)
+        task.dependencyInput.mainModule.artifacts.from(compileTask.map { it.outputFile.get() })
 
         // Output
         task.parameters.outputPath.set(files)

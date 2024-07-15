@@ -9,15 +9,17 @@ import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
 
-// Exported module declaration
-abstract class SwiftExportedModule {
+internal interface SwiftExportedModuleMetadata {
     @get:Input
-    abstract val moduleName: Property<String>
+    val moduleName: Property<String>
 
     @get:Input
     @get:Optional
-    abstract val flattenPackage: Property<String>
+    val flattenPackage: Property<String>
+}
 
+// Exported module declaration
+internal abstract class SwiftExportedModule : SwiftExportedModuleMetadata {
     @get:InputFiles
     @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val artifacts: ConfigurableFileCollection

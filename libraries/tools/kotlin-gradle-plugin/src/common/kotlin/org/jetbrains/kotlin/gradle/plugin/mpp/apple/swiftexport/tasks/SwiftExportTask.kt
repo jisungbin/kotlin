@@ -9,7 +9,6 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.artifacts.ModuleVersionIdentifier
 import org.gradle.api.artifacts.result.ResolvedDependencyResult
 import org.gradle.api.file.ConfigurableFileCollection
-import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
@@ -19,6 +18,7 @@ import org.gradle.workers.WorkerExecutor
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.internal.SwiftExportTaskParameters
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.internal.SwiftExportAction
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.internal.SwiftExportedModule
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.swiftexport.internal.SwiftExportedModuleMetadata
 import org.jetbrains.kotlin.gradle.utils.LazyResolvedConfiguration
 import org.jetbrains.kotlin.gradle.utils.newInstance
 import javax.inject.Inject
@@ -28,31 +28,17 @@ internal abstract class SwiftExportTask @Inject constructor(
     private val workerExecutor: WorkerExecutor,
     private val objectFactory: ObjectFactory,
 ) : DefaultTask() {
-    internal abstract class DependencyModule {
+    internal abstract class DependencyModule : SwiftExportedModuleMetadata {
         @get:Input
         abstract val moduleVersion: Property<ModuleVersionIdentifier>
-
-        @get:Input
-        @get:Optional
-        abstract val moduleName: Property<String>
-
-        @get:Input
-        @get:Optional
-        abstract val flattenPackage: Property<String>
     }
 
     internal abstract class DependencyInput {
         @get:Input
         abstract val configurationName: Property<String>
 
-        @get:Input
-        abstract val moduleName: Property<String>
-
-        @get:Input
-        abstract val flattenPackage: Property<String>
-
-        @get:InputFile
-        abstract val libraryFile: RegularFileProperty
+        @get:Nested
+        abstract val mainModule: SwiftExportedModule
 
         @get:Nested
         abstract val exportedModules: ListProperty<DependencyModule>
@@ -94,13 +80,7 @@ internal abstract class SwiftExportTask @Inject constructor(
         return configuration.allResolvedDependencies.mapNotNull { resolvedDependency ->
             findAndCreateSwiftExportedModule(dependencyInput.exportedModules.get(), resolvedDependency, configuration)
         }.toMutableList().apply {
-            add(
-                objectFactory.newInstance<SwiftExportedModule>().apply {
-                    moduleName.set(dependencyInput.moduleName)
-                    flattenPackage.set(dependencyInput.flattenPackage)
-                    artifacts.from(dependencyInput.libraryFile)
-                }
-            )
+            add(dependencyInput.mainModule)
         }
     }
 
