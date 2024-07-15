@@ -132,7 +132,7 @@ class KotlinCoreEnvironment private constructor(
                     messageCollector.report(
                         STRONG_WARNING,
                         "Using new faster version of JAR FS: it should make your build faster, " +
-                                "but the new implementation is not well-tested with K1 (older than 2.0 language versions)"
+                                "but the new implementation is not thoroughly tested with language versions below 2.0"
                     )
                 }
                 useFastJarFSFlag == false && useK2 -> {
