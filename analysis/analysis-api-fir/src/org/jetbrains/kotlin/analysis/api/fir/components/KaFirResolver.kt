@@ -64,15 +64,17 @@ import org.jetbrains.kotlin.fir.psi
 import org.jetbrains.kotlin.fir.realPsi
 import org.jetbrains.kotlin.fir.references.*
 import org.jetbrains.kotlin.fir.resolve.ResolutionMode
-import org.jetbrains.kotlin.fir.resolve.calls.AbstractCallCandidate
 import org.jetbrains.kotlin.fir.resolve.calls.candidate.Candidate
+import org.jetbrains.kotlin.fir.resolve.calls.stages.TypeArgumentMapping
 import org.jetbrains.kotlin.fir.resolve.createConeDiagnosticForCandidateWithError
 import org.jetbrains.kotlin.fir.resolve.diagnostics.ConeDiagnosticWithCandidates
 import org.jetbrains.kotlin.fir.resolve.diagnostics.ConeHiddenCandidateError
+import org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutor
 import org.jetbrains.kotlin.fir.resolve.substitution.substitutorByMap
 import org.jetbrains.kotlin.fir.resolve.transformers.unwrapAtoms
 import org.jetbrains.kotlin.fir.scopes.getDeclaredConstructors
 import org.jetbrains.kotlin.fir.scopes.impl.declaredMemberScope
+import org.jetbrains.kotlin.fir.scopes.impl.toConeType
 import org.jetbrains.kotlin.fir.scopes.unsubstitutedScope
 import org.jetbrains.kotlin.fir.symbols.SymbolInternals
 import org.jetbrains.kotlin.fir.symbols.impl.*
@@ -268,7 +270,7 @@ internal class KaFirResolver(
             val candidateCalls = mutableListOf<KaCall>()
             if (diagnostic is ConeDiagnosticWithCandidates) {
                 diagnostic.candidates.mapNotNullTo(candidateCalls) {
-                    if (it is AbstractCallCandidate<*>) {
+                    if (it is Candidate) {
                         createKtCall(psi, call, calleeReference, it, resolveFragmentOfCall)
                     } else {
                         null
@@ -409,17 +411,43 @@ internal class KaFirResolver(
     private fun createKtCall(
         psi: KtElement,
         fir: FirResolvable,
-        candidate: AbstractCallCandidate<*>?,
+        candidate: Candidate?,
         resolveFragmentOfCall: Boolean,
     ): KaCall? {
         return createKtCall(psi, fir, fir.calleeReference, candidate, resolveFragmentOfCall)
+    }
+
+    private fun Candidate.toFirTypeArgumentsMapping(symbol: FirCallableSymbol<*>): Map<FirTypeParameterSymbol, ConeKotlinType> {
+        val typeParameters = symbol.typeParameterSymbols.ifEmpty { return emptyMap() }
+
+        // Maps a type parameter `A` into a type variable `TypeVariable(A)` type
+        val candidateSubstitutor = substitutor
+
+        // Maps the type variable `TypeVariable(A)` into the resulting type
+        val systemSubstitutor = system.buildCurrentSubstitutor() as ConeSubstitutor
+
+        val typeMapping = typeArgumentMapping as? TypeArgumentMapping.Mapped
+        return buildMap {
+            for ((index, parameterSymbol) in typeParameters.withIndex()) {
+                val explicitTypeArgument = typeMapping?.get(index) as? FirTypeProjectionWithVariance
+                if (explicitTypeArgument != null) {
+                    put(parameterSymbol, explicitTypeArgument.typeRef.coneType)
+                    continue
+                }
+
+                val parameterType = parameterSymbol.toConeType()
+                val typeVariable = candidateSubstitutor.substituteOrNull(parameterType) ?: continue
+                val resultingType = systemSubstitutor.substituteOrNull(typeVariable) ?: continue
+                put(parameterSymbol, resultingType)
+            }
+        }
     }
 
     private fun createKtCall(
         psi: KtElement,
         fir: FirElement,
         calleeReference: FirReference,
-        candidate: AbstractCallCandidate<*>?,
+        candidate: Candidate?,
         resolveFragmentOfCall: Boolean,
     ): KaCall? {
         val targetSymbol = candidate?.symbol
@@ -428,7 +456,7 @@ internal class KaFirResolver(
         if (targetSymbol !is FirCallableSymbol<*>) return null
         if (targetSymbol is FirErrorFunctionSymbol || targetSymbol is FirErrorPropertySymbol) return null
 
-        val firTypeArgumentsMapping = when (fir) {
+        val firTypeArgumentsMapping = candidate?.toFirTypeArgumentsMapping(targetSymbol) ?: when (fir) {
             is FirQualifiedAccessExpression -> fir.toFirTypeArgumentsMapping(targetSymbol)
             is FirVariableAssignment -> fir.unwrapLValue()?.toFirTypeArgumentsMapping(targetSymbol).orEmpty()
             is FirDelegatedConstructorCall -> fir.toFirTypeArgumentsMapping(targetSymbol)
@@ -440,9 +468,6 @@ internal class KaFirResolver(
         handleCompoundAccessCall(psi, fir, resolveFragmentOfCall, typeArgumentsMapping)?.let { return it }
 
         val signature = with(analysisSession) {
-            // TODO: Ideally, we should get the substitutor from the candidate. But it seems there is no way to get the substitutor from the
-            //  candidate, `Candidate.substitutor` is not complete. maybe we can carry over the final substitutor if it's available from
-            //  body resolve phase?
             val substitutor = substitutorByMap(firTypeArgumentsMapping, firSession).toKtSubstitutor()
 
             // This is crucial to create a signature by Fir symbol as it can be call-site substitution
