@@ -42,6 +42,7 @@ class OldCompileKotlinAgainstCustomBinariesTest : AbstractCompileKotlinAgainstCu
         // as it affects in a subtle way on the presence of empty package in rendered descriptors.
         // The latter happens because CoreJarFileSystem seems to be ignoring empty directories, while FastJarFS doesn't
         // which doesn't look really crucial and a part of a contract of Jar FS.
+        // Therefore, the LV is set to `languageVersion` which is 1.9 here.
         configuration.languageVersionSettings = LanguageVersionSettingsImpl(
             languageVersion,
             ApiVersion.createByLanguageVersion(languageVersion)
