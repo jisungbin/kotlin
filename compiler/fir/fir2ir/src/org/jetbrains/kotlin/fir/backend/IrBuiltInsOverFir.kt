@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.backend.utils.defaultTypeWithoutArguments
 import org.jetbrains.kotlin.fir.descriptors.FirModuleDescriptor
 import org.jetbrains.kotlin.fir.languageVersionSettings
+import org.jetbrains.kotlin.fir.moduleData
 import org.jetbrains.kotlin.fir.resolve.providers.FirSymbolProvider
 import org.jetbrains.kotlin.fir.resolve.providers.getRegularClassSymbolByClassId
 import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
@@ -25,7 +26,6 @@ import org.jetbrains.kotlin.ir.builders.declarations.addValueParameter
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.IrConstructorCall
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
-import org.jetbrains.kotlin.ir.expressions.impl.fromSymbolOwner
 import org.jetbrains.kotlin.ir.symbols.*
 import org.jetbrains.kotlin.ir.symbols.impl.IrSimpleFunctionSymbolImpl
 import org.jetbrains.kotlin.ir.symbols.impl.IrTypeParameterSymbolImpl
@@ -45,11 +45,13 @@ import org.jetbrains.kotlin.utils.addToStdlib.shouldNotBeCalled
 @OptIn(Fir2IrBuiltInsInternals::class)
 class IrBuiltInsOverFir(
     private val c: Fir2IrComponents,
-    private val moduleDescriptor: FirModuleDescriptor,
     private val syntheticSymbolsContainer: Fir2IrSyntheticIrBuiltinsSymbolsContainer
 ) : IrBuiltIns() {
 
     // ------------------------------------- basic stuff -------------------------------------
+
+    private val moduleDescriptor: FirModuleDescriptor =
+        c.declarationStorage.getDependenciesModuleDescriptor(c.session.moduleData.dependencies.first())
 
     private val session: FirSession
         get() = c.session
