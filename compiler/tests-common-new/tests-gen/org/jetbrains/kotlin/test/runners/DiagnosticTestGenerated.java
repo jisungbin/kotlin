@@ -7013,12 +7013,6 @@ public class DiagnosticTestGenerated extends AbstractDiagnosticTest {
       }
 
       @Test
-      @TestMetadata("kt17691.kt")
-      public void testKt17691() {
-        runTest("compiler/testData/diagnostics/tests/checkArguments/kt17691.kt");
-      }
-
-      @Test
       @TestMetadata("kt17691WithEnabledFeature.kt")
       public void testKt17691WithEnabledFeature() {
         runTest("compiler/testData/diagnostics/tests/checkArguments/kt17691WithEnabledFeature.kt");

@@ -763,11 +763,6 @@ public class LightAnalysisModeTestGenerated extends AbstractLightAnalysisModeTes
   @TestDataPath("$PROJECT_ROOT")
   @RunWith(JUnit3RunnerWithInners.class)
   public static class ArgumentOrder extends AbstractLightAnalysisModeTest {
-    @TestMetadata("kt17691.kt")
-    public void ignoreKt17691() {
-      runTest("compiler/testData/codegen/box/argumentOrder/kt17691.kt");
-    }
-
     private void runTest(String testDataFilePath) {
       KotlinTestUtils.runTest(this::doTest, TargetBackend.JVM_IR, testDataFilePath);
     }

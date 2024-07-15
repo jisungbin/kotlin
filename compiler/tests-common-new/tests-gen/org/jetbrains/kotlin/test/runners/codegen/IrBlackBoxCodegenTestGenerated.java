@@ -930,12 +930,6 @@ public class IrBlackBoxCodegenTestGenerated extends AbstractIrBlackBoxCodegenTes
     }
 
     @Test
-    @TestMetadata("kt17691.kt")
-    public void testKt17691() {
-      runTest("compiler/testData/codegen/box/argumentOrder/kt17691.kt");
-    }
-
-    @Test
     @TestMetadata("kt17691WithEnabledFeature.kt")
     public void testKt17691WithEnabledFeature() {
       runTest("compiler/testData/codegen/box/argumentOrder/kt17691WithEnabledFeature.kt");

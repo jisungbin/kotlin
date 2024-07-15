@@ -829,12 +829,6 @@ public class CompileKotlinAgainstInlineKotlinTestGenerated extends AbstractCompi
     }
 
     @Test
-    @TestMetadata("defaultParametersAndLastVararg.kt")
-    public void testDefaultParametersAndLastVararg() {
-      runTest("compiler/testData/codegen/boxInline/argumentOrder/defaultParametersAndLastVararg.kt");
-    }
-
-    @Test
     @TestMetadata("defaultParametersAndLastVarargWithCorrectOrder.kt")
     public void testDefaultParametersAndLastVarargWithCorrectOrder() {
       runTest("compiler/testData/codegen/boxInline/argumentOrder/defaultParametersAndLastVarargWithCorrectOrder.kt");
@@ -874,12 +868,6 @@ public class CompileKotlinAgainstInlineKotlinTestGenerated extends AbstractCompi
     @TestMetadata("simpleInClass.kt")
     public void testSimpleInClass() {
       runTest("compiler/testData/codegen/boxInline/argumentOrder/simpleInClass.kt");
-    }
-
-    @Test
-    @TestMetadata("varargAndDefaultParameters.kt")
-    public void testVarargAndDefaultParameters() {
-      runTest("compiler/testData/codegen/boxInline/argumentOrder/varargAndDefaultParameters.kt");
     }
 
     @Test
