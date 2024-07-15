@@ -10,6 +10,7 @@ import org.gradle.api.artifacts.*
 import org.gradle.api.component.ComponentWithCoordinates
 import org.gradle.api.component.ComponentWithVariants
 import org.gradle.api.internal.component.SoftwareComponentInternal
+import org.gradle.api.provider.Provider
 import org.gradle.api.publish.maven.MavenPublication
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
@@ -25,14 +26,11 @@ internal interface KotlinTargetComponentWithPublication : KotlinTargetComponent 
     var publicationDelegate: MavenPublication?
 }
 
-internal fun getCoordinatesFromPublicationDelegateAndProject(
-    publication: MavenPublication?,
-    project: Project,
-    target: KotlinTarget?
+internal fun getCoordinatesFromProject(
+    moduleGroupProvider: Provider<String>,
+    moduleNameProvider: Provider<String>,
+    moduleVersionProvider: Provider<String>,
 ): ModuleVersionIdentifier {
-    val moduleNameProvider = project.provider { publication?.artifactId ?: dashSeparatedName(project.name, target?.name?.toLowerCase()) }
-    val moduleGroupProvider = project.provider { publication?.groupId ?: project.group.toString() }
-    val moduleVersionProvider = project.provider { publication?.version ?: project.version.toString() }
     return object : ModuleVersionIdentifier {
         private val moduleName: String by moduleNameProvider
         private val moduleGroup: String by moduleGroupProvider
@@ -47,6 +45,17 @@ internal fun getCoordinatesFromPublicationDelegateAndProject(
             override fun getName(): String = moduleName
         }
     }
+}
+
+internal fun getCoordinatesFromPublicationDelegateAndProject(
+    publication: MavenPublication?,
+    project: Project,
+    target: KotlinTarget?
+): ModuleVersionIdentifier {
+    val moduleNameProvider = project.provider { publication?.artifactId ?: dashSeparatedName(project.name, target?.name?.toLowerCase()) }
+    val moduleGroupProvider = project.provider { publication?.groupId ?: project.group.toString() }
+    val moduleVersionProvider = project.provider { publication?.version ?: project.version.toString() }
+    return getCoordinatesFromProject(moduleGroupProvider, moduleNameProvider, moduleVersionProvider)
 }
 
 private interface KotlinTargetComponentWithCoordinatesAndPublication :

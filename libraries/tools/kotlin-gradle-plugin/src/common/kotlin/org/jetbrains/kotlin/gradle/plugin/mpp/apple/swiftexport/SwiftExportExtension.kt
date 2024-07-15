@@ -76,20 +76,7 @@ abstract class SwiftExportExtension @Inject constructor(
             val moduleNameProvider = project.provider { dep.name }
             val moduleVersionProvider = project.provider { dep.version ?: "unspecified" }
 
-            object : ModuleVersionIdentifier {
-                private val moduleName: String by moduleNameProvider
-                private val moduleGroup: String by moduleGroupProvider
-                private val moduleVersion: String by moduleVersionProvider
-
-                override fun getGroup() = moduleGroup
-                override fun getName() = moduleName
-                override fun getVersion() = moduleVersion
-
-                override fun getModule(): ModuleIdentifier = object : ModuleIdentifier {
-                    override fun getGroup(): String = moduleGroup
-                    override fun getName(): String = moduleName
-                }
-            }
+            getCoordinatesFromProject(moduleGroupProvider, moduleNameProvider, moduleVersionProvider)
         }
 
         project.objects.newInstance(
